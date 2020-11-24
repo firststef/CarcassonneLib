@@ -10,6 +10,11 @@ public class Program
 {
   static List<Tile> tilesList = new List<Tile>();
 
+  public static T ParseEnum<T>(string value)
+  {
+    return (T) Enum.Parse(typeof(T), value, true);
+  }
+
 	public enum Orientation
   {
     [EnumMember(Value = "N")]
@@ -106,7 +111,7 @@ public class Program
     }
 
     public override string ToString()
-    {//not working for now
+    {
       return "{\n" + $"\"name\": \"{this.Name}\"\n\"city\": {this.CityToString()}\n\"road\": {this.RoadToString()}" + "\n}";
     }
   }
@@ -130,7 +135,7 @@ public class Program
           List<Orientation> posList = new List<Orientation>();
           foreach(var o in (JArray)city["position"])
           {
-            posList.Add((Orientation)Enum.Parse(typeof(Orientation), (string)o, true));
+            posList.Add(ParseEnum<Orientation>((string) o));
           }
           cityCompList.Add(new CityComp(shield, posList));
         }
@@ -142,7 +147,7 @@ public class Program
         foreach (var road in auxJA){
           var r = new List<Orientation>();
           foreach(var o in (JArray)road){
-            r.Add((Orientation)Enum.Parse(typeof(Orientation), (string)o, true));
+            r.Add(ParseEnum<Orientation>((string) o));
           }
           roadList.Add(r);
         }
