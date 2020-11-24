@@ -1,0 +1,623 @@
+[
+    {
+      "name": "tile1",
+      "city": [
+          {
+                "position": ["N", "E", "W"]
+          }
+      ], 
+      "road": [
+          ["S", "C"]
+      ]
+    }, 
+    {
+      "name": "tile2",
+      "city": [
+          {
+              "position": ["N", "E", "W"], 
+              "shield": true
+          }
+      ], 
+      "road": [
+          ["S", "C"]
+      ]
+    },
+    {
+      "name": "tile3",
+      "city": [
+          {
+              "position": ["N", "E", "W"],
+              "shield": true
+          }
+      ],  
+      "road": [
+          ["S", "C"]
+      ]
+      
+    },
+    {
+      "name": "tile4",
+      "city": [
+        {
+            "position": ["N", "W"]
+        }
+      ]
+    },
+    {
+      "name": "tile5",
+      "city": [
+          {
+              "position": ["N", "W"]
+          }
+      ]
+    },
+    {
+      "name": "tile6",
+      "city": [
+          {
+              "position": ["N", "W"]
+          }
+      ]
+    },
+    {
+      "name": "tile7",
+      "city": [
+          {
+              "position": ["N", "W"],
+              "shield": true
+          }
+      ], 
+    },
+    {
+      "name": "tile8",
+      "city": [
+          {
+              "position": ["N", "W"],
+              "shield": true
+          }
+      ]
+    },
+    {
+      "name": "tile9",
+      "city": [
+          {
+              "position": ["N", "W"]
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ]
+    },
+    {
+      "name": "tile10",
+      "city": [
+          {
+              "position": ["N", "W"]
+          }
+      ],
+      "road": [
+          ["E", "S"]
+      ]
+    },
+    {
+      "name": "tile11",
+      "city": [
+          {
+              "position": ["N", "W"]
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ]
+    },
+    {
+      "name": "tile12",
+      "city": [
+          {
+              "position": ["N", "W"],
+              "shield": true
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ]
+    },
+    {
+      "name": "tile13",
+      "city": [
+          {
+              "position": ["N", "W"],
+              "shield": true
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ]
+    },
+    {
+      "name": "tile14",
+      "city": [
+          {
+              "position": ["E", "W"]
+          }
+      ]
+    },
+    {
+      "name": "tile15",
+      "city": [
+          {
+              "position": ["E", "W"],
+              "shield": true
+          }
+      ]
+    },
+    {
+      "name": "tile16",
+      "city": [
+          {
+              "position": ["E", "W"],
+              "shield": true
+          }
+      ]
+    },
+    {
+      "name": "tile17",
+      "city": [
+          {
+              "position": ["N"]
+          },
+          {
+              "position": ["W"]
+          }
+      ] 
+    },
+    {
+      "name": "tile18",
+      "city": [
+          {
+              "position": ["N"]
+          },
+          {
+              "position": ["W"]
+          }
+      ] 
+    },
+    {
+      "name": "tile19",
+      "city": [
+          {
+              "position": ["N"]
+          },
+          {
+              "position": ["S"]
+          }
+      ] 
+    },
+    {
+      "name": "tile20",
+      "city": [
+          {
+              "position": ["N"]
+          },
+          {
+              "position": ["S"]
+          }
+      ] 
+    },
+    {
+      "name": "tile21",
+      "city": [
+          {
+              "position": ["N"]
+          },
+          {
+              "position": ["S"]
+          }
+      ] 
+    },
+    {
+      "name": "tile22",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ] 
+    },
+    {
+      "name": "tile23",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ] 
+    },
+    {
+      "name": "tile24",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ] 
+    },
+    {
+      "name": "tile25",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ] 
+    },
+    {
+      "name": "tile26",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ] 
+    },
+    {
+      "name": "tile27",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile28",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile29",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile30",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ] 
+    },
+    {
+    "name": "tile31",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ] 
+    },
+    {
+      "name": "tile32",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "S"]
+      ] 
+    },
+    {
+      "name": "tile33",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "C"],
+          ["S", "C"], 
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile34",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "C"],
+          ["S", "C"], 
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile35",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "C"],
+          ["S", "C"], 
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile36",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "W"]
+      ] 
+    },
+    {
+      "name": "tile37",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "W"]
+      ] 
+    },
+    {
+      "name": "tile38",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "W"]
+      ] 
+    },
+    {
+      "name": "tile39",
+      "city": [
+          {
+              "position": ["N"]
+          }
+      ], 
+      "road": [
+          ["E", "W"]
+      ] 
+    },
+    {
+      "name": "tile40",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile41",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile42",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile43",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile44",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile45",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile46",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile47",
+      "road": [
+          ["N", "S"]
+      ] 
+    },
+    {
+      "name": "tile48",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile49",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile50",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile51",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile52",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile53",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile54",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile55",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile56",
+      "road": [
+          ["S", "W"]
+      ] 
+    },
+    {
+      "name": "tile57",
+      "road": [
+          ["E", "C"],
+          ["S", "C"],
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile58",
+      "road": [
+          ["E", "C"],
+          ["S", "C"],
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile59",
+      "road": [
+          ["E", "C"],
+          ["S", "C"],
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile60",
+      "road": [
+          ["E", "C"],
+          ["S", "C"],
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile61",
+      "road": [
+          ["N", "C"],
+          ["E", "C"],
+          ["S", "C"],
+          ["W", "C"]
+      ] 
+    },
+    {
+      "name": "tile62",
+      "monastery": true
+    },
+    {
+      "name": "tile63",
+      "monastery": true
+    },
+    {
+      "name": "tile64",
+      "monastery": true
+    },
+    {
+      "name": "tile65",
+      "monastery": true
+    },
+    {
+      "name": "tile66",
+      "monastery": true, 
+      "road": [
+          ["S", "C"]
+      ]
+    },
+    {
+      "name": "tile67",
+      "monastery": true, 
+      "road": [
+          ["S", "C"]
+      ]
+    },
+    {
+      "name": "tile68",
+      "city": [
+          {
+              "position": ["N", "E", "S", "W"],
+              "shield": true
+          }
+      ]
+    },
+    {
+      "name": "tile69",
+      "city": [
+          {
+              "position": ["N", "E", "W"],
+          }
+      ]
+    },
+    {
+      "name": "tile70",
+      "city": [
+          {
+              "position": ["N", "E", "W"],
+          }
+      ] 
+    },
+    {
+      "name": "tile71",
+      "city": [
+          {
+              "position": ["N", "E", "W"],
+          }
+      ] 
+    },
+    {
+      "name": "tile72",
+      "city": [
+          {
+              "position": ["N", "E", "W"],
+              "shield": true
+          }
+      ]
+    }
+
+]

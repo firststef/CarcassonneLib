@@ -1,0 +1,45 @@
+Pentru fiecare nou tile pe care poate sa il joace cineva:
+  generam pozitiile posibile pe care poate fi acel tile precum si rotirile posibile =>
+    avem nevoie de ceva structura de date gen matrice
+      avantaje: 
+        usor de parcurs
+        usor de modificat
+      dezavantaje:
+        greu de implementat cu colectii (nu exista pozitia (i, j), ci row[i][j])
+        alt dezavantaj foarte mare: nu avem originea (0, 0) setata
+        deci daca vrem matrice dinamica => trebuie sa adaugam si in sus si in jos si in stanga si in dreapta (ceea ce poate fi insa realizat cu colectii)
+      
+    sau putem folosii o alta structura de date la care m-am gandit:
+      List<PlayedTiles>
+      unde PlayedTiles = {
+        tile = tile,
+        N_neighbor = tile_name_1, 
+        E_neighbor = empty,
+        S_neighbor = empty,
+        W_neighbor = tile_name_2
+      }
+      dezavantaje:
+        parcurgere exhaustiva a listei pentru gasirea si generarea positiilor
+        incorespondenta intre ea si tabla de joc 
+      avantaje:
+        ?? de ce oare am propus asa ceva, probabil pentru ca mi-a venit im minte
+
+  in afara de chestiile care tin strict de reprezentarea tablei de joc mai avem nevoie dupa parerea mea de:
+    o lista de drumuri in joc
+    pentru fiecare nou tile, vedem daca are drum si
+      ori cream un nou drum, pe care poate fi un meeple propus
+      ori apendam drumul tile-ului la unul din drumurile existente
+        vedem daca este deja meeple pe drumul respectiv (un flag/variabila)
+        vedem mai usor daca se inchide drumul sau nu:
+          conditia de inchidere: 2 de "C" => 2 variabile
+
+  nu stiu exact cum sa finisez si sa fac reprezentarea mai ok, dar ma gandeam asa la drumuri, cum am propus mai sus, similar pentru campii, similar pentru orase
+
+  si in lista de drumuri/orase, un Drum poate fi:
+  Drum : {
+    "inchizaturi" : 1 (poate fi 0, 1, 2)
+    "meeple": true (eventual pointer la meeple)
+    "components" {
+      "tile_x", "tile_y", unde tile_x e numele tile-ului "Tile"{"drum" = [C, E]}
+    }
+  }
