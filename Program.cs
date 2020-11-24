@@ -158,7 +158,7 @@ public class Program
     
     tilesList = parseTilesJson();
     foreach (var tile in tilesList){
-      System.Console.WriteLine(tile.ToString());
+      System.Console.WriteLine(tile.ToString() + "\n");
     }
 	}
 }
