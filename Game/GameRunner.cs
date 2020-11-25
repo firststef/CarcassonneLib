@@ -24,27 +24,68 @@ namespace GameLogic
     *   => sau null, caz in care tile-ul currentTile nu poate fi pus nicaieri
     */
     public List<Tuple<int, List<int>>> GetPossiblePositions(Tile currentTile) {
-      //TODO: de verificat daca exista pozitie dintre PossiblePositions care este accesibila pentru tile-ul currentTile
-      //TODO: de returnat pozitiile accesibile + o lista de rotiri posibile pentru fiecare pozitie
       var returnList = new List<Tuple<int, List<int>>>();
       var isCompatible = false;
       Tile testTile;
       for (var i = 0; i < this.GameBoard.PossiblePositions.Count; i++) {
         isCompatible = false;
+        var rotations = new List<int>();
         for (var rotation = 0; rotation < 4; rotation++) {
           testTile = this.GetClonedRotatedTile(currentTile, rotation);
-          System.Console.WriteLine(testTile.ToString());
+          if (this.CheckTileCompatibility(testTile)) {
+            isCompatible = true;
+            rotations.Add(rotation);
+          }
+          // System.Console.WriteLine(testTile.ToString());  // testing rotation
+        }
+        if (isCompatible) {
+          returnList.Add(new Tuple<int, List<int>>(i, rotations));
         }
       }
-      return null;
+      if (returnList.Count == 0) {
+        return null;
+      }
+      return returnList;
+    }
+
+    public bool CheckTileCompatibility(Tile testTile) {
+      //TODO de verificat daca tile-ul curent e compatibil cu toate tile-urile vecine
+      return (new Random().Next(10) % 2 == 0);
+    }
+
+    public Orientation rotatePosition(Orientation position, int rotation) {
+      if (position != Orientation.C) {
+        position = (Orientation) (((int) position + rotation) % 4);
+      }
+      return position;
     }
 
 
     public Tile GetClonedRotatedTile(Tile currentTile, int rotation) {
       Tile cloneTile = (Tile)currentTile.Clone();
-      cloneTile.Name += rotation.ToString();
-      cloneTile.City[0].Position.Add((Orientation) rotation);
+      if (rotation == 0) {
+        return cloneTile;
+      }
+      foreach (var city in cloneTile.City) {
+        for (var i = 0; i < city.Position.Count; i++) {
+          city.Position[i] = rotatePosition(city.Position[i], rotation);
+        }
+      }
+      foreach (var road in cloneTile.Road) {
+        for (var i = 0; i < road.Count; i++) {
+          road[i] = rotatePosition(road[i], rotation);
+        }
+      }
+      cloneTile.Name += " rotated " + rotation.ToString();
       return cloneTile;
+    }
+
+    public string PossiblePositionsToString(List<Tuple<int, List<int>>> a) {
+      var returnString = "";
+      foreach (var i in a) {
+        returnString += "PossiblePosition: " + this.GameBoard.PossiblePositions[i.Item1].ToString() + " PossiblePositionIndex: " + i.Item1.ToString() + "\t->\trotations: " + string.Join(",", i.Item2) + '\n';
+      }
+      return returnString;
     }
 
   }

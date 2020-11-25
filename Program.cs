@@ -86,6 +86,7 @@ public class Program
     System.Console.WriteLine(gameBoard.ToString());
 
     GameRunner gameRunner = new GameRunner(null);
-    gameRunner.GetPossiblePositions(tilesList[0]);
+    var possibleTransitions = gameRunner.GetPossiblePositions(tilesList[0]);
+    System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions));
 	}
 }
