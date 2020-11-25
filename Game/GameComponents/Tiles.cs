@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using GameComponents;
 
 namespace GameComponents
 {
-
   public enum Orientation
   {
     [EnumMember(Value = "N")]
@@ -19,26 +19,6 @@ namespace GameComponents
     C = 4
   }
 
-
-
-	public class CityComp
-	{
-		public bool Shield { get; set; }
-		public List<Orientation> Position { get; set; }
-
-    public CityComp(bool shield, List<Orientation> position)
-    {
-      this.Shield = shield;
-      this.Position = position;
-    }
-
-    public override string ToString()
-    {
-      return "{\n" + $"\"shield\": {this.Shield}\n\"position\": {string.Join(",", this.Position)}" +"\n}";
-    }
-	}
-  
-
 	public class Tile
   {
     public string Name{ get; set; }
@@ -52,6 +32,9 @@ namespace GameComponents
       this.Road = road;
     }
 
+    /**
+    * road to string = null | [S, E],[N, C] | [E, V] | ..
+    */
     public string RoadToString()
     {
       var returnString = "";
@@ -60,23 +43,33 @@ namespace GameComponents
       }
       foreach (var list in this.Road)
       {
+        var roadString = "[";
         foreach (var str in list)
         {
-          if (returnString == "")
+          if (roadString == "[")
           {
-            returnString += str.ToString();
+            roadString += str.ToString();
           }
           else
           {
-            returnString += "," + str.ToString();
+            roadString += "," + str.ToString();
           }
           
+        }
+        if (returnString == "") {
+          returnString += roadString + "]";
+        }
+        else {
+          returnString += "," + roadString + "]";
         }
       }
       return returnString;
     }
 
-    public string CityToString(){
+    /**
+    * city to string = null | {city1}[, {city2}]
+    */
+    public string CityToString() {
       if (this.City == null){
         return "null";
       }
@@ -92,6 +85,9 @@ namespace GameComponents
       return returnString;
     }
 
+    /**
+    * tile to string = {name: string, city: {city1}[,{city2}], road = [roads]}
+    */
     public override string ToString()
     {
       return "{\n" + $"\"name\": \"{this.Name}\"\n\"city\": {this.CityToString()}\n\"road\": {this.RoadToString()}" + "\n}";
