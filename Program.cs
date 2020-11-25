@@ -71,6 +71,22 @@ public class Program
     }
     return tilesList;
   }
+
+  public static void Tester() {
+    if (Program.tilesList.Count == 0) {
+      Program.tilesList = parseTilesJson();
+    }
+    GameRunner gameRunner = new GameRunner(null);
+    var r = gameRunner.AreCompatible(tilesList[1], tilesList[2], 1);
+    System.Console.WriteLine(r); // should be true
+    r = gameRunner.AreCompatible(tilesList[1], tilesList[2], 0);
+    System.Console.WriteLine(r); // should be false
+    r = gameRunner.AreCompatible(tilesList[1], gameRunner.GetClonedRotatedTile(tilesList[2], 2), 2); //should be true
+    System.Console.WriteLine(r);
+    r = gameRunner.AreCompatible(tilesList[1], tilesList[19], 3);
+    System.Console.WriteLine(r); //should be false
+    //TODO de testat mai toate cazurile ca sa vedem daca merge sau nu
+  }
 	
 	public static void Main()
 	{
@@ -83,10 +99,12 @@ public class Program
     
     GameBoard gameBoard = new GameBoard();
     gameBoard.PlacedTiles[120, 70] = tilesList[12];
-    System.Console.WriteLine(gameBoard.ToString());
+    // System.Console.WriteLine(gameBoard.ToString()); // game board to string
 
     GameRunner gameRunner = new GameRunner(null);
     var possibleTransitions = gameRunner.GetPossiblePositions(tilesList[0]);
-    System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions));
+    // System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions)); // shows possible transitions for first tile
+
+    Program.Tester();
 	}
 }

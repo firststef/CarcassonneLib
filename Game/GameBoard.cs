@@ -38,6 +38,13 @@ namespace GameLogic
     }
 
 
+    public string GameBoardToString() {
+      for (var i = 0; i < this.PlacedTiles.GetLength(0); i++) {
+        ;
+      }
+      return null;
+    }
+
     /**
     * game logic to string = placed tiles to string = "int x null [[, tile_name, int x null]]"
     * ex: ,70 x null,tile13,73 x null \n ,144 x null

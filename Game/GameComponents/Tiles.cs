@@ -58,20 +58,25 @@ namespace GameComponents
     */
     public string GetTileCharacteristic(int tilePosition) {
       var targetPosition = (Orientation) (tilePosition % 4);
-      foreach (var city in this.City) {
-        foreach (var pos in city.Position) {
-          if (pos == targetPosition) {
-            return "city";
+      if (this.City != null) {
+        foreach (var city in this.City) {
+          foreach (var pos in city.Position) {
+            if (pos == targetPosition) {
+              return "city";
+            }
           }
         }
       }
-      foreach (var road in this.Road) {
-        foreach (var pos in road) {
-          if (pos == targetPosition) {
-            return "road";
+      if (this.Road != null) {
+        foreach (var road in this.Road) {
+          foreach (var pos in road) {
+            if (pos == targetPosition) {
+              return "road";
+            }
           }
         }
       }
+      
       return "field";
     }
 

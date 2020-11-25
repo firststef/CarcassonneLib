@@ -48,6 +48,14 @@ namespace GameLogic
       return returnList;
     }
 
+    /**
+    * checks that tile 1 is compatible in position with tile 2
+    */
+    public bool AreCompatible(Tile tile1, Tile tile2, int position) {
+      return (tile1.GetReversedTileCharacteristic(position) == 
+      tile2.GetTileCharacteristic(position));
+    }
+
     public bool CheckTileCompatibility(Tile testTile, (int, int) coordiantes) {
       //TODO de testat!!
       var neighborTiles = this.GameBoard.GetNeighboringTiles(coordiantes);
@@ -58,8 +66,7 @@ namespace GameLogic
       foreach (var obj in neighborTiles) {
         var tilePosition = obj.Item1;
         var tile = obj.Item2;
-        var neighborCharacteristic = tile.GetReversedTileCharacteristic(tilePosition);
-        if (neighborCharacteristic != testTile.GetTileCharacteristic(tilePosition)) {
+        if (! this.AreCompatible(tile, testTile, tilePosition)) {
           return false;
         }
       }
