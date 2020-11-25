@@ -93,15 +93,19 @@ public class Program
     tilesList = parseTilesJson();
 
     foreach (var tile in tilesList) {
-      System.Console.WriteLine(tile.ToString() + "\n");
+      // System.Console.WriteLine(tile.ToString() + "\n"); // printing tiles
     }
 
-    
+    GameRunner gameRunner = new GameRunner(null);
+
     GameBoard gameBoard = new GameBoard();
     gameBoard.PlacedTiles[120, 70] = tilesList[12];
-    // System.Console.WriteLine(gameBoard.ToString()); // game board to string
+    gameBoard.PlacedTiles[121, 70] = gameRunner.GetClonedRotatedTile(tilesList[2], 2);
+    gameBoard.PlacedTiles[121, 71] = tilesList[15];
+    // System.Console.WriteLine(gameBoard.ToString()); // old game board to string
+    System.Console.WriteLine(gameBoard.GameBoardToString());
 
-    GameRunner gameRunner = new GameRunner(null);
+    
     var possibleTransitions = gameRunner.GetPossiblePositions(tilesList[0]);
     // System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions)); // shows possible transitions for first tile
 

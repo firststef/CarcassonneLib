@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using GameComponents;
+using ArrayAccessMethods;
 
 namespace GameLogic
 {
+
   class GameBoard {
     public Tile[,] PlacedTiles { get; set; }
     public List<(int, int)> PossiblePositions { get; set; }
@@ -39,10 +41,57 @@ namespace GameLogic
 
 
     public string GameBoardToString() {
+      var tileArray = new CustomArray<Tile>();
+      var tilesOnBoard = new List<List<Tile>>();
+      //oof
+      int minRow = 144, maxRow = 0, minCol = 144, maxCol = 0;
       for (var i = 0; i < this.PlacedTiles.GetLength(0); i++) {
-        ;
+        for (var j = 0; j < this.PlacedTiles.GetLength(1); j++) {
+          if (this.PlacedTiles[i, j] != null) {
+            if (i < minRow) {
+              minRow = i;
+            }
+            if (i > maxRow) {
+              maxRow = i;
+            }
+            if (j < minCol) {
+              minCol = j;
+            }
+            if (j > maxCol) {
+              maxCol = j;
+            }
+          }
+        }
       }
-      return null;
+      for (var i = minRow; i <= maxRow; i++) {
+        var row = new List<Tile>();
+        for (var j = minCol; j <= maxCol; j++) {
+          row.Add(this.PlacedTiles[i, j]);
+        }
+        tilesOnBoard.Add(row);
+      }
+      var returnString = "";
+      foreach (var row in tilesOnBoard) {
+        var rowString1 = "";
+        var rowString2 = "";
+        var rowString3 = "";
+        foreach (var tile in row) {
+          if (tile == null) {
+            rowString1 += "\t\tnull\t\t";
+            rowString2 += "\tnull\tnull\t";
+            rowString3 += "\t\tnull\t\t";
+          }
+          else {
+            var tileCharacteristics = tile.CharactericsToString();
+            rowString1 += "\t\t" + tileCharacteristics[0] + "\t\t";
+            rowString2 += "\t" + tileCharacteristics[1] + "\t" + tileCharacteristics[3] + "\t";
+            rowString3 += "\t\t" + tileCharacteristics[2] + "\t\t";
+          }
+          
+        }
+        returnString += rowString1 + "\n" + rowString2 + '\n' + rowString3 + '\n';
+      }
+      return returnString;
     }
 
     /**

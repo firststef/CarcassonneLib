@@ -149,6 +149,14 @@ namespace GameComponents
     {
       return "{\n" + $"\"name\": \"{this.Name}\"\n\"city\": {this.CityToString()}\n\"road\": {this.RoadToString()}" + "\n}";
     }
+
+    public List<string> CharactericsToString() {
+      var returnList = new List<string>();
+      for (var i = 0; i < 4; i++) {
+        returnList.Add(this.GetTileCharacteristic(i));
+      }
+      return returnList;
+    }
   }
   
 }
