@@ -32,7 +32,7 @@ namespace GameLogic
         var rotations = new List<int>();
         for (var rotation = 0; rotation < 4; rotation++) {
           testTile = this.GetClonedRotatedTile(currentTile, rotation);
-          if (this.CheckTileCompatibility(testTile)) {
+          if (this.CheckTileCompatibility(testTile, this.GameBoard.PossiblePositions[i])) {
             isCompatible = true;
             rotations.Add(rotation);
           }
@@ -48,8 +48,18 @@ namespace GameLogic
       return returnList;
     }
 
-    public bool CheckTileCompatibility(Tile testTile) {
+    public bool CheckTileCompatibility(Tile testTile, (int, int) coordiantes) {
       //TODO de verificat daca tile-ul curent e compatibil cu toate tile-urile vecine
+      var neighborTiles = this.GameBoard.GetNeighboringTiles(coordiantes);
+      if (neighborTiles == null) {
+        //firsto tile jijitsu da, eien ni
+        return true;
+      }
+      foreach (var obj in neighborTiles) {
+        var tilePosition = obj.Item1;
+        var tile = obj.Item2;
+        var testParameters = tile.GetTestParameters(tilePosition);
+      }
       return (new Random().Next(10) % 2 == 0);
     }
 

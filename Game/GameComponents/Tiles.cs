@@ -53,6 +53,19 @@ namespace GameComponents
       return new Tile(this);
     }
 
+
+    public string GetTestParameters(int tilePosition) {
+      //tilePosition = 0|1|2|3 <=> N|E|S|W
+      // N -> S => 0 -> 2
+      // E -> W => 1 -> 3
+      // S -> N => 2 -> 4 % 4
+      // W -> E => 3 -> (3 + 2) % 4
+
+      var targetPosition = (Orientation) ((tilePosition + 2) % 4);
+      //TODO: de iterat prin orase si vazut daca exista targetPosition si returnat "city" altfel de iterat prin drumuri si daca exista targetPosition de returnat "road" altfel "field"
+      return null;
+    }
+
     /**
     * road to string = null | [S, E],[N, C] | [E, V] | ..
     */

@@ -8,6 +8,8 @@ namespace GameLogic
   class GameBoard {
     public Tile[,] PlacedTiles { get; set; }
     public List<(int, int)> PossiblePositions { get; set; }
+    public int[] dx = new int[] {-1, 0, 1, 0};
+    public int[] dy = new int[] {0, 1, 0, -1};
 
     /**GameBoard = getInitialState(AI)
     * 
@@ -18,6 +20,21 @@ namespace GameLogic
       this.PossiblePositions = new List<(int, int)>();
       //prima pozitie accesibila e cea din mijloc
       this.PossiblePositions.Add((72, 72));
+    }
+
+    public List<Tuple<int, Tile>> GetNeighboringTiles((int, int) coordinates) {
+      var returnList = new List<Tuple<int, Tile>>();
+      var x = coordinates.Item1;
+      var y = coordinates.Item2;
+      for (var i = 0; i < this.dx.Length; i++) {
+        if (PlacedTiles[x + this.dx[i], y+ this.dy[i]] != null) {
+          returnList.Add(new Tuple<int, Tile>(i, PlacedTiles[x + this.dx[i], y+ this.dy[i]]));
+        }
+      }
+      if (returnList.Count == 0) {
+        return null;
+      }
+      return returnList;
     }
 
 
