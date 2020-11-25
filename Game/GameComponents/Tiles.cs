@@ -57,6 +57,7 @@ namespace GameComponents
     * returns characteristic in position = "city", "road" or "field"
     */
     public string GetTileCharacteristic(int tilePosition) {
+      var targetPosition = (Orientation) (tilePosition % 4);
       foreach (var city in this.City) {
         foreach (var pos in city.Position) {
           if (pos == targetPosition) {
@@ -79,7 +80,7 @@ namespace GameComponents
     */
     public string GetReversedTileCharacteristic(int tilePosition) {
       //tilePosition = 0|1|2|3 <=> N|E|S|W
-      var targetPosition = (Orientation) ((tilePosition + 2) % 4);
+      var targetPosition = ((tilePosition + 2) % 4);
       return this.GetTileCharacteristic(targetPosition);
     }
 

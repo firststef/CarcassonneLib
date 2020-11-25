@@ -49,7 +49,7 @@ namespace GameLogic
     }
 
     public bool CheckTileCompatibility(Tile testTile, (int, int) coordiantes) {
-      //TODO de verificat daca tile-ul curent e compatibil cu toate tile-urile vecine
+      //TODO de testat!!
       var neighborTiles = this.GameBoard.GetNeighboringTiles(coordiantes);
       if (neighborTiles == null) {
         //firsto tile jijitsu da, eien ni
