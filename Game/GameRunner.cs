@@ -58,9 +58,12 @@ namespace GameLogic
       foreach (var obj in neighborTiles) {
         var tilePosition = obj.Item1;
         var tile = obj.Item2;
-        var testParameters = tile.GetTestParameters(tilePosition);
+        var neighborCharacteristic = tile.GetReversedTileCharacteristic(tilePosition);
+        if (neighborCharacteristic != testTile.GetTileCharacteristic(tilePosition)) {
+          return false;
+        }
       }
-      return (new Random().Next(10) % 2 == 0);
+      return true;
     }
 
     public Orientation rotatePosition(Orientation position, int rotation) {

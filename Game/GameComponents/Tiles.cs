@@ -53,17 +53,34 @@ namespace GameComponents
       return new Tile(this);
     }
 
+    /**
+    * returns characteristic in position = "city", "road" or "field"
+    */
+    public string GetTileCharacteristic(int tilePosition) {
+      foreach (var city in this.City) {
+        foreach (var pos in city.Position) {
+          if (pos == targetPosition) {
+            return "city";
+          }
+        }
+      }
+      foreach (var road in this.Road) {
+        foreach (var pos in road) {
+          if (pos == targetPosition) {
+            return "road";
+          }
+        }
+      }
+      return "field";
+    }
 
-    public string GetTestParameters(int tilePosition) {
+    /**
+    * returns tile caracteristic oposite of @tilePosition
+    */
+    public string GetReversedTileCharacteristic(int tilePosition) {
       //tilePosition = 0|1|2|3 <=> N|E|S|W
-      // N -> S => 0 -> 2
-      // E -> W => 1 -> 3
-      // S -> N => 2 -> 4 % 4
-      // W -> E => 3 -> (3 + 2) % 4
-
       var targetPosition = (Orientation) ((tilePosition + 2) % 4);
-      //TODO: de iterat prin orase si vazut daca exista targetPosition si returnat "city" altfel de iterat prin drumuri si daca exista targetPosition de returnat "road" altfel "field"
-      return null;
+      return this.GetTileCharacteristic(targetPosition);
     }
 
     /**
