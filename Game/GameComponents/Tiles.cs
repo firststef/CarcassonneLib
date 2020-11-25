@@ -19,17 +19,35 @@ namespace GameComponents
     C = 4
   }
 
-	public class Tile
+	public class Tile : ICloneable
   {
     public string Name{ get; set; }
     public List<CityComp> City { get; set; }
     public List<List<Orientation>> Road {get; set;}
 
-    public Tile(string name, List<CityComp> city, List<List<Orientation>> road)
-    {
+    public Tile(string name, List<CityComp> city, List<List<Orientation>> road) {
       this.Name = name;
       this.City = city;
       this.Road = road;
+    }
+
+    public Tile(Tile another) {
+      this.Name = another.Name;
+      this.City = another.CloneCities();
+      this.Road = new List<List<Orientation>>(another.Road);
+    }
+
+    public List<CityComp> CloneCities() {
+      var returnList = new List<CityComp>();
+      foreach (var city in City) {
+        returnList.Add((CityComp) city.Clone());
+      }
+      return returnList;
+    }
+
+    public object Clone()
+    {
+      return new Tile(this);
     }
 
     /**

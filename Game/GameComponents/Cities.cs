@@ -5,7 +5,7 @@ using GameComponents;
 
 namespace GameComponents
 {
-  public class CityComp
+  public class CityComp : ICloneable
 	{
 		public bool Shield { get; set; }
 		public List<Orientation> Position { get; set; }
@@ -14,6 +14,16 @@ namespace GameComponents
     {
       this.Shield = shield;
       this.Position = position;
+    }
+
+    public CityComp(CityComp another) {
+      this.Shield = another.Shield;
+      this.Position = new List<Orientation>(another.Position);
+    }
+
+    public object Clone()
+    {
+      return new CityComp(this);
     }
 
     /**

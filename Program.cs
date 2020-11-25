@@ -57,7 +57,7 @@ public class Program
         //checks roads not to be null
         roadList = new List<List<Orientation>>();
         foreach (var road in auxJA){
-          //for each road in city
+          //for each road in road
           var r = new List<Orientation>();
           //parses road position array
           foreach(var o in (JArray)road){
@@ -82,6 +82,10 @@ public class Program
 
     
     GameBoard gameBoard = new GameBoard();
+    gameBoard.PlacedTiles[120, 70] = tilesList[12];
     System.Console.WriteLine(gameBoard.ToString());
+
+    GameRunner gameRunner = new GameRunner(null);
+    gameRunner.GetPossiblePositions(tilesList[0]);
 	}
 }

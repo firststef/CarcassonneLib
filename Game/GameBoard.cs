@@ -7,11 +7,24 @@ namespace GameLogic
 {
   class GameBoard {
     public Tile[,] PlacedTiles { get; set; }
+    public List<(int, int)> PossiblePositions { get; set; }
 
+    /**GameBoard = getInitialState(AI)
+    * 
+    */
     public GameBoard() {
+      //poate nu trebuie hardcodat desi meh
       this.PlacedTiles = new Tile[144, 144];
+      this.PossiblePositions = new List<(int, int)>();
+      //prima pozitie accesibila e cea din mijloc
+      this.PossiblePositions.Add((72, 72));
     }
 
+
+    /**
+    * game logic to string = placed tiles to string = "int x null [[, tile_name, int x null]]"
+    * ex: ,70 x null,tile13,73 x null \n ,144 x null
+    */
     public override string ToString(){
       int nullCount = 0;
 
@@ -20,7 +33,7 @@ namespace GameLogic
         tileData.Add(new List<string>());
         nullCount = 0;
         for (var j = 0; j < this.PlacedTiles.GetLength(1); j++) {
-          if (this.PlacedTiles[i, j] == null){
+          if (this.PlacedTiles[i, j] == null) {
             nullCount++;
           }
           else {
