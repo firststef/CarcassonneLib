@@ -100,6 +100,8 @@ public class Program
 
     GameBoard gameBoard = new GameBoard();
     gameBoard.PlacedTiles[120, 70] = tilesList[12];
+	  gameBoard.PlacedTiles[120, 69] = gameRunner.GetClonedRotatedTile(tilesList[12], 2);
+	  gameBoard.PlacedTiles[119, 70] = gameRunner.GetClonedRotatedTile(tilesList[12], 2);
     gameBoard.PlacedTiles[121, 70] = gameRunner.GetClonedRotatedTile(tilesList[2], 2);
     gameBoard.PlacedTiles[121, 71] = tilesList[15];
     // System.Console.WriteLine(gameBoard.ToString()); // old game board to string
@@ -107,7 +109,7 @@ public class Program
 
     
     var possibleTransitions = gameRunner.GetPossiblePositions(tilesList[0]);
-    // System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions)); // shows possible transitions for first tile
+    // System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions)) // shows possible transitions for first tile
 
     Program.Tester();
 	}

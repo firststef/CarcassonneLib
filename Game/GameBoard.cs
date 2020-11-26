@@ -24,6 +24,18 @@ namespace GameLogic
       this.PossiblePositions.Add((72, 72));
     }
 
+    /**
+    * should tile be placed in (x, y), all (x, y)'s neighbors that are null and not in 
+    * PossiblePositions are added to PossiblePositions
+    */
+    public void AppendPossiblePositions(int x, int y) {
+      for (var i = 0; i < this.dx.Length; i++) {
+        if (Tile[x + dx[i], y + dy[i]] == null && ! (PossiblePositions.Contains((x + dx[i], y + dy[i]))) {
+          PossiblePositions.Add((x + dx[i], y + dy[i]));
+        }
+      }
+    }
+
     public List<Tuple<int, Tile>> GetNeighboringTiles((int, int) coordinates) {
       var returnList = new List<Tuple<int, Tile>>();
       var x = coordinates.Item1;
