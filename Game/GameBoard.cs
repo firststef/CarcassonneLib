@@ -30,7 +30,7 @@ namespace GameLogic
     */
     public void AppendPossiblePositions(int x, int y) {
       for (var i = 0; i < this.dx.Length; i++) {
-        if (Tile[x + dx[i], y + dy[i]] == null && ! (PossiblePositions.Contains((x + dx[i], y + dy[i]))) {
+        if (PlacedTiles[x + dx[i], y + dy[i]] == null && ! (PossiblePositions.Contains((x + dx[i], y + dy[i])))) {
           PossiblePositions.Add((x + dx[i], y + dy[i]));
         }
       }
