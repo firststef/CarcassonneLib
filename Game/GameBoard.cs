@@ -36,6 +36,11 @@ namespace GameLogic
       }
     }
 
+    /**
+    * coordinates = (x, y)
+    * returns all tiles neaby coordinates in format: (position, tile), or null
+    * where position is [0-3] standing for [N-W] and tile is not null
+    */
     public List<Tuple<int, Tile>> GetNeighboringTiles((int, int) coordinates) {
       var returnList = new List<Tuple<int, Tile>>();
       var x = coordinates.Item1;

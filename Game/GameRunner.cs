@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using GameComponents;
@@ -8,11 +9,47 @@ namespace GameLogic
   class GameRunner {
     public GameBoard GameBoard { get; set; }
 
+    public List<Tile> ShuffledTiles { get; set; }
+
+    public bool EndGame { get; set; }
+
     public List<Player> PlayerList { get; set; }
 
-    public GameRunner(List<Player> playerList) {
+    public GameRunner(List<Player> playerList, List<Tile> tileList) {
+      var rnd = new Random();
+      this.ShuffledTiles = tileList.OrderBy(a => rnd.Next()).ToList();
+      this.EndGame = false;
       this.PlayerList = playerList;
       this.GameBoard = new GameBoard(); 
+    }
+
+    public void PrepareGameEnd() {
+
+    }
+
+    public void PlayRound(Tile currentTile, List<Tuple<int, List<int>>> possiblePositions) {
+
+    }
+
+    /**
+    * takes the first tile which can be played, removes it and calls PlayRound 
+    * if no tile is found, EndGame is triggered
+    */
+    public void PrepareRound() {
+      List<Tuple<int, List<int>>> possiblePositions = null;
+      Tile currentTile = null;
+      var i = 0;
+      for (; (i < ShuffledTiles.Count) && (possiblePositions != null); i++) {
+        currentTile = ShuffledTiles[i];
+        possiblePositions = this.GetPossiblePositions(currentTile);
+      }
+      if (possiblePositions == null) {
+        this.PrepareGameEnd();
+      } else {
+        this.ShuffledTiles.RemoveAt(i - 1);
+        this.PlayRound(currentTile, possiblePositions);
+      }
+      
     }
 
     /**getPossiblePositions = getPossibleTransitions(AI)
@@ -36,7 +73,6 @@ namespace GameLogic
             isCompatible = true;
             rotations.Add(rotation);
           }
-          // System.Console.WriteLine(testTile.ToString());  // testing rotation
         }
         if (isCompatible) {
           returnList.Add(new Tuple<int, List<int>>(i, rotations));
@@ -56,8 +92,12 @@ namespace GameLogic
       tile2.GetTileCharacteristic(position));
     }
 
+    /**
+    * testTile => tile to be tested
+    * coordiantes => (x, y), position for tile to be placed
+    * returns true, if tile may me added to coordinates, false otherwise
+    */
     public bool CheckTileCompatibility(Tile testTile, (int, int) coordiantes) {
-      //TODO de testat!!
       var neighborTiles = this.GameBoard.GetNeighboringTiles(coordiantes);
       if (neighborTiles == null) {
         //firsto tile jijitsu da, eien ni

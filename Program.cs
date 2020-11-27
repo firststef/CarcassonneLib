@@ -76,7 +76,7 @@ public class Program
     if (Program.tilesList.Count == 0) {
       Program.tilesList = parseTilesJson();
     }
-    GameRunner gameRunner = new GameRunner(null);
+    GameRunner gameRunner = new GameRunner(null, tilesList);
     var r = gameRunner.AreCompatible(tilesList[1], tilesList[2], 1);
     System.Console.WriteLine(r); // should be true
     r = gameRunner.AreCompatible(tilesList[1], tilesList[2], 0);
@@ -92,11 +92,10 @@ public class Program
 	{
     tilesList = parseTilesJson();
 
-    foreach (var tile in tilesList) {
+    GameRunner gameRunner = new GameRunner(null, tilesList);
+    foreach (var tile in gameRunner.ShuffledTiles) {
       // System.Console.WriteLine(tile.ToString() + "\n"); // printing tiles
     }
-
-    GameRunner gameRunner = new GameRunner(null);
 
     GameBoard gameBoard = new GameBoard();
     gameBoard.PlacedTiles[120, 70] = tilesList[12];
