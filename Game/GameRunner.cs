@@ -24,33 +24,67 @@ namespace GameLogic
     }
 
     public void PrepareGameEnd() {
-
+      this.EndGame = true;
     }
 
+    /**
+    * currentTile => the tile in the hand of current playerList
+    * possiblePositions => the possible positions for currentTile to be played
+    *                   => consists of a lists of indexes from GameBoard.PossiblePositions
+    *                   => and for each index the possible rotations for the tile
+    * 
+    * prints all possible positions, along with rotations able to be made
+    * awaits valid user input, x, y and rotation. Places tile in selected position
+    */
     public void PlayRound(Tile currentTile, List<Tuple<int, List<int>>> possiblePositions) {
+      var tileString = currentTile.CharactericsToString();
+      var printString = $"\t\t{tileString[0]}\t\t\n\t{tileString[3]}\t{tileString[1]}\n\t\t{tileString[2]}\t\t\n";
+      System.Console.WriteLine(printString);
+      foreach (var tuple in possiblePositions) {
+        System.Console.WriteLine($"Pozitie disponibila:{this.GameBoard.PossiblePositions[tuple.Item1]}");
+        System.Console.WriteLine($"Rotatii disponibile pentru pozitie:{string.Join(",", tuple.Item2)}\n\n");
+      }
+      System.Console.WriteLine($"Prezumtia e ca se introduc date corecte");
+      System.Console.WriteLine($"Alege o coordonata x valida");
+      var x = Int32.Parse(Console.ReadLine());
+      System.Console.WriteLine($"Alege o coordonata y valida pentru coordonata x aleasa");
+      var y = Int32.Parse(Console.ReadLine());
+      System.Console.WriteLine($"Alege o rotatie disponibila pentru coordonatele x, y alese");
+      var rotation = Int32.Parse(Console.ReadLine());
+      this.GameBoard.PlaceTile(x, y, this.GetClonedRotatedTile(currentTile, rotation));
+      System.Console.WriteLine("GameBoard:\n" + this.GameBoard.GameBoardToString() + "\n\n\n");
 
+      // Environment.Exit(0);
     }
 
     /**
     * takes the first tile which can be played, removes it and calls PlayRound 
     * if no tile is found, EndGame is triggered
+    * 
+    * TODO: de discutat despre designul acestei functii, nu prea is incantat de ea
     */
     public void PrepareRound() {
+      
       List<Tuple<int, List<int>>> possiblePositions = null;
       Tile currentTile = null;
       var i = 0;
-      for (; (i < ShuffledTiles.Count) && (possiblePositions != null); i++) {
+      for (; i < ShuffledTiles.Count; i++) {
         currentTile = ShuffledTiles[i];
+        // System.Console.WriteLine(currentTile.Name);
         possiblePositions = this.GetPossiblePositions(currentTile);
+        if (possiblePositions != null) {
+          break;
+        }
       }
       if (possiblePositions == null) {
         this.PrepareGameEnd();
       } else {
-        this.ShuffledTiles.RemoveAt(i - 1);
+        this.ShuffledTiles.RemoveAt(i);
         this.PlayRound(currentTile, possiblePositions);
       }
-      
     }
+
+    
 
     /**getPossiblePositions = getPossibleTransitions(AI)
     * @Tile currentTile => tile curent pentru care trebuie luata o decizie
@@ -126,16 +160,21 @@ namespace GameLogic
       if (rotation == 0) {
         return cloneTile;
       }
-      foreach (var city in cloneTile.City) {
-        for (var i = 0; i < city.Position.Count; i++) {
-          city.Position[i] = rotatePosition(city.Position[i], rotation);
+      if (cloneTile.City != null) {
+        foreach (var city in cloneTile.City) {
+          for (var i = 0; i < city.Position.Count; i++) {
+            city.Position[i] = rotatePosition(city.Position[i], rotation);
+          }
         }
       }
-      foreach (var road in cloneTile.Road) {
-        for (var i = 0; i < road.Count; i++) {
-          road[i] = rotatePosition(road[i], rotation);
+      if (cloneTile.Road != null) {
+        foreach (var road in cloneTile.Road) {
+          for (var i = 0; i < road.Count; i++) {
+            road[i] = rotatePosition(road[i], rotation);
+          }
         }
       }
+      
       cloneTile.Name += " rotated " + rotation.ToString();
       return cloneTile;
     }

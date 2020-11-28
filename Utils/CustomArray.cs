@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ArrayAccessMethods {
   public class CustomArray<T>
@@ -16,6 +17,12 @@ namespace ArrayAccessMethods {
       return Enumerable.Range(0, matrix.GetLength(1))
               .Select(x => matrix[rowNumber, x])
               .ToArray();
+    }
+  }
+
+  public class Utils<T> {
+    public bool DoesListContain(List<T> list, T element) {
+      return list.Contains(element);
     }
   }
 }

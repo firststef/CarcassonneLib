@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using GameComponents;
 using ArrayAccessMethods;
+using System.Diagnostics;
 
 namespace GameLogic
 {
@@ -54,6 +55,31 @@ namespace GameLogic
         return null;
       }
       return returnList;
+    }
+
+    
+
+    /**
+    * coordinateX, coordinateY => coordinates for new tile to be placed
+    *   are validated before inserting
+    * placedTile => tile to be placed
+    *
+    * the tile is inserted at coordinates, possiblePosition is updated as should
+    */
+    public void PlaceTile(int coordinateX, int coordinateY, Tile placedTile) {
+      var utils = new Utils<(int, int)>();
+      Debug.Assert(utils.DoesListContain(PossiblePositions, (coordinateX, coordinateY)), "invalid coordinates");
+      
+      this.PlacedTiles[coordinateX, coordinateY] = placedTile;
+      this.UpdatePossiblePositions(coordinateX, coordinateY);
+    }
+
+    /**
+    * removes current coordinates, add new ones which are free
+    */
+    public void UpdatePossiblePositions(int coordinateX, int coordinateY) {
+      this.PossiblePositions.Remove((coordinateX, coordinateY));
+      this.AppendPossiblePositions(coordinateX, coordinateY);
     }
 
 

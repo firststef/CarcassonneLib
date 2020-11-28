@@ -87,6 +87,16 @@ public class Program
     System.Console.WriteLine(r); //should be false
     //TODO de testat mai toate cazurile ca sa vedem daca merge sau nu
   }
+
+  public static void GameDemo() {
+    if (Program.tilesList.Count == 0) {
+      Program.tilesList = parseTilesJson();
+    }
+    GameRunner gameRunner = new GameRunner(null, tilesList);
+    while (! gameRunner.EndGame) {
+      gameRunner.PrepareRound();
+    }
+  }
 	
 	public static void Main()
 	{
@@ -104,12 +114,13 @@ public class Program
     gameBoard.PlacedTiles[121, 70] = gameRunner.GetClonedRotatedTile(tilesList[2], 2);
     gameBoard.PlacedTiles[121, 71] = tilesList[15];
     // System.Console.WriteLine(gameBoard.ToString()); // old game board to string
-    System.Console.WriteLine(gameBoard.GameBoardToString());
+    //System.Console.WriteLine(gameBoard.GameBoardToString());
 
     
     var possibleTransitions = gameRunner.GetPossiblePositions(tilesList[0]);
     // System.Console.WriteLine(gameRunner.PossiblePositionsToString(possibleTransitions)) // shows possible transitions for first tile
 
-    Program.Tester();
+    //Program.Tester();
+    Program.GameDemo();
 	}
 }

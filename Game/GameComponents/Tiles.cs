@@ -33,14 +33,27 @@ namespace GameComponents
 
     public Tile(Tile another) {
       this.Name = another.Name;
-      this.City = another.CloneCities();
-      this.Road = new List<List<Orientation>>();
-      foreach (var road in another.Road) {
-        this.Road.Add(new List<Orientation>(road));
+      if (another.City == null) {
+        this.City = null;
+      }
+      else {
+        this.City = another.CloneCities();
+      }
+      if (another.Road == null) {
+        this.Road = null;
+      }
+      else {
+        this.Road = new List<List<Orientation>>();
+        foreach (var road in another.Road) {
+          this.Road.Add(new List<Orientation>(road));
+        }
       }
     }
 
     public List<CityComp> CloneCities() {
+      if (this.City == null) {
+        return null;
+      }
       var returnList = new List<CityComp>();
       foreach (var city in City) {
         returnList.Add((CityComp) city.Clone());
