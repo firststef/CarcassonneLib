@@ -24,6 +24,7 @@ namespace GameComponents
     public string Name{ get; set; }
     public List<CityComp> City { get; set; }
     public List<List<Orientation>> Road {get; set;}
+    
 
     public Tile(string name, List<CityComp> city, List<List<Orientation>> road) {
       this.Name = name;

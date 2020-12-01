@@ -97,9 +97,8 @@ public class Program
       gameRunner.PrepareRound();
     }
   }
-	
-	public static void Main()
-	{
+
+  public static void old(){
     tilesList = parseTilesJson();
 
     GameRunner gameRunner = new GameRunner(null, tilesList);
@@ -122,5 +121,12 @@ public class Program
 
     //Program.Tester();
     Program.GameDemo();
+  }
+
+  
+	
+	public static void Main()
+	{
+    Program.old();
 	}
 }
