@@ -21,6 +21,27 @@ namespace GameComponents {
     }
 
 
+    public TileComponent(TileComponent another) {
+      this.Name = another.Name;
+      this.Matrix = (int[,]) another.Matrix.Clone();
+      this.Types = another.CloneTypes();
+    }
+
+
+    public List<ComponentType> CloneTypes() {
+      List<ComponentType> returnList = new List<ComponentType>();
+      foreach (var i in this.Types) {
+        returnList.Add(i.Clone());
+      }
+      return returnList;
+    }
+
+
+    public TileComponent Clone() {
+      return new TileComponent(this);
+    }
+
+
     public override string ToString() {
       return "{\n" + $"\"name\": {this.Name}\n\"matrix\": \n{this.PrintMatrix()}\n\"types\": {this.PrintTypes()}" + "\n}";
     }
@@ -59,6 +80,23 @@ namespace GameComponents {
       this.Type = type;
       this.Neighbors = neighbors;
       this.Center = center;
+    }
+
+
+    public ComponentType(ComponentType another) {
+      this.Id = another.Id;
+      this.Type = another.Type;
+      if (another.Neighbors == null) {
+        this.Neighbors = null;
+      } else {
+        this.Neighbors = new List<int>(another.Neighbors);
+      }
+      this.Center = new List<float>(another.Center);
+    }
+
+
+    public ComponentType Clone() {
+      return new ComponentType(this);
     }
 
 

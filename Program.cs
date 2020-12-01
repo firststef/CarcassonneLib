@@ -12,7 +12,7 @@ using GameStructures;
 					
 public class Program
 {
-  static List<Tile> tilesList = new List<Tile>();
+  static List<OldGameComponents.Tile> tilesList = new List<OldGameComponents.Tile>();
 
   public static T ParseEnum<T>(string value)
   {
@@ -21,9 +21,9 @@ public class Program
 
 	
 
-  public static List<Tile> parseTilesJson()
+  public static List<OldGameComponents.Tile> parseTilesJson()
   {
-    List<Tile> tilesList = new List<Tile>();
+    List<OldGameComponents.Tile> tilesList = new List<OldGameComponents.Tile>();
     string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
     //parses all tiles as an array
     JArray jA = JArray.Parse(tilesJson);
@@ -67,7 +67,7 @@ public class Program
           roadList.Add(r);
         }
       }
-      tilesList.Add(new Tile(name, cityCompList, roadList));
+      tilesList.Add(new OldGameComponents.Tile(name, cityCompList, roadList));
       
     }
     return tilesList;
@@ -132,6 +132,24 @@ public class Program
     foreach (var tileComp in tileComps) {
       // System.Console.WriteLine(tileComp.ToString());
     }
+    // // // testing rotation
+    // var tile1 = new GameStructures.Tile(tileComps[0]);
+    // var str = "";
+    // str = tile1.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
+    // tile1.RotateTile(1);
+    // str = tile1.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
+    // var tile2 = new GameStructures.Tile(tileComps[0]);
+    // tile2.RotateTile(4);
+    // str = tile2.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
+
+    var tile3 = new GameStructures.Tile(tileComps[0]);
+    var tile4 = new GameStructures.Tile(tileComps[0]);
+    tile4.RotateTile(1);
+    var x = tile4.CanBeNeighbors(tile3, 3);
+    System.Console.WriteLine(x);
   }
   
 	
