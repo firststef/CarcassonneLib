@@ -4,9 +4,10 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using OldGameComponents;
+using OldGameLogic;
 using GameComponents;
-using GameLogic;
-
+using GameStructures;
 
 					
 public class Program
@@ -123,10 +124,20 @@ public class Program
     Program.GameDemo();
   }
 
+
+  public static void run() {
+    System.Console.WriteLine("da");
+    var componentManager = new ComponentManager();
+    var tileComps = componentManager.ParseJson();
+    foreach (var tileComp in tileComps) {
+      // System.Console.WriteLine(tileComp.ToString());
+    }
+  }
   
 	
 	public static void Main()
 	{
-    Program.old();
+    //Program.old();
+    Program.run();
 	}
 }

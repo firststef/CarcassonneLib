@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
+using OldGameComponents;
 
-namespace GameStructures {
+namespace OldGameStructures {
   class RoadPart {
     public Tile ParentTile { get; set; }
     public List<Orientation> Road { get; set; }

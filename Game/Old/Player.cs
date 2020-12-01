@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace GameLogic
+namespace OldGameLogic
 {
   class Player {
     public string PlayerName { get; set; }

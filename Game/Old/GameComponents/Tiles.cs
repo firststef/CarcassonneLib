@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
+using OldGameComponents;
 
-namespace GameComponents
+namespace OldGameComponents
 {
   public enum Orientation
   {

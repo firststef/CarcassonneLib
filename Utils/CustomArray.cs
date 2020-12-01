@@ -5,6 +5,8 @@ using System.Collections.Generic;
 namespace ArrayAccessMethods {
   public class CustomArray<T>
   {
+
+
     public T[] GetColumn(T[,] matrix, int columnNumber)
     {
       return Enumerable.Range(0, matrix.GetLength(0))
@@ -12,11 +14,36 @@ namespace ArrayAccessMethods {
               .ToArray();
     }
 
+
     public T[] GetRow(T[,] matrix, int rowNumber)
     {
       return Enumerable.Range(0, matrix.GetLength(1))
               .Select(x => matrix[rowNumber, x])
               .ToArray();
+    }
+
+
+    public string PrintArray(T[,] matrix) {
+      var returnString = "";
+      for (var i = 0; i < matrix.GetLength(0); i++) {
+        for (var j = 0; j < matrix.GetLength(1); j++) {
+          returnString += matrix[i, j].ToString() + " ";
+        }
+        returnString += "\n";
+      }
+      return returnString;
+    }
+
+
+    public string PrintList(List<T> l) {
+      if (l == null) {
+        return "null";
+      }
+      var returnString = "[";
+      foreach (var el in l) {
+        returnString += el.ToString() + " ";
+      }
+      return returnString + "]";
     }
   }
 

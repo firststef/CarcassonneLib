@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
+using OldGameComponents;
 using ArrayAccessMethods;
 using System.Diagnostics;
 
-namespace GameLogic
+namespace OldGameLogic
 {
 
   class GameBoard {

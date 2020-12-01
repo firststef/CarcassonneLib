@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
+using OldGameComponents;
 
-namespace GameLogic
+namespace OldGameLogic
 {
   class GameRunner {
     public GameBoard GameBoard { get; set; }

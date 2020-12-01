@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
+using OldGameComponents;
 
-namespace GameStructures {
+namespace OldGameStructures {
   class CityStruct {
     public CityStruct() {
       System.Console.WriteLine("CityStruct");
