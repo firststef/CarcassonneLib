@@ -122,6 +122,16 @@ namespace GameStructures {
     }
 
 
+    public int CountMonasteryNeighbors() {
+      return 0;
+    }
+
+
+    public bool ComponentHasShield(int componentId) {
+      return true;
+    }
+
+
     public void ReplaceStructureIds(int idToSearch, int idToReplace) {
       this.TileComponent.ChangeComponentIds(idToSearch, idToReplace);
     }

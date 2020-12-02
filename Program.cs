@@ -58,6 +58,7 @@ public class Program {
     GameStructure g2 = new City();
     var g3 = new City();
     System.Console.WriteLine(g3.GetType()); // is City
+    System.Console.WriteLine(g2.GetType()); // is City again
     var tile5 = new Tile(tileComps[0]);
     var tile6 = new Tile(tileComps[0]);
 
@@ -68,10 +69,12 @@ public class Program {
     System.Console.WriteLine(g1.PrintTileMatrices());
     System.Console.WriteLine(g3.PrintTileMatrices());
 
-    g3.joinStructures(g1);
+    g3.JoinStructures(g1);
 
     System.Console.WriteLine(g3.PrintTileMatrices());
     System.Console.WriteLine(g3.ToString());
+    g3.GetStructurePoints();
+    
   }
   
 	

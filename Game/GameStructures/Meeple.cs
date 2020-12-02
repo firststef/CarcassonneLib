@@ -37,6 +37,7 @@ namespace GameStructures {
     public void PlaceMeeple(Tile meeplePlacement, int placementId) {
       this.MeeplePlacement = meeplePlacement;
       this.PlacementId = placementId;
+      //TODO: Aici ar trebuii o functie VIZUALA de punere a meeple-ului pe Tile-ul meeplePlacement pe pozitia care trebuie
     }
 
 

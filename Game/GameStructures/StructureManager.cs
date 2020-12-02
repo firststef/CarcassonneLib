@@ -51,8 +51,11 @@ namespace GameStructures {
     * replaces all another's structures id with current structure id
     * joins tile and meeple list
     * disposes of 2nd structure
+    * 
+    * may be overriden in derived classes
+    * eg: Monastery(does not exist), City (has to add shields too)
     */
-    public void joinStructures(GameStructure another) {
+    public virtual void JoinStructures(GameStructure another) {
       if (this.StructureType != another.StructureType) {
         throw new Exception("Structures are not same type");
       }
@@ -84,11 +87,43 @@ namespace GameStructures {
 
 
     /**
-    * adds tile to structure and points to structure id to be changed and is changed accordingly
+    * adds tile to structure and triggers id of component in tile to be changed accordingly
+    * 
+    * may be overriden in derived classes, eg: City may update shield count
     */
-    public void AddTile(Tile tile, int tileComponentId) {
+    public virtual void AddTile(Tile tile, int tileComponentId) {
       this.ComponentTiles.Add(tile);
       tile.ReplaceStructureIds(tileComponentId, this.StructureId);
+    }
+
+
+    public bool CanPlaceMeeple(Tile tile) {
+      if (! this.ComponentTiles.Contains(tile)) {
+        return false;
+      }
+
+      return (this.MeepleList.Count == 0);
+    }
+
+
+    /**
+    * places meeple in current structure, then triggers meeple own placement
+    */
+    public void PlaceMeeple(Tile tile, Meeple meeple) {
+      if (! this.ComponentTiles.Contains(tile)) {
+        throw new Exception("Tile not in Component tiles");
+      }
+      if (this.MeepleList.Count != 0) {
+        throw new Exception("Meeple is not alone in structure");
+      }
+
+      this.MeepleList.Add(meeple);
+      meeple.PlaceMeeple(tile, this.StructureId);
+    }
+
+
+    public virtual int GetStructurePoints() {
+      throw new NotImplementedException("trebuie implementata in clasele de baza");
     }
 
 
