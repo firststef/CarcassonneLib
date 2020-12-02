@@ -61,15 +61,15 @@ public class Program {
     var tile5 = new Tile(tileComps[0]);
     var tile6 = new Tile(tileComps[0]);
 
-    g1.ComponentTiles.Add(tile5);
-    g3.ComponentTiles.Add(tile6);
+    g1.AddTile(tile5, 2);
+    g3.AddTile(tile6, 2);
     g3.MeepleList.Add(new Meeple(MeepleColor.Blue));
 
     System.Console.WriteLine(g1.PrintTileMatrices());
     System.Console.WriteLine(g3.PrintTileMatrices());
 
     g3.joinStructures(g1);
-    
+
     System.Console.WriteLine(g3.PrintTileMatrices());
     System.Console.WriteLine(g3.ToString());
   }

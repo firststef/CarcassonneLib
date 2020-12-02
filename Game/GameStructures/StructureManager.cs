@@ -83,19 +83,28 @@ namespace GameStructures {
     }
 
 
+    /**
+    * adds tile to structure and points to structure id to be changed and is changed accordingly
+    */
+    public void AddTile(Tile tile, int tileComponentId) {
+      this.ComponentTiles.Add(tile);
+      tile.ReplaceStructureIds(tileComponentId, this.StructureId);
+    }
+
+
     public override string ToString() {
       return $"{{\nid: {this.StructureId}\ntype: {this.StructureType}\ntiles: {this.ComponentTiles.Count}\nmeeples: {this.MeepleList.Count}\n}}";
     }
 
 
     public string PrintTileMatrices() {
-      var returnString = "";
+      var returnString = "begin\n";
       
       foreach (var tile in this.ComponentTiles) {
         returnString += tile.TileComponent.PrintMatrix() + "\n";
       }
 
-      return returnString;
+      return returnString + "end\n";
     }
 
 
