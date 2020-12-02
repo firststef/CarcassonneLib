@@ -33,10 +33,10 @@ namespace GameStructures {
     * triggers base add tile and increments ShieldCount if needed 
     */
     public override void AddTile(Tile tile, int tileComponentId) {
-      base.AddTile(tile, tileComponentId);
       if (tile.ComponentHasShield(tileComponentId)) {
         this.ShieldCount++;
       }
+      base.AddTile(tile, tileComponentId);
     }
 
 
@@ -62,8 +62,11 @@ namespace GameStructures {
     }
 
 
+    /**
+    * returns points equal to road length count
+    */
     public override int GetStructurePoints() {
-      return 0;
+      throw new NotImplementedException("todo: de implementat puncte pentru drumuri");
     }
   }
 
@@ -90,6 +93,9 @@ namespace GameStructures {
     }
 
 
+    /**
+    * returns points by counting neighbor tiles
+    */
     public override int GetStructurePoints() {
       if (this.MeepleList.Count == 0) {
         return 0;

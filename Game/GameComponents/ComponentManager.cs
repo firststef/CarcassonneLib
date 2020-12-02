@@ -52,6 +52,15 @@ namespace GameComponents {
           }
 
           var type = (string) t["type"];
+          var shieldJson = t["shield"];
+          bool shield;
+          if (shieldJson == null) {
+            shield = false;
+          } else {
+            shield = bool.Parse((string) shieldJson);
+          }
+          
+          
           var neighbors = new List<int>();
           var neighborsJson = (JArray) t["neighbour"];
           if (neighborsJson == null) {
@@ -62,7 +71,7 @@ namespace GameComponents {
             }
           }
           
-          types.Add(new ComponentType(i, type, neighbors, center));
+          types.Add(new ComponentType(i, type, neighbors, center, shield));
           i++;
         }
 

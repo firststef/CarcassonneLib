@@ -66,11 +66,16 @@ namespace GameComponents {
     public string GetCharacteristicInPosition(int i, int j) {
       var componentId = this.Matrix[i, j];
 
+      if (componentId < 0) {
+        return "";
+      }
+
       foreach (var component in this.Types) {
         if (component.Id == componentId) {
           return component.Type;
         }
       }
+      System.Console.WriteLine(componentId);
       throw new Exception("Characteristic not found");
     }
 
@@ -93,6 +98,19 @@ namespace GameComponents {
           }
         }
       }
+    }
+
+
+    public bool ComponentHasShield(int componentId) {
+      foreach (var component in this.Types) {
+        if (component.Id == componentId) {
+          if (component.Type != "city") {
+            throw new Exception("Asta trebuia sa fie oras");
+          }
+          return component.HasShield;
+        }
+      }
+      throw new Exception("nu exista componenta cautata in tile-ul asta");
     }
 
 
@@ -127,13 +145,15 @@ namespace GameComponents {
     public string Type { get; set; }
     public List<int> Neighbors { get; set; }
     public List<float> Center { get; set; }
+    public bool HasShield { get; set; }
 
 
-    public ComponentType(int id, string type, List<int> neighbors, List<float> center) {
+    public ComponentType(int id, string type, List<int> neighbors, List<float> center, bool hasShield) {
       this.Id = id;
       this.Type = type;
       this.Neighbors = neighbors;
       this.Center = center;
+      this.HasShield = hasShield;
     }
 
 
@@ -146,6 +166,7 @@ namespace GameComponents {
         this.Neighbors = new List<int>(another.Neighbors);
       }
       this.Center = new List<float>(another.Center);
+      this.HasShield = another.HasShield;
     }
 
 
@@ -155,7 +176,7 @@ namespace GameComponents {
 
 
     public override string ToString() {
-      return $"{{\n\"id\": {this.Id}\n\"center\": {this.PrintList<float>(this.Center)}\n\"type\": {this.Type}\n\"neighbors\": {this.PrintList<int>(this.Neighbors)}\n}}";
+      return $"{{\n\"id\": {this.Id}\n\"center\": {this.PrintList<float>(this.Center)}\n\"type\": {this.Type}\n\"neighbors\": {this.PrintList<int>(this.Neighbors)}\n\"shield\": {this.HasShield}\n}}";
     }
 
 

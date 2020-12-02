@@ -36,9 +36,7 @@ namespace GameStructures {
 
 
     public GameStructure(StructureType structureType) {
-      // StructureMaxId ar trebuii facut 10 initial ca sa nu avem coleziuni pentru primul tile
-      // ex: initiem oras-ul 1 cu id-ul 1, schimbam toate 2-urile acelui oras in 1, 
-      // si apoi initiem campia 1 cu id-ul 2, schimbam toate 1-urile campiei in 2 
+      // StructureMaxId ar trebuii facut 10 initial ca sa nu avem coleziuni de id pentru primul tile
       this.StructureId = GameStructure.StructureMaxId++;
       this.StructureType = structureType;
       this.ComponentTiles = new List<Tile>();
@@ -80,7 +78,7 @@ namespace GameStructures {
 
 
     public void Dispose() {
-      //TODO: de verificat ca aceste nulificari nu afecteaza lista la care s-au adaugat componentele
+      //TODO: de verificat ca aceste nulificari nu afecteaza lista la care s-au adaugat componentele. Probabil ca nu
       this.ComponentTiles = null;
       this.MeepleList = null;
     }

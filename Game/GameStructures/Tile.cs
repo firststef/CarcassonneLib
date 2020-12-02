@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using GameStructures;
 using GameComponents;
 using ArrayAccessMethods;
+using GameLogic;
 
 
 namespace GameStructures {
@@ -12,11 +13,13 @@ namespace GameStructures {
   public class Tile {
     public TileComponent TileComponent { get; set; }
     public (int, int) TilePosition { get; set; }
+    public GameBoard GameBoard { get; set; }
 
 
-    public Tile(TileComponent tileComponent) {
+    public Tile(GameBoard gameBoard, TileComponent tileComponent, (int, int) tilePosition) {
       this.TileComponent = tileComponent.Clone();
-      this.TilePosition = (10, 12);
+      this.TilePosition = tilePosition;
+      this.GameBoard = gameBoard;
     }
 
 
@@ -122,13 +125,19 @@ namespace GameStructures {
     }
 
 
+    /**
+    * method for counting neighbors in all eight directions
+    */
     public int CountMonasteryNeighbors() {
-      return 0;
+      return this.GameBoard.CountMonasteryNeighbors(this.TilePosition);
     }
 
 
+    /**
+    * returns True if component with given Id is city and has shield, False otherwise
+    */ 
     public bool ComponentHasShield(int componentId) {
-      return true;
+      return this.TileComponent.ComponentHasShield(componentId);
     }
 
 
