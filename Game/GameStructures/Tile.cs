@@ -141,8 +141,16 @@ namespace GameStructures {
     }
 
 
+    /**
+    * method for replacing ids for components when added to different game structures
+    */
     public void ReplaceStructureIds(int idToSearch, int idToReplace) {
       this.TileComponent.ChangeComponentIds(idToSearch, idToReplace);
+    }
+
+
+    public List<int> GetNeighborCities(int fieldId) {
+      return this.TileComponent.GetNeighborCities(fieldId);
     }
 
 

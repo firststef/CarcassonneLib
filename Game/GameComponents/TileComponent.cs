@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using GameComponents;
 using ArrayAccessMethods;
+using System.Linq;
 
 
 namespace GameComponents {
@@ -104,13 +105,48 @@ namespace GameComponents {
     public bool ComponentHasShield(int componentId) {
       foreach (var component in this.Types) {
         if (component.Id == componentId) {
+
           if (component.Type != "city") {
             throw new Exception("Asta trebuia sa fie oras");
           }
+
           return component.HasShield;
         }
       }
       throw new Exception("nu exista componenta cautata in tile-ul asta");
+    }
+
+
+    /**
+    * iterates through all components and returns a list of all neigbors for all fields with given fieldId
+    */
+    public List<int> GetNeighborCities(int fieldId) {
+      var returnList = new List<int>();
+
+      foreach (var component in this.Types) {
+        if (component.Id == fieldId) {
+
+          if (component.Type != "field") {
+            throw new Exception("Asta trebuia sa fie campie");
+          }
+
+          var neigborsIndices = component.Neighbors;
+          //each field may have neighbors
+          if (neigborsIndices == null) {
+            continue;
+          }
+          //each neighbor is the initial id (and index) of city in Tile Component
+          foreach (var neighborIndex in neigborsIndices) {
+            var toAdd = this.Types[neighborIndex].Id;
+            //visits index of city and takes its new Id
+            if (! returnList.Contains(toAdd)) {
+              returnList.Add(toAdd);
+            }
+          }
+        }
+      }
+
+      return returnList;
     }
 
 

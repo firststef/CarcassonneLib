@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using GameStructures;
@@ -66,7 +67,7 @@ namespace GameStructures {
     * returns points equal to road length count
     */
     public override int GetStructurePoints() {
-      throw new NotImplementedException("todo: de implementat puncte pentru drumuri");
+      return this.ComponentTiles.Count;
     }
   }
 
@@ -76,6 +77,20 @@ namespace GameStructures {
 
     public Field() : base(StructureType.field) {
       System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
+    }
+
+
+    /**
+    * returns 2 * each distinct city on current field
+    */
+    public override int GetStructurePoints() {
+      var neighborCities = new List<int>();
+      foreach (var tile in this.ComponentTiles) {
+        var neighbors = tile.GetNeighborCities(this.StructureId);
+        neighborCities.AddRange(neighbors.Except(neighborCities));
+      }
+
+      return neighborCities.Count * 2;
     }
   }
 

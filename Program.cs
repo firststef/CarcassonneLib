@@ -28,33 +28,33 @@ public class Program {
       // System.Console.WriteLine(tileComp.ToString());
     }
     
-    // // testing rotation
-    var tile1 = new Tile(gameBoard, tileComps[0], (72, 72));
-    var str = "";
-    str = tile1.TileComponent.PrintMatrix();
-    System.Console.WriteLine(str);
-    tile1.RotateTile(1);
-    str = tile1.TileComponent.PrintMatrix();
-    System.Console.WriteLine(str);
-    var tile2 = new Tile(gameBoard, tileComps[0], (72, 73));
-    tile2.RotateTile(4);
-    str = tile2.TileComponent.PrintMatrix();
-    System.Console.WriteLine(str);
+    // // // testing rotation
+    // var tile1 = new Tile(gameBoard, tileComps[0], (72, 72));
+    // var str = "";
+    // str = tile1.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
+    // tile1.RotateTile(1);
+    // str = tile1.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
+    // var tile2 = new Tile(gameBoard, tileComps[0], (72, 73));
+    // tile2.RotateTile(4);
+    // str = tile2.TileComponent.PrintMatrix();
+    // System.Console.WriteLine(str);
 
-    // // testing neighbors
-    var tile3 = new Tile(gameBoard, tileComps[0], (73, 73));
-    var tile4 = new Tile(gameBoard, tileComps[0], (74, 73));
-    tile4.RotateTile(1);
-    var x = tile4.CanBeNeighbors(tile3, 3);
-    System.Console.WriteLine(x);
-    x= tile3.CanBeNeighbors(tile3, 1);
-    System.Console.WriteLine(x);
+    // // // testing neighbors
+    // var tile3 = new Tile(gameBoard, tileComps[0], (73, 73));
+    // var tile4 = new Tile(gameBoard, tileComps[0], (74, 73));
+    // tile4.RotateTile(1);
+    // var x = tile4.CanBeNeighbors(tile3, 3);
+    // System.Console.WriteLine(x);
+    // x= tile3.CanBeNeighbors(tile3, 1);
+    // System.Console.WriteLine(x);
 
-    // // testing meeple creation
-    Meeple m1 = new Meeple(MeepleColor.Red);
-    Meeple m2 = new Meeple(MeepleColor.Yellow);
-    System.Console.WriteLine(m1.ToString());
-    System.Console.WriteLine(m2.ToString());
+    // // // testing meeple creation
+    // Meeple m1 = new Meeple(MeepleColor.Red);
+    // Meeple m2 = new Meeple(MeepleColor.Yellow);
+    // System.Console.WriteLine(m1.ToString());
+    // System.Console.WriteLine(m2.ToString());
 
     // // testing structure creation and joining
     GameStructure g1 = new City();
