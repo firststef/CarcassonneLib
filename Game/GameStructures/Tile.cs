@@ -75,7 +75,7 @@ namespace GameStructures {
       position = (position + 2) % 4;
 
       var testParam2 = another.GetLineOrColumn(position);
-      return this.AreBordersSimilar(testParam1, testParam2);
+      return this.AreBordersSimilar<string>(testParam1, testParam2);
     }
 
 
@@ -86,10 +86,10 @@ namespace GameStructures {
     * position = 2 => last line
     * position = 3 => first column
     */
-    public int[] GetLineOrColumn(int position) {
-      var matrix = this.TileComponent.Matrix;
+    public string[] GetLineOrColumn(int position) {
+      var matrix = this.TileComponent.GetCharacteristicMatrix();
 
-      var x = new CustomArray<int>();
+      var x = new CustomArray<string>();
       if (position == 0) {
         return x.GetRow(matrix, 0);
       }
@@ -109,12 +109,12 @@ namespace GameStructures {
     /**
     * checks borders except corners to be equal, returns true otherwise false
     */
-    public bool AreBordersSimilar(int[] param1, int[] param2) {
+    public bool AreBordersSimilar<T>(T[] param1, T[] param2) {
       if (param1.Length != param2.Length) {
         throw new Exception ("eroare: vectori nu sunt egali");
       }
       for (var i = 1; i < param1.Length - 1; ++i) {
-        if (param1[i] != param2[i]) {
+        if (! param1[i].Equals(param2[i])) {
           return false;
         }
       }

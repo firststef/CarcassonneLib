@@ -42,6 +42,39 @@ namespace GameComponents {
     }
 
 
+
+    /**
+    * returns a 5 x 5 matrix of "road", "field" and/or "city" for neigborhooding purposes
+    */
+    public string[,] GetCharacteristicMatrix() {
+      //! aici ar putea fi fain un overloading, pentru a primi matricea si string si int
+      var returnMatrix = new string[5, 5];
+
+      for (var i = 0; i < 5; ++i) {
+        for (var j = 0; j < 5; ++j) {
+          returnMatrix[i, j] = this.GetCharacteristicInPosition(i, j);
+        }
+      }
+
+      return returnMatrix;
+    }
+
+
+    /**
+    * takes id of component in position, searches through all types and returns "field", "city" or "road" of component with searched id
+    */
+    public string GetCharacteristicInPosition(int i, int j) {
+      var componentId = this.Matrix[i, j];
+
+      foreach (var component in this.Types) {
+        if (component.Id == componentId) {
+          return component.Type;
+        }
+      }
+      throw new Exception("Characteristic not found");
+    }
+
+
     public override string ToString() {
       return "{\n" + $"\"name\": {this.Name}\n\"matrix\": \n{this.PrintMatrix()}\n\"types\": {this.PrintTypes()}" + "\n}";
     }
