@@ -122,6 +122,11 @@ namespace GameStructures {
     }
 
 
+    public void ReplaceStructureIds(int idToSearch, int idToReplace) {
+      this.TileComponent.ChangeComponentIds(idToSearch, idToReplace);
+    }
+
+
   }
 
 

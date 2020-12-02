@@ -41,6 +41,61 @@ namespace GameStructures {
       // si apoi initiem campia 1 cu id-ul 2, schimbam toate 1-urile campiei in 2 
       this.StructureId = GameStructure.StructureMaxId++;
       this.StructureType = structureType;
+      this.ComponentTiles = new List<Tile>();
+      this.MeepleList = new List<Meeple>();
+    }
+
+
+    /**
+    * joins 2 same type Structures
+    * replaces all another's structures id with current structure id
+    * joins tile and meeple list
+    * disposes of 2nd structure
+    */
+    public void joinStructures(GameStructure another) {
+      if (this.StructureType != another.StructureType) {
+        throw new Exception("Structures are not same type");
+      }
+      another.ReplaceStructureId(this.StructureId);
+      this.ComponentTiles.AddRange(another.ComponentTiles);
+      this.MeepleList.AddRange(another.MeepleList);
+      another.Dispose();
+    }
+
+
+    /**
+    * replaces structure id for all meeples and component tiles
+    */
+    public void ReplaceStructureId(int anotherStructureId) {
+      foreach (var meeple in MeepleList) {
+        meeple.PlacementId = anotherStructureId;
+      }
+      foreach (var tile in ComponentTiles) {
+        tile.ReplaceStructureIds(this.StructureId, anotherStructureId);
+      }
+    }
+
+
+    public void Dispose() {
+      //TODO: de verificat ca aceste nulificari nu afecteaza lista la care s-au adaugat componentele
+      this.ComponentTiles = null;
+      this.MeepleList = null;
+    }
+
+
+    public override string ToString() {
+      return $"{{\nid: {this.StructureId}\ntype: {this.StructureType}\ntiles: {this.ComponentTiles.Count}\nmeeples: {this.MeepleList.Count}\n}}";
+    }
+
+
+    public string PrintTileMatrices() {
+      var returnString = "";
+      
+      foreach (var tile in this.ComponentTiles) {
+        returnString += tile.TileComponent.PrintMatrix() + "\n";
+      }
+
+      return returnString;
     }
 
 

@@ -75,6 +75,27 @@ namespace GameComponents {
     }
 
 
+    /**
+    * searches for to search in each component type and replaces id
+    * then replaces matrix ids
+    */
+    public void ChangeComponentIds(int toSearch, int toReplace) {
+      foreach (var component in this.Types) {
+        if (component.Id == toSearch) {
+          component.Id = toReplace;
+        }
+      }
+
+      for (var i = 0; i < this.Matrix.GetLength(0); ++i) {
+        for (var j = 0; j < this.Matrix.GetLength(1); ++j) {
+          if (this.Matrix[i, j] == toSearch) {
+            this.Matrix[i, j] = toReplace;
+          }
+        }
+      }
+    }
+
+
     public override string ToString() {
       return "{\n" + $"\"name\": {this.Name}\n\"matrix\": \n{this.PrintMatrix()}\n\"types\": {this.PrintTypes()}" + "\n}";
     }

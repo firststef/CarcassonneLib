@@ -53,12 +53,25 @@ public class Program {
     // System.Console.WriteLine(m1.ToString());
     // System.Console.WriteLine(m2.ToString());
 
-    // // testing structure creation
+    // // testing structure creation and joining
     GameStructure g1 = new City();
     GameStructure g2 = new City();
     var g3 = new City();
     System.Console.WriteLine(g3.GetType()); // is City
+    var tile5 = new Tile(tileComps[0]);
+    var tile6 = new Tile(tileComps[0]);
 
+    g1.ComponentTiles.Add(tile5);
+    g3.ComponentTiles.Add(tile6);
+    g3.MeepleList.Add(new Meeple(MeepleColor.Blue));
+
+    System.Console.WriteLine(g1.PrintTileMatrices());
+    System.Console.WriteLine(g3.PrintTileMatrices());
+
+    g3.joinStructures(g1);
+    
+    System.Console.WriteLine(g3.PrintTileMatrices());
+    System.Console.WriteLine(g3.ToString());
   }
   
 	
