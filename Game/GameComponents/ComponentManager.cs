@@ -20,8 +20,8 @@ namespace GameComponents {
     /**
     * metoda custom de parsare json creata pentru modelul folosit
     */
-    public List<TileComponent> ParseJson() {
-      string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
+    public List<TileComponent> ParseJson(string path) {
+      string tilesJson = System.IO.File.ReadAllText(path);
 
       JArray tileArray = JArray.Parse(tilesJson);
       var tileComponenets = new List<TileComponent>();

@@ -23,7 +23,7 @@ public class Program {
     var gameBoard = new GameBoard();
     var componentManager = new ComponentManager();
     var structureManager = new StructureManager();
-    var tileComps = componentManager.ParseJson();
+    var tileComps = componentManager.ParseJson("tiles_map.json");
     foreach (var tileComp in tileComps) {
       // System.Console.WriteLine(tileComp.ToString());
     }
