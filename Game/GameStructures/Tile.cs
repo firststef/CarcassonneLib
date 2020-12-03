@@ -40,21 +40,26 @@ namespace GameStructures {
     * rotatedMatrix is initialized once, to save space complexity
     */
     public void RotateTile(int rotation) {
+      if (rotation == 0) {
+        return;
+      }
+      
       int[,] rotatedMatrix = new int[5, 5];
 
       var matrix = this.TileComponent.Matrix;
       for (var i = 0; i < rotation; ++i) {
-        matrix = RotateSquareMatrix<int>(matrix, 5, rotatedMatrix);
+        rotatedMatrix = RotateSquareMatrix<int>(matrix, 5);
       }
 
-      this.TileComponent.Matrix = matrix;
+      this.TileComponent.Matrix = rotatedMatrix;
     }
 
 
     /**
     * returns matrix rotated 90 degrees in variable rotatedMatrix
     */
-    public T[,] RotateSquareMatrix<T>(T[,] matrix, int n, T[,] rotatedMatrix) {
+    public T[,] RotateSquareMatrix<T>(T[,] matrix, int n) {
+      T[,] rotatedMatrix = new T[n, n];
 
       for (var i = 0; i < n; ++i) {
         for (var j = 0; j < n; ++j) {

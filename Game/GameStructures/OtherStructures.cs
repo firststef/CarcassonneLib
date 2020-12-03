@@ -109,7 +109,7 @@ namespace GameStructures {
 
 
     /**
-    * returns points by counting neighbor tiles
+    * returns points by counting neighbor tiles + 1
     */
     public override int GetStructurePoints() {
       if (this.MeepleList.Count == 0) {
