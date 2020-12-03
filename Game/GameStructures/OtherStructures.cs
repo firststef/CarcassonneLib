@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameStructures;
-using GameComponents;
-using ArrayAccessMethods;
+using LibCarcassonne.GameStructures;
+using LibCarcassonne.GameComponents;
+using LibCarcassonne.ArrayAccessMethods;
 
-
+namespace LibCarcassonne {
 namespace GameStructures {
 
 
@@ -120,4 +120,5 @@ namespace GameStructures {
   }
 
 
+}
 }

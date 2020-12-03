@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
-using GameStructures;
-using GameLogic;
-using ArrayAccessMethods;
+using LibCarcassonne.GameComponents;
+using LibCarcassonne.GameStructures;
+using LibCarcassonne.GameLogic;
+using LibCarcassonne.ArrayAccessMethods;
 
-
+namespace LibCarcassonne {
 namespace GameLogic {
 
 
@@ -151,4 +151,5 @@ namespace GameLogic {
       return count;
     }
   }
+}
 }

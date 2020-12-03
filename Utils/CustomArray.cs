@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+namespace LibCarcassonne {
 namespace ArrayAccessMethods {
   public class CustomArray<T>
   {
@@ -52,4 +53,5 @@ namespace ArrayAccessMethods {
       return list.Contains(element);
     }
   }
+}
 }

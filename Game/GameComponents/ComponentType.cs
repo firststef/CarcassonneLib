@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameComponents;
-using ArrayAccessMethods;
 using System.Linq;
+using LibCarcassonne.GameComponents;
+using LibCarcassonne.ArrayAccessMethods;
 
-
+namespace LibCarcassonne {
 namespace GameComponents {
 
   /**
@@ -68,4 +68,5 @@ namespace GameComponents {
   }
 
 
+}
 }

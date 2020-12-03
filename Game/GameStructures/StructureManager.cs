@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GameStructures;
+using LibCarcassonne.GameStructures;
 
-
+namespace LibCarcassonne {
 namespace GameStructures {
   // In GameStructures avem structurile din joc, adica tile-urile preluate din GameComponents, si apoi jucate
 
@@ -147,4 +147,5 @@ namespace GameStructures {
 
 
   }
+}
 }

@@ -5,9 +5,9 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Threading;
-using GameComponents;
-using GameStructures;
-using GameLogic;
+using LibCarcassonne.GameComponents;
+using LibCarcassonne.GameStructures;
+using LibCarcassonne.GameLogic;
 					
           
 public class Program {

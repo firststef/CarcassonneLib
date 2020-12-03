@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-
+namespace LibCarcassonne {
 namespace GameComponents {
   // In GameComponents avem componentele, Tile-urile parsate din JSON
 
@@ -88,4 +88,5 @@ namespace GameComponents {
   }
 
 
+}
 }
