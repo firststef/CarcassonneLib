@@ -31,6 +31,7 @@ namespace GameStructures {
     public Tile(Tile another) {
       this.TileComponent = another.TileComponent.Clone();
       this.TilePosition = another.TilePosition;
+      this.GameBoard = another.GameBoard;
     }
 
 
@@ -149,6 +150,9 @@ namespace GameStructures {
     }
 
 
+    /**
+    * method for a field to get a list of current ids of neighboring city structures
+    */
     public List<int> GetNeighborCities(int fieldId) {
       return this.TileComponent.GetNeighborCities(fieldId);
     }

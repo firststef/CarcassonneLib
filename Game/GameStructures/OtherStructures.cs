@@ -115,7 +115,7 @@ namespace GameStructures {
       if (this.MeepleList.Count == 0) {
         return 0;
       }
-      return this.ComponentTiles[0].CountMonasteryNeighbors();
+      return 1 + this.ComponentTiles[0].CountMonasteryNeighbors();
     }
   }
 

@@ -17,6 +17,9 @@ namespace GameComponents {
     }
 
     
+    /**
+    * metoda custom de parsare json creata pentru modelul folosit
+    */
     public List<TileComponent> ParseJson() {
       string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
 

@@ -54,6 +54,7 @@ namespace GameStructures {
     * eg: Monastery(does not exist), City (has to add shields too)
     */
     public virtual void JoinStructures(GameStructure another) {
+      //TODO: de vazut ca teoretic trebuie o lista de structuri in joc, cand se creaza o noua structura se adauga in lista respectiva, cand se face join se scoate o structura din lista respectiva
       if (this.StructureType != another.StructureType) {
         throw new Exception("Structures are not same type");
       }
@@ -79,6 +80,7 @@ namespace GameStructures {
 
     public void Dispose() {
       //TODO: de verificat ca aceste nulificari nu afecteaza lista la care s-au adaugat componentele. Probabil ca nu
+      //TODO: de scos aceasta structura din lista cu toate structurile sa poata fi colectata de garbage collector. nullificarile nu is asa importante (probabil)
       this.ComponentTiles = null;
       this.MeepleList = null;
     }
@@ -95,6 +97,9 @@ namespace GameStructures {
     }
 
 
+    /**
+    * returns true only if no other meeple is in structure, False otherwise
+    */
     public bool CanPlaceMeeple(Tile tile) {
       if (! this.ComponentTiles.Contains(tile)) {
         return false;

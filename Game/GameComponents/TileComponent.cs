@@ -12,7 +12,9 @@ namespace GameComponents {
     public class TileComponent {
     public string Name { get; set; }
     public int[,] Matrix { get; set; }
-    public List<ComponentType> Types { get; set; }
+    // lista de tipuri reprezinta o legenda a matricii asociata acestui tile
+    // fiecarui id din matrice ii este asociat un anumit tip care spune ceva despre structura din care id-ul face parte
+    public List<ComponentType> Types { get; set; } 
     
 
     public TileComponent(string name, int[,] matrix, List<ComponentType> types) {
@@ -49,6 +51,7 @@ namespace GameComponents {
     */
     public string[,] GetCharacteristicMatrix() {
       //! aici ar putea fi fain un overloading, pentru a primi matricea si string si int
+      // TODO: de facut asta cand este timp
       var returnMatrix = new string[5, 5];
 
       for (var i = 0; i < 5; ++i) {
@@ -76,6 +79,7 @@ namespace GameComponents {
           return component.Type;
         }
       }
+      
       System.Console.WriteLine(componentId);
       throw new Exception("Characteristic not found");
     }
@@ -173,55 +177,6 @@ namespace GameComponents {
       return returnString + "\n]";
 
     }
-  }
-
-
-  public class ComponentType {
-    public int Id { get; set; }
-    public string Type { get; set; }
-    public List<int> Neighbors { get; set; }
-    public List<float> Center { get; set; }
-    public bool HasShield { get; set; }
-
-
-    public ComponentType(int id, string type, List<int> neighbors, List<float> center, bool hasShield) {
-      this.Id = id;
-      this.Type = type;
-      this.Neighbors = neighbors;
-      this.Center = center;
-      this.HasShield = hasShield;
-    }
-
-
-    public ComponentType(ComponentType another) {
-      this.Id = another.Id;
-      this.Type = another.Type;
-      if (another.Neighbors == null) {
-        this.Neighbors = null;
-      } else {
-        this.Neighbors = new List<int>(another.Neighbors);
-      }
-      this.Center = new List<float>(another.Center);
-      this.HasShield = another.HasShield;
-    }
-
-
-    public ComponentType Clone() {
-      return new ComponentType(this);
-    }
-
-
-    public override string ToString() {
-      return $"{{\n\"id\": {this.Id}\n\"center\": {this.PrintList<float>(this.Center)}\n\"type\": {this.Type}\n\"neighbors\": {this.PrintList<int>(this.Neighbors)}\n\"shield\": {this.HasShield}\n}}";
-    }
-
-
-    public string PrintList<T>(List<T> l) {
-      var x = new CustomArray<T>();
-      return x.PrintList(l);
-    }
-
-
   }
 
 
