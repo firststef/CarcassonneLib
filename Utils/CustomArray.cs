@@ -46,6 +46,13 @@ namespace ArrayAccessMethods {
       }
       return returnString + "]";
     }
+
+
+    public List<T> CreateList(params T[] values) {
+        return new List<T>(values);
+    }
+
+
   }
 
   public class Utils<T> {

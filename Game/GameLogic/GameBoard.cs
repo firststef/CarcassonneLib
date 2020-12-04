@@ -176,6 +176,66 @@ namespace GameLogic {
       }
       return count;
     }
+
+
+    public override string ToString() {
+      var util = new CustomArray<string>();
+      var rowGetter = new CustomArray<int>();
+      var coordinates = this.GetExtremeCoordinates();
+      var returnString = "";
+
+      for (var x = coordinates[0]; x <= coordinates[1]; ++x) {
+        var lines = util.CreateList("", "", "", "", "");
+
+        for (var y = coordinates[2]; y <= coordinates[3]; ++y) {
+          if (this.TileMatrix[x, y] != null) {
+            var matrix = this.TileMatrix[x, y].TileComponent.Matrix;
+            for (var row = 0; row < 5; ++row) {
+              lines[row] += string.Join(" ", rowGetter.GetRow(matrix, row)) + "\t";
+            }
+          } else {
+            for (var row = 0; row < 5; ++row) {
+              lines[row] += "        \t"; // this should stand for each empty space
+            }
+          }
+        }
+
+        foreach(var line in lines) {
+          returnString += line + "\n";
+        }
+      }
+      return returnString;
+    }
+
+
+    /**
+    * returns a list of min x, max x, min y, max y
+    */
+    public List<int> GetExtremeCoordinates() {
+      var util = new CustomArray<int>();
+      var coordinates = util.CreateList(144, 0, 144, 0);
+
+      foreach (var tile in this.PlacedTiles) {
+        var x = tile.TilePosition.Item1;
+        var y = tile.TilePosition.Item2;
+
+        if (x < coordinates[0]) {
+          coordinates[0] = x;
+        }
+        if (x > coordinates[1]) {
+          coordinates[1] = x;
+        }
+        if (y < coordinates[2]) {
+          coordinates[2] = y;
+        }
+        if (y > coordinates[3]) {
+          coordinates[3] = y;
+        }
+      }
+
+      return coordinates;
+    }
+
   }
 }
 }

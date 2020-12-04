@@ -110,6 +110,7 @@ public class Program {
 
       gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
 
+      System.Console.WriteLine(gameRunner.GameBoard.ToString());
     }
   }
   
