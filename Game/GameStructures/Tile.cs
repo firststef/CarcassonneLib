@@ -81,10 +81,10 @@ namespace GameStructures {
     */
     public bool CanBeNeighbors(Tile another, int position) {
       
-      var testParam1 = this.GetLineOrColumn(position);
+      var testParam1 = this.GetLineOrColumn<string>(position);
       position = (position + 2) % 4;
 
-      var testParam2 = another.GetLineOrColumn(position);
+      var testParam2 = another.GetLineOrColumn<string>(position);
       return this.AreBordersSimilar<string>(testParam1, testParam2);
     }
 
@@ -96,10 +96,10 @@ namespace GameStructures {
     * position = 2 => last line
     * position = 3 => first column
     */
-    public string[] GetLineOrColumn(int position) {
-      var matrix = this.TileComponent.GetCharacteristicMatrix();
+    public T[] GetLineOrColumn<T>(int position) {
+      var matrix = this.TileComponent.GetCharacteristicMatrix<T>();
 
-      var x = new CustomArray<string>();
+      var x = new CustomArray<T>();
       if (position == 0) {
         return x.GetRow(matrix, 0);
       }

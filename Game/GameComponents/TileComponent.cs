@@ -49,14 +49,14 @@ namespace GameComponents {
     /**
     * returns a 5 x 5 matrix of "road", "field" and/or "city" for neigborhooding purposes
     */
-    public string[,] GetCharacteristicMatrix() {
+    public T[,] GetCharacteristicMatrix<T>() {
       //! aici ar putea fi fain un overloading, pentru a primi matricea si string si int
       // TODO: de facut asta cand este timp
-      var returnMatrix = new string[5, 5];
+      var returnMatrix = new T[5, 5];
 
       for (var i = 0; i < 5; ++i) {
         for (var j = 0; j < 5; ++j) {
-          returnMatrix[i, j] = this.GetCharacteristicInPosition(i, j);
+          returnMatrix[i, j] = this.GetCharacteristicInPosition<T>(i, j);
         }
       }
 
@@ -67,16 +67,15 @@ namespace GameComponents {
     /**
     * takes id of component in position, searches through all types and returns "field", "city" or "road" of component with searched id
     */
-    public string GetCharacteristicInPosition(int i, int j) {
-      var componentId = this.Matrix[i, j];
-
-      if (componentId < 0) {
-        return "";
-      }
+    public T GetCharacteristicInPosition<T>(int i, int j) {
+        var componentId = this.Matrix[i, j];
+        if (componentId < 0) {
+            return default(T);
+        }
 
       foreach (var component in this.Types) {
         if (component.Id == componentId) {
-          return component.Type;
+          return component.GetType<T>();
         }
       }
       
@@ -85,11 +84,14 @@ namespace GameComponents {
     }
 
 
-    /**
-    * searches for to search in each component type and replaces id
-    * then replaces matrix ids
-    */
-    public void ChangeComponentIds(int toSearch, int toReplace) {
+
+
+
+            /**
+            * searches for to search in each component type and replaces id
+            * then replaces matrix ids
+            */
+            public void ChangeComponentIds(int toSearch, int toReplace) {
       foreach (var component in this.Types) {
         if (component.Id == toSearch) {
           component.Id = toReplace;
