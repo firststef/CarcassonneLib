@@ -79,10 +79,22 @@ public class Program {
     // g3.GetStructurePoints();
 
 
-    // // testing game runner
     var gameRunner = new GameRunner(tileComps);
+    // // testing game runner
     Program.PlayRounds(gameRunner);
 
+
+    // // // retesting tile rotation
+    // var tiles = gameRunner.UnplayedTiles;
+    // foreach (var t in tiles) {
+    //   System.Console.WriteLine(t.PrintMatrix());
+    //   for (var pos = 0; pos < 4; ++pos ) {
+    //     var clonedT = t.Clone();
+    //     clonedT.RotateTile(pos);
+    //     System.Console.WriteLine(clonedT.PrintMatrix());
+    //   }
+    //   Thread.Sleep(10000);
+    // }
     
   }
 

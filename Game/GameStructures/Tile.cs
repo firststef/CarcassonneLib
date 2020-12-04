@@ -49,6 +49,7 @@ namespace GameStructures {
       var matrix = this.TileComponent.Matrix;
       for (var i = 0; i < rotation; ++i) {
         rotatedMatrix = RotateSquareMatrix<int>(matrix, 5);
+        matrix = rotatedMatrix;
       }
 
       this.TileComponent.Matrix = rotatedMatrix;
