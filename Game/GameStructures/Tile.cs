@@ -155,6 +155,25 @@ namespace LibCarcassonne
 
 
             /**
+             * created new function to get line or column with more suggestive meaning
+             */
+            public T[] GetBorderInPosition<T>(int position)
+            {
+                return this.GetLineOrColumn<T>(position);
+            }
+
+
+            /**
+             * same as up but reversed position
+             */
+            public T[] GetBorderInReversedPosition<T>(int position)
+            {
+                position = (position + 2) % 4;
+                return this.GetLineOrColumn<T>(position);
+            }
+
+
+            /**
             * method for counting neighbors in all eight directions
             */
             public int CountMonasteryNeighbors()

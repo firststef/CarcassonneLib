@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using LibCarcassonne.GameStructures;
+using LibCarcassonne.GameLogic;
+
 
 namespace LibCarcassonne
 {
@@ -39,15 +41,17 @@ namespace LibCarcassonne
             public int StructureId { get; set; }
             public StructureType StructureType { get; set; }
             public List<Meeple> MeepleList { get; set; }
+            public GameBoard GameBoard { get; set; }
 
 
-            public GameStructure(StructureType structureType)
+            public GameStructure(StructureType structureType, GameBoard gameBoard)
             {
                 // StructureMaxId ar trebuii facut 10 initial ca sa nu avem coleziuni de id pentru primul tile
                 this.StructureId = GameStructure.StructureMaxId++;
                 this.StructureType = structureType;
                 this.ComponentTiles = new List<Tile>();
                 this.MeepleList = new List<Meeple>();
+                this.GameBoard = gameBoard;
             }
 
 
@@ -66,6 +70,10 @@ namespace LibCarcassonne
                 if (this.StructureType != another.StructureType)
                 {
                     throw new Exception("Structures are not same type");
+                }
+                if (another.StructureId == this.StructureId)
+                {
+                    throw new Exception("E cam ciudat sa faci join cu tine insuti");
                 }
                 another.ReplaceStructureId(this.StructureId);
                 this.ComponentTiles.AddRange(another.ComponentTiles);
@@ -96,6 +104,7 @@ namespace LibCarcassonne
                 //TODO: de scos aceasta structura din lista cu toate structurile sa poata fi colectata de garbage collector. nullificarile nu is asa importante (probabil)
                 this.ComponentTiles = null;
                 this.MeepleList = null;
+                GameBoard.RemoveStructure(this);
             }
 
 

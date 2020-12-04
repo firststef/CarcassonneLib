@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using LibCarcassonne.GameStructures;
 using LibCarcassonne.GameComponents;
+using LibCarcassonne.GameLogic;
 using LibCarcassonne.ArrayAccessMethods;
 
 namespace LibCarcassonne
@@ -17,7 +18,7 @@ namespace LibCarcassonne
             public int ShieldCount { get; set; }
 
 
-            public City() : base(StructureType.city)
+            public City(GameBoard gameBoard) : base(StructureType.city, gameBoard)
             {
                 // ce cancer ca nu poti sa apelezi aicea base
                 this.ShieldCount = 0;
@@ -68,7 +69,7 @@ namespace LibCarcassonne
         {
 
 
-            public Road() : base(StructureType.road)
+            public Road(GameBoard gameBoard) : base(StructureType.road, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
             }
@@ -88,7 +89,7 @@ namespace LibCarcassonne
         {
 
 
-            public Field() : base(StructureType.field)
+            public Field(GameBoard gameBoard) : base(StructureType.field, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
             }
@@ -115,7 +116,7 @@ namespace LibCarcassonne
         {
 
 
-            public Monastery() : base(StructureType.monastery)
+            public Monastery(GameBoard gameBoard) : base(StructureType.monastery, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
             }

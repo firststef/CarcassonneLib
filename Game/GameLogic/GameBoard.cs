@@ -250,9 +250,61 @@ namespace LibCarcassonne
                 } 
                 else
                 {
-                    throw new NotImplementedException("de implementat adaugarea tile-ului la tile-urile noi");
+                    this.CheckNeigborStructures(tile, tileNeighborsAndPositions);
                 }
-                
+
+            }
+
+
+
+            /**
+             * searches each neigboring tile and checks structure compatibility in order to add current tile to structure or join structures.
+             * next initializes new structures for current tile components not included in neighborhood
+             */
+            public void CheckNeigborStructures(Tile tile, List<Tuple<Tile, int>> tileNeighborsAndPositions)
+            {
+                // se considera ca fiecare din tile-urile deja puse au structurile initializate 
+                foreach (var neighbor in tileNeighborsAndPositions)
+                {
+                    this.ResolveStructureCompatibilityInPosition(tile, neighbor.Item1, neighbor.Item2);
+                }
+                this.InitializeGameStructures(tile);
+            }
+
+
+
+            /**
+             * checks border between current tile and neighbor tile in position. Adds current tile components in border to neighbor GameStructures or joins GameStructures if needed
+             */
+            public void ResolveStructureCompatibilityInPosition(Tile currentTile, Tile neighborTile, int neighboringPosition)
+            {
+                var currentBorder = currentTile.GetBorderInPosition<int>(neighboringPosition);
+                var neighborBorder = neighborTile.GetBorderInReversedPosition<int>(neighboringPosition);
+                var currentBorderList = new List<int>();
+                var neighborBorderList = new List<int>();
+
+                for (var i = 1; i < currentBorder.Length - 1; ++i)
+                {
+                    if (! currentBorderList.Contains(currentBorder[i]))
+                    {
+                        currentBorderList.Add(currentBorder[i]);
+                        neighborBorderList.Add(neighborBorder[i]);
+                    }
+                }
+
+                for (var i = 0; i < currentBorderList.Count; ++i)
+                {
+                    if (currentBorderList[i] < 10)
+                    {
+                        // current tile component was not added previously to a game structure
+                        this.GetGameStructureWithId(neighborBorderList[i]).AddTile(currentTile, currentBorderList[i]);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("URMEAZA GAME STRUCTURE JOIN");
+                        this.GetGameStructureWithId(currentBorderList[i]).JoinStructures(this.GetGameStructureWithId(neighborBorderList[i]));
+                    }
+                }
 
             }
 
@@ -266,7 +318,10 @@ namespace LibCarcassonne
                 
                 foreach (var component in tileComponentStructures)
                 {
-                    this.CreateNewStructure(tile, component.Id, component.Type);
+                    if (component.Id < 10)
+                    {
+                        this.CreateNewStructure(tile, component.Id, component.Type);
+                    }
                 }
             }
 
@@ -283,6 +338,25 @@ namespace LibCarcassonne
             }
 
 
+
+            /**
+             * id => id of previously created structure
+             * returns structure with id or null if id not found
+             */
+            public GameStructure GetGameStructureWithId(int id)
+            {
+                foreach (var gameStructure in this.GameStructures)
+                {
+                    if (gameStructure.StructureId == id)
+                    {
+                        return gameStructure;
+                    }
+                }
+
+                return null;
+            }
+
+
             /**
              * returns a gamestructure derived class, City, Road, Field or Monastery
              */
@@ -290,22 +364,35 @@ namespace LibCarcassonne
             {
                 if (type == "city")
                 {
-                    return new City();
+                    return new City(this);
                 }
                 if (type == "road")
                 {
-                    return new Road();
+                    return new Road(this);
                 }
                 if (type == "field")
                 {
-                    return new Field();
+                    return new Field(this);
                 }
                 if (type == "monastery")
                 {
-                    return new Monastery();
+                    return new Monastery(this);
                 }
 
                 throw new Exception("trebuia sa fie una dintre cele 4 tipuri anterioare");
+            }
+
+
+            /**
+             * removes game structure from game structures list after join
+             */
+            public void RemoveStructure(GameStructure gameStructure)
+            {
+                if (! this.GameStructures.Contains(gameStructure))
+                {
+                    throw new Exception("Nu exista structura cautata in game board");
+                }
+                this.GameStructures.Remove(gameStructure);
             }
 
 
