@@ -27,15 +27,17 @@ namespace GameLogic {
 
 
     /**
-    * returns a list of coordinates of possible positions for current tile
+    * returns a list of coordinates of possible positions and corresponding rotations for current tile
     * or null if tile is unplaceable
     */
-    public List<(int, int)> GetFreePositionsForTile(Tile tile) {
-      var returnList = new List<(int, int)>();
+    public List<Tuple<(int, int), List<int>>> GetFreePositionsForTile(Tile tile) {
+      var returnList = new List<Tuple<(int, int), List<int>>>();
 
       foreach (var freePosition in this.FreePositions) {
-        if (this.CanPlaceTileInPosition(tile, freePosition)) {
-          returnList.Add(freePosition);
+        var possibleRotations = this.GetPossibleRotationsForTileInPosition(tile, freePosition);
+        if (possibleRotations != null) {
+          // we found at least a rotation
+          returnList.Add(new Tuple<(int, int), List<int>>(freePosition, possibleRotations));
         }
       }
 
@@ -44,6 +46,30 @@ namespace GameLogic {
       }
       return returnList;
     }
+
+
+    /**
+    * returns a list of rotations [0-3] for current tile compatible with position
+    * or null if tile is unplaceable
+    */
+    public List<int> GetPossibleRotationsForTileInPosition(Tile tile, (int, int) position) {
+      var returnList = new List<int>();
+
+      for (var rotation = 0; rotation < 4; ++rotation) {
+        var clonedTile = tile.Clone();
+        clonedTile.RotateTile(rotation);
+
+        if (this.CanPlaceTileInPosition(clonedTile, position)) {
+          returnList.Add(rotation);
+        }
+      }
+
+      if (returnList.Count == 0) {
+        return null;
+      }
+      return returnList;
+    }
+
 
 
     /**

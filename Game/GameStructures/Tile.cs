@@ -163,6 +163,16 @@ namespace GameStructures {
     }
 
 
+    public override string ToString() {
+      return this.TileComponent.ToString();
+    }
+
+
+    public string PrintMatrix() {
+      return this.TileComponent.PrintMatrix();
+    }
+
+
   }
 
 

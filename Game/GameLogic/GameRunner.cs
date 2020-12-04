@@ -28,9 +28,10 @@ namespace GameLogic {
     
     /**
     * Tile tile => tile to be placed for which to get possible free position
-    * returns a list of possible coordinates for current tile, or null if tile is unplaceble
+    * returns a list of possible coordinates for current tile, along with coresponding rotations 
+    * or null if tile is unplaceble
     */
-    public List<(int, int)> GetFreePositionsForTile (Tile tile) {
+    public List<Tuple<(int, int), List<int>>> GetFreePositionsForTile (Tile tile) {
       return this.GameBoard.GetFreePositionsForTile(tile);
     }
 
@@ -52,6 +53,13 @@ namespace GameLogic {
 
     public void AddTileInPosition(Tile tile, (int, int) position) {
       this.GameBoard.PlaceTileInPosition(tile, position);
+    }
+
+
+    public void AddTileInPositionAndRotation(Tile tile, (int, int) position, int rotation) {
+      var clonedTile = tile.Clone();
+      clonedTile.RotateTile(rotation);
+      this.AddTileInPosition(clonedTile, position);
     }
 
 
