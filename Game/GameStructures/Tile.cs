@@ -190,6 +190,16 @@ namespace LibCarcassonne
             }
 
 
+
+            /**
+             * returns the list of tipes of tile component
+             */
+            public List<ComponentType> GetTileComponentStructures()
+            {
+                return this.TileComponent.Types;
+            }
+
+
             public override string ToString()
             {
                 return this.TileComponent.ToString();

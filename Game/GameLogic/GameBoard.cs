@@ -17,6 +17,7 @@ namespace LibCarcassonne
             public Tile[,] TileMatrix { get; set; }
             public List<Tile> PlacedTiles { get; set; }
             public List<(int, int)> FreePositions { get; set; }
+            public List<GameStructure> GameStructures { get; set; }
             public int[] dx = { -1, 0, 1, 0 };
             public int[] dy = { 0, 1, 0, -1 };
 
@@ -27,13 +28,14 @@ namespace LibCarcassonne
                 this.PlacedTiles = new List<Tile>();
                 this.FreePositions = new List<(int, int)>();
                 this.FreePositions.Add((72, 72));
+                this.GameStructures = new List<GameStructure>();
             }
 
 
             /**
-            * returns a list of coordinates of possible positions and corresponding rotations for current tile
-            * or null if tile is unplaceable
-            */
+             * returns a list of coordinates of possible positions and corresponding rotations for current tile
+             * or null if tile is unplaceable
+             */
             public List<Tuple<(int, int), List<int>>> GetFreePositionsForTile(Tile tile)
             {
                 var returnList = new List<Tuple<(int, int), List<int>>>();
@@ -57,9 +59,9 @@ namespace LibCarcassonne
 
 
             /**
-            * returns a list of rotations [0-3] for current tile compatible with position
-            * or null if tile is unplaceable
-            */
+             * returns a list of rotations [0-3] for current tile compatible with position
+             * or null if tile is unplaceable
+             */
             public List<int> GetPossibleRotationsForTileInPosition(Tile tile, (int, int) position)
             {
                 var returnList = new List<int>();
@@ -83,11 +85,65 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * returns list of non null neighboring tiles for tile
+             */
+            public List<Tuple<Tile, int>> GetTileNeighborsAndPosition(Tile tile)
+            {
+                var returnList = new List<Tuple<Tile, int>>();
+
+                for (var i = 0; i < 4; ++i)
+                {
+                    var x = tile.TilePosition.Item1 + dx[i];
+                    var y = tile.TilePosition.Item2 + dy[i];
+                    var neighbor = this.TileMatrix[x, y];
+                    if (neighbor != null)
+                    {
+                        returnList.Add(new Tuple<Tile, int>(neighbor, i));
+                    }
+                }
+
+                if (returnList.Count == 0)
+                {
+                    return null;
+                }
+                return returnList;
+            }
+
+
 
             /**
-            * returns True if tile may be placed in position, False otherwise
-            * checks tile to be compatible with all neighbors
-            */
+             * returns list of non null neighboring tiles and directionfor position 
+             */
+            public List<Tuple<Tile, int>> GetTileNeighborsAndPosition((int, int) position)
+            {
+                var returnList = new List<Tuple<Tile, int>>();
+                int x = 0, y = 0;
+
+                for (var i = 0; i < 4; ++i)
+                {
+                    x = position.Item1 + dx[i];
+                    y = position.Item2 + dy[i];
+                    var neighbor = this.TileMatrix[x, y];
+                    if (neighbor != null)
+                    {
+                        returnList.Add(new Tuple<Tile, int>(neighbor, i));
+                    }
+                }
+
+                if (returnList.Count == 0)
+                {
+                    return null;
+                }
+                return returnList;
+            }
+
+
+
+            /**
+             * returns True if tile may be placed in position, False otherwise
+             * checks tile to be compatible with all neighbors
+             */
             public bool CanPlaceTileInPosition(Tile tile, (int, int) position)
             {
                 var x = position.Item1;
@@ -111,9 +167,9 @@ namespace LibCarcassonne
 
 
             /**
-            * return True if position is null or tile in position and direction is compatible
-            * with current tile. False otherwise
-            */
+             * return True if position is null or tile in position and direction is compatible
+             * with current tile. False otherwise
+             */
             public bool CheckNeighborInPosition(Tile tile, (int, int) position, int direction)
             {
                 var neighborTile = this.TileMatrix[position.Item1, position.Item2];
@@ -128,8 +184,8 @@ namespace LibCarcassonne
 
 
             /**
-            * places tile in position and updates free positions accordingly
-            */
+             * places tile in position, updates structures and free positions accordingly
+             */
             public void PlaceTileInPosition(Tile tile, (int, int) position)
             {
                 if (!this.FreePositions.Contains(position))
@@ -141,20 +197,21 @@ namespace LibCarcassonne
                     throw new Exception("tile-ul trebuia deja sa fie plasat undeva");
                 }
 
-                //TODO: de vazutr daca trebuie facut assert si la verificarea ca poate fi plasat aci
+                //TODO: de vazutara daca trebuie facut assert si la verificarea ca poate fi plasat aci
 
                 tile.TilePosition = position;
                 this.TileMatrix[position.Item1, position.Item2] = tile;
                 this.PlacedTiles.Add(tile);
 
+                this.UpdateStructures(tile);
                 this.UpdateFreePositions(position);
             }
 
 
             /**
-            * removes position from free positions
-            * updates free positions with all possible neighbors not in free positions
-            */
+             * removes position from free positions
+             * updates free positions with all possible neighbors not in free positions
+             */
             public void UpdateFreePositions((int, int) position)
             {
                 this.FreePositions.Remove(position);
@@ -180,8 +237,81 @@ namespace LibCarcassonne
 
 
             /**
-            * returns count of tiles not null in eight directions of position
-            */
+             * oughts to update game structures
+             */
+            public void UpdateStructures(Tile tile)
+            {
+                System.Console.WriteLine(tile.TilePosition);
+                var tileNeighborsAndPositions = this.GetTileNeighborsAndPosition(tile);
+
+                if (tileNeighborsAndPositions == null)
+                {
+                    this.InitializeGameStructures(tile);
+                } 
+                else
+                {
+                    throw new NotImplementedException("de implementat adaugarea tile-ului la tile-urile noi");
+                }
+                
+
+            }
+
+
+            /**
+             * takes each distinct structure from tile and creates new structure on tile of type Type and encompassing matrix elements with id Id
+             */
+            public void InitializeGameStructures(Tile tile)
+            {
+                var tileComponentStructures = tile.GetTileComponentStructures();
+                
+                foreach (var component in tileComponentStructures)
+                {
+                    this.CreateNewStructure(tile, component.Id, component.Type);
+                }
+            }
+
+
+
+            /**
+             * Adds new game structure to GameStructures and adds current tile to it
+             */
+            public void CreateNewStructure(Tile tile, int id, string type)
+            {
+                var gameStructure = this.CreateGameStructure(type);
+                gameStructure.AddTile(tile, id);
+                this.GameStructures.Add(gameStructure);
+            }
+
+
+            /**
+             * returns a gamestructure derived class, City, Road, Field or Monastery
+             */
+            public GameStructure CreateGameStructure(string type)
+            {
+                if (type == "city")
+                {
+                    return new City();
+                }
+                if (type == "road")
+                {
+                    return new Road();
+                }
+                if (type == "field")
+                {
+                    return new Field();
+                }
+                if (type == "monastery")
+                {
+                    return new Monastery();
+                }
+
+                throw new Exception("trebuia sa fie una dintre cele 4 tipuri anterioare");
+            }
+
+
+            /**
+             * returns count of tiles not null in eight directions of position
+             */
             public int CountMonasteryNeighbors((int, int) position)
             {
                 int[] ldx = { -1, -1, 0, 1, 1, 1, 0, -1 };
@@ -247,8 +377,8 @@ namespace LibCarcassonne
 
 
             /**
-            * returns a list of min x, max x, min y, max y
-            */
+             * returns a list of min x, max x, min y, max y
+             */
             public List<int> GetExtremeCoordinates()
             {
                 var util = new CustomArray<int>();

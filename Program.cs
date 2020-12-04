@@ -97,7 +97,7 @@ public class Program
         //     clonedT.RotateTile(pos);
         //     System.Console.WriteLine(clonedT.PrintMatrix());
         //   }
-        //   Thread.Sleep(10000);
+        //   Thread.Sleep(5000);
         // }
 
     }

@@ -45,7 +45,6 @@ namespace GameComponents {
     }
 
 
-
     /**
     * returns a 5 x 5 matrix of "road", "field" and/or "city" for neigborhooding purposes
     */
