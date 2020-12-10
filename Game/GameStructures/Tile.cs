@@ -230,7 +230,10 @@ namespace LibCarcassonne
                 return this.TileComponent.PrintMatrix();
             }
 
-
+			public int GetIndex()
+			{
+				return Int32.Parse(this.TileComponent.Name.Substring(4));
+			}
         }
 
 
