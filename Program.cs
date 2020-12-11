@@ -111,6 +111,7 @@ public class Program
         {
             System.Console.WriteLine($"\n\t\tTura {++i}\n");
             var tile = gameRunner.GetCurrentRoundTile();
+			System.Console.WriteLine($"Tile {tile.TileComponent.Name}");
             System.Console.WriteLine(tile.PrintMatrix());
             var freePositions = gameRunner.GetFreePositionsForTile(tile);
             System.Console.WriteLine("Pozitiile libere: ");

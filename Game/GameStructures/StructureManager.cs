@@ -71,10 +71,6 @@ namespace LibCarcassonne
                 {
                     throw new Exception("Structures are not same type");
                 }
-                if (another.StructureId == this.StructureId)
-                {
-                    throw new Exception("E cam ciudat sa faci join cu tine insuti");
-                }
                 another.ReplaceStructureId(this.StructureId);
                 this.ComponentTiles.AddRange(another.ComponentTiles);
                 this.MeepleList.AddRange(another.MeepleList);
