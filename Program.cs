@@ -109,6 +109,12 @@ public class Program
         int j = 0;
         while (true)
         {
+            var gameStructures = gameRunner.GameBoard.GameStructures;
+            System.Console.Write("Structures: ");
+            foreach (var gs in gameStructures)
+            {
+                System.Console.Write($"{gs.StructureId} ");
+            }
             System.Console.WriteLine($"\n\t\tTura {++i}\n");
             var tile = gameRunner.GetCurrentRoundTile();
 			System.Console.WriteLine($"Tile {tile.TileComponent.Name}");

@@ -66,15 +66,33 @@ namespace LibCarcassonne
             */
             public virtual void JoinStructures(GameStructure another)
             {
+                if (!this.CanJoin(another))
+                {
+                    return;
+                }
                 //TODO: de vazut ca teoretic trebuie o lista de structuri in joc, cand se creaza o noua structura se adauga in lista respectiva, cand se face join se scoate o structura din lista respectiva
                 if (this.StructureType != another.StructureType)
                 {
                     throw new Exception("Structures are not same type");
                 }
+                if (this.StructureId == another.StructureId)
+                {
+                    throw new Exception("Nu ar trebuii sa faci join cu tine insuti");
+                }
                 another.ReplaceStructureId(this.StructureId);
                 this.ComponentTiles.AddRange(another.ComponentTiles);
                 this.MeepleList.AddRange(another.MeepleList);
                 another.Dispose();
+            }
+
+
+            /***
+             * checks if 2 structures may join each other. 
+             * returns True if structeres have the same type and diffrent ids, False otherwise
+             */
+            public virtual bool CanJoin(GameStructure another)
+            {
+                return (this.StructureType == another.StructureType) && (this.StructureId != another.StructureId); 
             }
 
 

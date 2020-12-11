@@ -31,6 +31,10 @@ namespace LibCarcassonne
             */
             public override void JoinStructures(GameStructure another)
             {
+                if (!this.CanJoin(another))
+                {
+                    return;
+                }
                 this.ShieldCount += ((City)another).ShieldCount;
                 base.JoinStructures(another);
             }

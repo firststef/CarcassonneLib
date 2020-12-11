@@ -297,12 +297,18 @@ namespace LibCarcassonne
                     if (currentBorderList[i] < 10)
                     {
                         // current tile component was not added previously to a game structure
-                        this.GetGameStructureWithId(neighborBorderList[i]).AddTile(currentTile, currentBorderList[i]);
+                        var a = this.GetGameStructureWithId(neighborBorderList[i]);
+                        a.AddTile(currentTile, currentBorderList[i]);
                     }
                     else
                     {
-                        System.Console.WriteLine("URMEAZA GAME STRUCTURE JOIN");
-                        this.GetGameStructureWithId(currentBorderList[i]).JoinStructures(this.GetGameStructureWithId(neighborBorderList[i]));
+                        var gameStructure1 = this.GetGameStructureWithId(currentBorderList[i]);
+                        var gameStructure2 = this.GetGameStructureWithId(neighborBorderList[i]);
+                        if (gameStructure1.CanJoin(gameStructure2))
+                        {
+                            System.Console.WriteLine("URMEAZA GAME STRUCTURE JOIN");
+                            this.GetGameStructureWithId(currentBorderList[i]).JoinStructures(this.GetGameStructureWithId(neighborBorderList[i]));
+                        }
                     }
                 }
 
