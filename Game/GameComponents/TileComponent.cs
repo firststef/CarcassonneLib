@@ -85,10 +85,11 @@ namespace LibCarcassonne {
                     {
                         return component.GetType<T>();
                     }
-              }
+                }
       
-              System.Console.WriteLine(componentId);
-              throw new Exception("Characteristic not found");
+                System.Console.WriteLine(componentId);
+                System.Console.WriteLine(this.Name);
+                throw new Exception("Characteristic not found");
             }
 
 
