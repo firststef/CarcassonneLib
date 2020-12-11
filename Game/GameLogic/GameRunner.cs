@@ -56,7 +56,15 @@ namespace LibCarcassonne
                     }
                 }
 
+                //TODO: de a fi atent atunci cand se apeleaza functia asta; cand returneaza null => game end
                 return null;
+            }
+
+
+            public void TriggerEndGame()
+            {
+                System.Console.WriteLine("\t\tGame has ended\t\t\n");
+
             }
 
 
