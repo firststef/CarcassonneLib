@@ -8,7 +8,7 @@ using System.Threading;
 using LibCarcassonne.GameComponents;
 using LibCarcassonne.GameStructures;
 using LibCarcassonne.GameLogic;
-
+using LibCarcassonne.ArrayAccessMethods;
 
 public class Program
 {
@@ -105,6 +105,11 @@ public class Program
 
     public static void PlayRounds(GameRunner gameRunner)
     {
+        var playerList = new List<Player>();
+        for (var ii = 0; ii < 5; ++ii)
+        {
+            playerList.Add(new Player(EnumParse<MeepleColor>.IntToEnum(ii)));
+        }
         var i = 0;
         int j = 0;
         while (true)
@@ -128,8 +133,8 @@ public class Program
             }
             System.Console.WriteLine("Alege un index de pozitie libera: ");
 
-            //var userInput = Convert.ToInt32(System.Console.ReadLine());
-            var userInput = 0;
+            var userInput = Convert.ToInt32(System.Console.ReadLine());
+            //var userInput = 0;
 
             System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
             System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
@@ -157,11 +162,21 @@ public class Program
             var meepleInput = possiblePositionsForMeeple[0];
             var meeplePositionToPlace = meepleInput;
 
-            var meeple = new Meeple(MeepleColor.Red);
-            var gameStructureId = placedTile.TileComponent.Types[meeplePositionToPlace].Id;
-            var gameStructureToPlaceMeepleInto = gameRunner.GameBoard.GetGameStructureWithId(gameStructureId);
+            if (playerList[0].HasMeeples())
+            {
+                var meeple = playerList[0].GetFreeMeeple();
 
-            gameStructureToPlaceMeepleInto.PlaceMeeple(placedTile, meeple);
+                var gameStructureId = placedTile.TileComponent.Types[meeplePositionToPlace].Id;
+                var gameStructureToPlaceMeepleInto = gameRunner.GameBoard.GetGameStructureWithId(gameStructureId);
+
+                gameStructureToPlaceMeepleInto.PlaceMeeple(placedTile, meeple);
+                System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
+            }
+            else
+            {
+                System.Console.WriteLine($"Current player has no meeples");
+            }
+            
 
             System.Console.WriteLine(gameRunner.GameBoard.ToString());
         }

@@ -64,6 +64,14 @@ namespace LibCarcassonne
 
         }
 
+        public class EnumParse<T>
+        {
+            public static T IntToEnum(int value)
+            {
+                return (T)Enum.ToObject(typeof(T), value);
+            }
+        }
+
         public class Utils<T>
         {
             public bool DoesListContain(List<T> list, T element)
