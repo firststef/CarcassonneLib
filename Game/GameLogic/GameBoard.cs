@@ -503,6 +503,15 @@ namespace LibCarcassonne
                 return coordinates;
             }
 
+
+            public void PlaceMeeple(Tile tile, Meeple meeple, int meeplePositionToPlace)
+            {
+                var gameStructureId = tile.TileComponent.Types[meeplePositionToPlace].Id;
+                var gameStructureToPlaceMeepleInto = this.GetGameStructureWithId(gameStructureId);
+
+                gameStructureToPlaceMeepleInto.PlaceMeeple(tile, meeple);
+            }
+
         }
     }
 }

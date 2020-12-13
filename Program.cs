@@ -166,10 +166,8 @@ public class Program
             {
                 var meeple = playerList[0].GetFreeMeeple();
 
-                var gameStructureId = placedTile.TileComponent.Types[meeplePositionToPlace].Id;
-                var gameStructureToPlaceMeepleInto = gameRunner.GameBoard.GetGameStructureWithId(gameStructureId);
-
-                gameStructureToPlaceMeepleInto.PlaceMeeple(placedTile, meeple);
+                
+                gameRunner.GameBoard.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
                 System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
             }
             else
