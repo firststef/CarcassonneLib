@@ -47,6 +47,15 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * returns False if meeple is placed (placement Id is not -1), True otherwise
+             */
+            public bool IsMeepleFree()
+            {
+                return (-1 == this.PlacementId);
+            }
+
+
             public override string ToString()
             {
                 return $"{{\nMeeple: meeple_{this.MeepleId}\nMeepleColor: {this.MeepleColor.ToString()}\nMeeplePlacementId: {this.PlacementId}\n}}";
