@@ -128,20 +128,40 @@ public class Program
             }
             System.Console.WriteLine("Alege un index de pozitie libera: ");
 
-            var userInput = Convert.ToInt32(System.Console.ReadLine());
-            //var userInput = 0;
+            //var userInput = Convert.ToInt32(System.Console.ReadLine());
+            var userInput = 0;
 
             System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
             System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
 
-            var rotation = Convert.ToInt32(System.Console.ReadLine());
-            //var rotation = freePositions[0].Item2[0];
+            //var rotation = Convert.ToInt32(System.Console.ReadLine());
+            var rotation = freePositions[0].Item2[0];
 
             System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
             System.Console.WriteLine("\n");
 
-            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            var placedTile = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            var possiblePositionsForMeeple = placedTile.GetPossiblePositionsForMeeple();
+
+            if (possiblePositionsForMeeple == null)
+            {
+                System.Console.WriteLine("Nu se poate pune meeple");
+                continue;
+            }
+
             System.Console.WriteLine($"Possible positions for meeple: {string.Join(" ", possiblePositionsForMeeple)}");
+
+
+            System.Console.WriteLine("Alege un index de unde sa pui meeple-ul: ");
+            //var meepleInput = Convert.ToInt32(System.Console.ReadLine());
+            var meepleInput = possiblePositionsForMeeple[0];
+            var meeplePositionToPlace = meepleInput;
+
+            var meeple = new Meeple(MeepleColor.Red);
+            var gameStructureId = placedTile.TileComponent.Types[meeplePositionToPlace].Id;
+            var gameStructureToPlaceMeepleInto = gameRunner.GameBoard.GetGameStructureWithId(gameStructureId);
+
+            gameStructureToPlaceMeepleInto.PlaceMeeple(placedTile, meeple);
 
             System.Console.WriteLine(gameRunner.GameBoard.ToString());
         }

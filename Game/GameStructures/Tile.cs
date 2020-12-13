@@ -235,9 +235,10 @@ namespace LibCarcassonne
 				return Int32.Parse(this.TileComponent.Name.Substring(4));
 			}
 
-            
+
             /**
-             * returns possible indexes of this. tile component. types in which meeple may be placed, or null, if none is free.
+             * returns a list of possible positions for meeple placing (a list of type indexes), or null, if no meeple placing was found
+             * possible positions for meeple placing = this. tile component. types in which meeple may be placed
              */
             public List<int> GetPossiblePositionsForMeeple()
             {
