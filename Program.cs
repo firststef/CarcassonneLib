@@ -167,7 +167,7 @@ public class Program
                 var meeple = playerList[0].GetFreeMeeple();
 
                 
-                gameRunner.GameBoard.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
+                gameRunner.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
                 System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
             }
             else
