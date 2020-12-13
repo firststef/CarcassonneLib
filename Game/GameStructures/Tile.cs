@@ -234,6 +234,32 @@ namespace LibCarcassonne
 			{
 				return Int32.Parse(this.TileComponent.Name.Substring(4));
 			}
+
+            
+            /**
+             * returns possible indexes of this. tile component. types in which meeple may be placed, or null, if none is free.
+             */
+            public List<int> GetPossiblePositionsForMeeple()
+            {
+                var returnList = new List<int>();
+                var tileTypes = this.TileComponent.GetComponentTypes();
+                //System.Console.WriteLine($"Tile types{string.Join(" ", tileTypes)}");
+
+                for(var i = 0; i < tileTypes.Count; ++i) 
+                {
+                    var gameStructure = this.GameBoard.GetGameStructureWithId(tileTypes[i]);
+                    if (gameStructure.CanPlaceMeeple(this))
+                    {
+                        returnList.Add(i);
+                    }
+                }
+
+                if (returnList.Count == 0)
+                {
+                    return null;
+                }
+                return returnList;
+            }
         }
 
 

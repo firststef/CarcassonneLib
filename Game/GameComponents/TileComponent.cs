@@ -94,8 +94,6 @@ namespace LibCarcassonne {
 
 
 
-
-
             /**
             * searches for to search in each component type and replaces id
             * then replaces matrix ids
@@ -178,6 +176,23 @@ namespace LibCarcassonne {
                     }
                 }
 
+                return returnList;
+            }
+
+
+            /**
+             * returns a list of component types ids
+             */
+            public List<int> GetComponentTypes()
+            {
+                var returnList = new List<int>();
+                foreach(var componentType in this.Types)
+                {
+                    if (!returnList.Contains(componentType.Id))
+                    {
+                        returnList.Add(componentType.Id);
+                    }
+                }
                 return returnList;
             }
 

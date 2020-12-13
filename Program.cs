@@ -128,19 +128,20 @@ public class Program
             }
             System.Console.WriteLine("Alege un index de pozitie libera: ");
 
-            //var userInput = Convert.ToInt32(System.Console.ReadLine());
-            var userInput = 0;
+            var userInput = Convert.ToInt32(System.Console.ReadLine());
+            //var userInput = 0;
 
             System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
             System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
 
-            //var rotation = Convert.ToInt32(System.Console.ReadLine());
-            var rotation = freePositions[0].Item2[0];
+            var rotation = Convert.ToInt32(System.Console.ReadLine());
+            //var rotation = freePositions[0].Item2[0];
 
             System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
             System.Console.WriteLine("\n");
 
-            gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            System.Console.WriteLine($"Possible positions for meeple: {string.Join(" ", possiblePositionsForMeeple)}");
 
             System.Console.WriteLine(gameRunner.GameBoard.ToString());
         }

@@ -74,11 +74,16 @@ namespace LibCarcassonne
             }
 
 
-            public void AddTileInPositionAndRotation(Tile tile, (int, int) position, int rotation)
+            /**
+             * adds tile in position and rotation.
+             * returns a list of possible positions for meeple placing (a list of type indexes), or null, if no meeple placing was found
+             */
+            public List<int> AddTileInPositionAndRotation(Tile tile, (int, int) position, int rotation)
             {
                 var clonedTile = tile.Clone();
                 clonedTile.RotateTile(rotation);
                 this.AddTileInPosition(clonedTile, position);
+                return clonedTile.GetPossiblePositionsForMeeple();
             }
 
 
