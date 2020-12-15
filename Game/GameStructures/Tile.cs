@@ -261,6 +261,32 @@ namespace LibCarcassonne
                 }
                 return returnList;
             }
+
+
+            /**
+             * checks for each border where current tile has an element of GameStructure with structureId if said border has neighbor. If it doesn't, returns True, otherwise False
+             */
+            public bool IsOpenBorderForStructure(int structureId)
+            {
+
+                for (var i = 0; i < 4; ++i)
+                {
+                    var border = GetLineOrColumn<int>(i);
+                    for (var j = 1; j < border.Length - 1; ++j)
+                    {
+                        if (border[j] == structureId)
+                        {
+                            if (this.GameBoard.GetNeighborTileInPosition(this.TilePosition, i) == null)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+
+
         }
 
 

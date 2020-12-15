@@ -18,6 +18,7 @@ namespace LibCarcassonne
             public List<Tile> PlacedTiles { get; set; }
             public List<(int, int)> FreePositions { get; set; }
             public List<GameStructure> GameStructures { get; set; }
+            public List<GameStructure> UnfinishedGameStructures { get; set; }
             public int[] dx = { -1, 0, 1, 0 };
             public int[] dy = { 0, 1, 0, -1 };
 
@@ -29,6 +30,7 @@ namespace LibCarcassonne
                 this.FreePositions = new List<(int, int)>();
                 this.FreePositions.Add((72, 72));
                 this.GameStructures = new List<GameStructure>();
+                this.UnfinishedGameStructures = new List<GameStructure>();
             }
 
 
@@ -94,9 +96,7 @@ namespace LibCarcassonne
 
                 for (var i = 0; i < 4; ++i)
                 {
-                    var x = tile.TilePosition.Item1 + dx[i];
-                    var y = tile.TilePosition.Item2 + dy[i];
-                    var neighbor = this.TileMatrix[x, y];
+                    var neighbor = this.GetNeighborTileInPosition(tile, i);
                     if (neighbor != null)
                     {
                         returnList.Add(new Tuple<Tile, int>(neighbor, i));
@@ -122,9 +122,7 @@ namespace LibCarcassonne
 
                 for (var i = 0; i < 4; ++i)
                 {
-                    x = position.Item1 + dx[i];
-                    y = position.Item2 + dy[i];
-                    var neighbor = this.TileMatrix[x, y];
+                    var neighbor = this.GetNeighborTileInPosition(position, i);
                     if (neighbor != null)
                     {
                         returnList.Add(new Tuple<Tile, int>(neighbor, i));
@@ -341,6 +339,7 @@ namespace LibCarcassonne
                 var gameStructure = this.CreateGameStructure(type);
                 gameStructure.AddTile(tile, id);
                 this.GameStructures.Add(gameStructure);
+                this.UnfinishedGameStructures.Add(gameStructure);
             }
 
 
@@ -399,6 +398,10 @@ namespace LibCarcassonne
                     throw new Exception("Nu exista structura cautata in game board");
                 }
                 this.GameStructures.Remove(gameStructure);
+                if (this.UnfinishedGameStructures.Contains(gameStructure))
+                {
+                    this.UnfinishedGameStructures.Remove(gameStructure);
+                }
             }
 
 
@@ -504,12 +507,67 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * places meeple on current tile in tile component type with StructureId = meeplePositionToPlace
+             */
             public void PlaceMeeple(Tile tile, Meeple meeple, int meeplePositionToPlace)
             {
                 var gameStructureId = tile.TileComponent.Types[meeplePositionToPlace].Id;
                 var gameStructureToPlaceMeepleInto = this.GetGameStructureWithId(gameStructureId);
 
                 gameStructureToPlaceMeepleInto.PlaceMeeple(tile, meeple);
+            }
+
+
+            public List<Meeple> UpdateUnfinishedStructures()
+            {
+                var returnList = new List<Meeple>();
+
+                for (var i = this.UnfinishedGameStructures.Count - 1; i >= 0; i--)
+                {
+                    if (this.UnfinishedGameStructures[i].CheckIfClosable())
+                    {
+                        returnList.AddRange(this.UnfinishedGameStructures[i].MeepleList);
+                        this.UnfinishedGameStructures.RemoveAt(i);
+
+                    }
+                }
+
+                if (returnList.Count == 0)
+                {
+                    return null;
+                }
+                return returnList;
+            }
+
+
+            /**
+             * returns neighbor of required position, or null if position is null;
+             */
+            public Tile GetNeighborTileInPosition((int, int) position, int direction)
+            {
+                var x = position.Item1 + dx[direction];
+                var y = position.Item2 + dy[direction];
+                if (x < 0 || y < 0 || x > 143 || y > 143)
+                {
+                    return null;
+                }
+                return this.TileMatrix[x, y];
+            }
+
+
+            /**
+             * returns neighbor of required position, or null if position is null;
+             */
+            public Tile GetNeighborTileInPosition(Tile tile, int direction)
+            {
+                var x = tile.TilePosition.Item1 + dx[direction];
+                var y = tile.TilePosition.Item2 + dy[direction];
+                if (x < 0 || y < 0 || x > 143 || y > 143)
+                {
+                    return null;
+                }
+                return this.TileMatrix[x, y];
             }
 
         }

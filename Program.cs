@@ -133,8 +133,8 @@ public class Program
             }
             System.Console.WriteLine("Alege un index de pozitie libera: ");
 
-            var userInput = Convert.ToInt32(System.Console.ReadLine());
-            //var userInput = 0;
+            //var userInput = Convert.ToInt32(System.Console.ReadLine());
+            var userInput = 0;
 
             System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
             System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
@@ -174,6 +174,22 @@ public class Program
             {
                 System.Console.WriteLine($"Current player has no meeples");
             }
+
+            var meepleToRaise = gameRunner.CommitChanges();
+            if (meepleToRaise == null)
+            {
+                System.Console.WriteLine("Nici o structura nu a fost terminata, nici un ,eeple nu trebuie ridicat");
+            }
+            else
+            {
+                foreach (var ii in meepleToRaise)
+                {
+                    System.Console.WriteLine($"meeple: {ii}");
+                }
+                System.Console.WriteLine(gameRunner.GameBoard.ToString());
+                //throw new Exception("DA");
+            }
+            
             
 
             System.Console.WriteLine(gameRunner.GameBoard.ToString());

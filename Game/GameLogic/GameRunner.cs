@@ -87,9 +87,24 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * places meeple on current tile in tile component type with StructureId = meeplePositionToPlace
+             */
             public void PlaceMeeple(Tile tile, Meeple meeple, int meeplePositionToPlace)
             {
                 this.GameBoard.PlaceMeeple(tile, meeple, meeplePositionToPlace);
+            }
+
+
+            /**
+             * method called at the end of each turn; it's purpose is to commit changes made this turn and most importantly, 
+             * to check is any new structure is finished, to update finished and unfinished structures, eventually to add points to players and retake meeples
+             * 
+             * returns the list of meeples to be raised
+             */
+            public List<Meeple> CommitChanges()
+            {
+                return this.GameBoard.UpdateUnfinishedStructures();
             }
 
 

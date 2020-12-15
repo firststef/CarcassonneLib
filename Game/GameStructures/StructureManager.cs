@@ -42,6 +42,7 @@ namespace LibCarcassonne
             public StructureType StructureType { get; set; }
             public List<Meeple> MeepleList { get; set; }
             public GameBoard GameBoard { get; set; }
+            public bool IsClosed { get; set; }
 
 
             public GameStructure(StructureType structureType, GameBoard gameBoard)
@@ -189,6 +190,26 @@ namespace LibCarcassonne
                 }
 
                 return returnString + "end\n";
+            }
+
+
+            public bool CheckIfClosable()
+            {
+                if (this.IsClosed)
+                {
+                    return true;
+                }
+
+                foreach (var tile in this.ComponentTiles)
+                {
+                    if (tile.IsOpenBorderForStructure(this.StructureId))
+                    {
+                        return false;
+                    }
+                }
+
+                this.IsClosed = true;
+                return true;
             }
 
 
