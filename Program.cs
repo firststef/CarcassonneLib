@@ -187,7 +187,7 @@ public class Program
                     System.Console.WriteLine($"meeple: {ii}");
                 }
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
-                //throw new Exception("DA");
+                throw new Exception("DA");
             }
             
             

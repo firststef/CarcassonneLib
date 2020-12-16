@@ -28,6 +28,7 @@ namespace LibCarcassonne
             public int MeepleId { get; set; }
             public Tile MeeplePlacement { get; set; }
             public int PlacementId { get; set; }
+            public int MeeplePoints { get; set; }
 
 
             public Meeple(MeepleColor meepleColor)
@@ -36,6 +37,7 @@ namespace LibCarcassonne
                 this.MeepleColor = meepleColor;
                 this.MeeplePlacement = null;
                 this.PlacementId = -1;
+                this.MeeplePoints = 0;
             }
 
 
@@ -43,7 +45,18 @@ namespace LibCarcassonne
             {
                 this.MeeplePlacement = meeplePlacement;
                 this.PlacementId = placementId;
-                //TODO: Aici ar trebuii o functie VIZUALA de punere a meeple-ului pe Tile-ul meeplePlacement pe pozitia care trebuie
+                this.MeeplePoints = 0;
+            }
+
+            
+            /**
+             * raises meeple from ground and returns meeple points
+             */
+            public int RaiseMeeple()
+            {
+                this.MeeplePlacement = null;
+                this.MeepleId = -1;
+                return this.MeeplePoints;
             }
 
 

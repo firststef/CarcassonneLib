@@ -193,6 +193,19 @@ namespace LibCarcassonne
             }
 
 
+            public void DistributePoints()
+            {
+                foreach (var meeple in this.MeepleList)
+                {
+                    meeple.MeeplePoints += this.GetStructurePoints();
+                }
+            }
+
+
+            /**
+             * returns True if structure is already closed, otherwise checks if structure is able to be closed, and distributes points to meeples if closable. 
+             * if struture has at least one open border, returns False
+             */
             public bool CheckIfClosable()
             {
                 if (this.IsClosed)
@@ -208,6 +221,7 @@ namespace LibCarcassonne
                     }
                 }
 
+                this.DistributePoints();
                 this.IsClosed = true;
                 return true;
             }
