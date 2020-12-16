@@ -105,11 +105,7 @@ public class Program
 
     public static void PlayRounds(GameRunner gameRunner)
     {
-        var playerList = new List<Player>();
-        for (var ii = 0; ii < 5; ++ii)
-        {
-            playerList.Add(new Player(EnumParse<MeepleColor>.IntToEnum(ii)));
-        }
+        var playerManager = new PlayerManager(5);
         var turn = 0;
         var i = 0;
         int j = 0;
@@ -169,9 +165,9 @@ public class Program
             var meepleInput = possiblePositionsForMeeple[0];
             var meeplePositionToPlace = meepleInput;
 
-            if (playerList[turn % 5].HasMeeples())
+            if (playerManager.GetPlayer(turn % 5).HasMeeples())
             {
-                var meeple = playerList[turn % 5].GetFreeMeeple();
+                var meeple = playerManager.GetPlayer(turn % 5).GetFreeMeeple();
 
                 
                 gameRunner.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
@@ -193,7 +189,7 @@ public class Program
                 {
                     System.Console.WriteLine($"meeple: {ii}");
                     ii.RaiseMeeple();
-                    System.Console.WriteLine($"Player now has {playerList[turn % 5].PlayerPoints} points");
+                    System.Console.WriteLine($"Player now has {playerManager.GetPlayer(turn % 5).PlayerPoints} points");
                 }
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
                 
@@ -206,7 +202,7 @@ public class Program
             System.Console.WriteLine(gameRunner.GameBoard.ToString());
             turn++;
         }
-        foreach (var player in playerList)
+        foreach (var player in playerManager.PlayerList)
         {
             System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points");
         }
