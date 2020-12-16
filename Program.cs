@@ -110,6 +110,7 @@ public class Program
         {
             playerList.Add(new Player(EnumParse<MeepleColor>.IntToEnum(ii)));
         }
+        var turn = 0;
         var i = 0;
         int j = 0;
         while (true)
@@ -122,6 +123,12 @@ public class Program
             }
             System.Console.WriteLine($"\n\t\tTura {++i}\n");
             var tile = gameRunner.GetCurrentRoundTile();
+            if (tile == null)
+            {
+                gameRunner.TriggerEndGame();
+                break;
+            }
+
 			System.Console.WriteLine($"Tile {tile.TileComponent.Name}");
             System.Console.WriteLine(tile.PrintMatrix());
             var freePositions = gameRunner.GetFreePositionsForTile(tile);
@@ -162,9 +169,9 @@ public class Program
             var meepleInput = possiblePositionsForMeeple[0];
             var meeplePositionToPlace = meepleInput;
 
-            if (playerList[0].HasMeeples())
+            if (playerList[turn % 5].HasMeeples())
             {
-                var meeple = playerList[0].GetFreeMeeple();
+                var meeple = playerList[turn % 5].GetFreeMeeple();
 
                 
                 gameRunner.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
@@ -186,16 +193,22 @@ public class Program
                 {
                     System.Console.WriteLine($"meeple: {ii}");
                     ii.RaiseMeeple();
-                    System.Console.WriteLine($"Player now has {playerList[0].PlayerPoints} points");
+                    System.Console.WriteLine($"Player now has {playerList[turn % 5].PlayerPoints} points");
                 }
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
                 
                 //throw new Exception("DA");
             }
+
             
             
 
             System.Console.WriteLine(gameRunner.GameBoard.ToString());
+            turn++;
+        }
+        foreach (var player in playerList)
+        {
+            System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points");
         }
     }
 
