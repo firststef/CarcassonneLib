@@ -185,8 +185,10 @@ public class Program
                 foreach (var ii in meepleToRaise)
                 {
                     System.Console.WriteLine($"meeple: {ii}");
+                    System.Console.WriteLine($"meeple points: {ii.RaiseMeeple()}");
                 }
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
+                
                 throw new Exception("DA");
             }
             

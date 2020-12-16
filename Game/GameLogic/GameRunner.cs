@@ -61,10 +61,16 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * distributes points on game end
+             */
             public void TriggerEndGame()
             {
                 System.Console.WriteLine("\t\tGame has ended\t\t\n");
-
+                foreach(var gameStructure in this.GameBoard.GameStructures)
+                {
+                    gameStructure.DistributePoints();
+                }
             }
 
 
