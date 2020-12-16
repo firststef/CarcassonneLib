@@ -29,15 +29,17 @@ namespace LibCarcassonne
             public Tile MeeplePlacement { get; set; }
             public int PlacementId { get; set; }
             public int MeeplePoints { get; set; }
+            public Player Owner { get; set; }
 
 
-            public Meeple(MeepleColor meepleColor)
+            public Meeple(MeepleColor meepleColor, Player owner)
             {
                 this.MeepleId = Meeple.MeepleMaxId++;
                 this.MeepleColor = meepleColor;
                 this.MeeplePlacement = null;
                 this.PlacementId = -1;
                 this.MeeplePoints = 0;
+                this.Owner = owner;
             }
 
 
@@ -52,11 +54,12 @@ namespace LibCarcassonne
             /**
              * raises meeple from ground and returns meeple points
              */
-            public int RaiseMeeple()
+            public void RaiseMeeple()
             {
                 this.MeeplePlacement = null;
                 this.MeepleId = -1;
-                return this.MeeplePoints;
+                this.Owner.PlayerPoints += this.MeeplePoints;
+                this.MeeplePoints = 0;
             }
 
 

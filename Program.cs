@@ -185,7 +185,8 @@ public class Program
                 foreach (var ii in meepleToRaise)
                 {
                     System.Console.WriteLine($"meeple: {ii}");
-                    System.Console.WriteLine($"meeple points: {ii.RaiseMeeple()}");
+                    ii.RaiseMeeple();
+                    System.Console.WriteLine($"Player now has {playerList[0].PlayerPoints} points");
                 }
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
                 

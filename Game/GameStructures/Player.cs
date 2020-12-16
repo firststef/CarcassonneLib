@@ -13,15 +13,17 @@ namespace LibCarcassonne.GameStructures
     {
         public MeepleColor MeepleColor { get; set; }
         public List<Meeple> MeepleList { get; set;  }
+        public int PlayerPoints { get; set; }
 
 
         public Player(MeepleColor meepleColor)
         {
+            this.PlayerPoints = 0;
             this.MeepleColor = MeepleColor;
             this.MeepleList = new List<Meeple>();
             for (var i = 0; i < 6; ++i)
             {
-                MeepleList.Add(new Meeple(this.MeepleColor));
+                MeepleList.Add(new Meeple(this.MeepleColor, this));
             }
         }
 
