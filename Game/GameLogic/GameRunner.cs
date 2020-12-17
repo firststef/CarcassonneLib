@@ -21,6 +21,7 @@ namespace LibCarcassonne
 
             public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers)
             {
+                var structureManager = new StructureManager(); // initializing structure manager to set min id's for structures to 10
                 this.PlayerManager = new PlayerManager(numberOfPlayers);
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
