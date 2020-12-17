@@ -87,21 +87,21 @@ namespace LibCarcassonne
              * adds tile in position and rotation.
              * returns placed tile
              */
-            public Tile AddTileInPositionAndRotation(Tile tile, (int, int) position, int rotation)
+            public List<int> AddTileInPositionAndRotation(Tile tile, (int, int) position, int rotation)
             {
                 var clonedTile = tile.Clone();
                 clonedTile.RotateTile(rotation);
                 this.AddTileInPosition(clonedTile, position);
-                return clonedTile;
+                return clonedTile.GetPossiblePositionsForMeeple();
             }
 
 
             /**
              * places meeple on current tile in tile component type with StructureId = meeplePositionToPlace
              */
-            public void PlaceMeeple(Tile tile, Meeple meeple, int meeplePositionToPlace)
+            public void PlaceMeeple(Meeple meeple, int meeplePositionToPlace)
             {
-                this.GameBoard.PlaceMeeple(tile, meeple, meeplePositionToPlace);
+                this.GameBoard.PlaceMeeple(this.GetLastPlacedTile(), meeple, meeplePositionToPlace);
             }
 
 
@@ -114,6 +114,15 @@ namespace LibCarcassonne
             public List<Meeple> CommitChanges()
             {
                 return this.GameBoard.UpdateUnfinishedStructures();
+            }
+
+
+            /**
+             * returns the last placed tile
+             */
+            public Tile GetLastPlacedTile()
+            {
+                return this.GameBoard.PlacedTiles[this.GameBoard.PlacedTiles.Count - 1];
             }
 
 

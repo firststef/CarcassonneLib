@@ -147,8 +147,7 @@ public class Program
             System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
             System.Console.WriteLine("\n");
 
-            var placedTile = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
-            var possiblePositionsForMeeple = placedTile.GetPossiblePositionsForMeeple();
+            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
 
             if (possiblePositionsForMeeple == null)
             {
@@ -169,7 +168,7 @@ public class Program
                 var meeple = playerManager.GetPlayer(turn % 5).GetFreeMeeple();
 
                 
-                gameRunner.PlaceMeeple(placedTile, meeple, meeplePositionToPlace);
+                gameRunner.PlaceMeeple(meeple, meeplePositionToPlace);
                 System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
             }
             else
