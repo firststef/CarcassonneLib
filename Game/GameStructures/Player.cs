@@ -19,7 +19,7 @@ namespace LibCarcassonne.GameStructures
         public Player(MeepleColor meepleColor)
         {
             this.PlayerPoints = 0;
-            this.MeepleColor = MeepleColor;
+            this.MeepleColor = meepleColor;
             this.MeepleList = new List<Meeple>();
             for (var i = 0; i < 6; ++i)
             {
