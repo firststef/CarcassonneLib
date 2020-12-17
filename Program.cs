@@ -83,7 +83,7 @@ public class Program
         // g3.GetStructurePoints();
 
 
-        var gameRunner = new GameRunner(tileComps);
+        var gameRunner = new GameRunner(tileComps, 5);
         // // testing game runner
         Program.PlayRounds(gameRunner);
 

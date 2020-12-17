@@ -16,10 +16,12 @@ namespace LibCarcassonne
         {
             public GameBoard GameBoard { get; set; }
             public List<Tile> UnplayedTiles { get; set; }
+            public PlayerManager PlayerManager { get; set;  }
 
 
-            public GameRunner(List<TileComponent> tileComponents)
+            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers)
             {
+                this.PlayerManager = new PlayerManager(numberOfPlayers);
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
                 this.UnplayedTiles = new List<Tile>();
