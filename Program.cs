@@ -25,7 +25,9 @@ public class Program
         System.Console.WriteLine("da");
         var gameBoard = new GameBoard();
         var componentManager = new ComponentManager();
-        var tileComps = componentManager.ParseJson("tiles_map.json");
+        var structureManager = new StructureManager();
+		string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
+        var tileComps = componentManager.ParseJson(tilesJson);
         foreach (var tileComp in tileComps)
         {
             // System.Console.WriteLine(tileComp.ToString());

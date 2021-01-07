@@ -24,10 +24,8 @@ namespace LibCarcassonne
             /**
             * metoda custom de parsare json creata pentru modelul folosit
             */
-            public List<TileComponent> ParseJson(string path)
+            public List<TileComponent> ParseJson(string tilesJson)
             {
-                string tilesJson = System.IO.File.ReadAllText(path);
-
                 JArray tileArray = JArray.Parse(tilesJson);
                 var tileComponenets = new List<TileComponent>();
 
