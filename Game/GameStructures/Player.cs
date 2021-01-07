@@ -44,6 +44,24 @@ namespace LibCarcassonne.GameStructures
         }
 
 
+        /***
+         * returns number of usable meeples
+         */
+        public int GetPlayerUsableMeeples()
+        {
+            var meeples = 0;
+            foreach (var meeple in this.MeepleList)
+            {
+                if (meeple.IsMeepleFree())
+                {
+                    meeples++;
+                }
+            }
+
+            return meeples;
+        }
+
+
         /**
          * returns True if current player may place meeple, False otherwise
          */

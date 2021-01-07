@@ -202,7 +202,7 @@ public class Program
         }
         foreach (var player in playerManager.PlayerList)
         {
-            System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points");
+            System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points + {player.GetPlayerUsableMeeples()}");
         }
     }
 
