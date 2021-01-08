@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using LibCarcassonne.GameComponents;
@@ -26,7 +27,7 @@ namespace LibCarcassonne
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
                 this.UnplayedTiles = new List<Tile>();
-
+                tileComponents = tileComponents.OrderBy(i => Guid.NewGuid()).ToList();
                 foreach (var tileComponent in tileComponents)
                 {
                     this.UnplayedTiles.Add(new Tile(GameBoard, tileComponent, (-1, -1)));
