@@ -56,8 +56,8 @@ namespace LibCarcassonne
              */
             public void RaiseMeeple()
             {
+                this.PlacementId = -1;
                 this.MeeplePlacement = null;
-                this.MeepleId = -1;
                 this.Owner.PlayerPoints += this.MeeplePoints;
                 this.MeeplePoints = 0;
             }
