@@ -197,7 +197,8 @@ namespace LibCarcassonne
             {
                 foreach (var meeple in this.MeepleList)
                 {
-                    meeple.MeeplePoints += this.GetStructurePoints();
+                    meeple.Owner.PlayerPoints += this.GetStructurePoints();
+
                 }
             }
 
