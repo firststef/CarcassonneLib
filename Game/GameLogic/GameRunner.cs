@@ -27,7 +27,7 @@ namespace LibCarcassonne
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
                 this.UnplayedTiles = new List<Tile>();
-                tileComponents = tileComponents.OrderBy(i => Guid.NewGuid()).ToList();
+                //tileComponents = tileComponents.OrderBy(i => Guid.NewGuid()).ToList(); // random is not the same for each session
                 foreach (var tileComponent in tileComponents)
                 {
                     this.UnplayedTiles.Add(new Tile(GameBoard, tileComponent, (-1, -1)));
