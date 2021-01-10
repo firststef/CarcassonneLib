@@ -214,13 +214,26 @@ namespace LibCarcassonne
                     return true;
                 }
 
-                foreach (var tile in this.ComponentTiles)
+                if (this.StructureType == StructureType.monastery)
                 {
-                    if (tile.IsOpenBorderForStructure(this.StructureId))
+                    if (this.GameBoard.CountMonasteryNeighbors(this.ComponentTiles[0].TilePosition) != 8)
                     {
                         return false;
                     }
+
                 }
+                else
+                {
+                    foreach (var tile in this.ComponentTiles)
+                    {
+                        if (tile.IsOpenBorderForStructure(this.StructureId))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                
 
                 this.DistributePoints();
                 this.IsClosed = true;
