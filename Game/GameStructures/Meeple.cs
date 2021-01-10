@@ -14,10 +14,10 @@ namespace LibCarcassonne
         public enum MeepleColor
         {
             Red = 0,
-            Black = 1,
+            Blue = 1,
             Green = 2,
-            Yellow = 3,
-            Blue = 4
+            Black = 3,
+            Yellow = 4
         }
 
 
