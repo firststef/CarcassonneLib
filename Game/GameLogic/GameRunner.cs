@@ -27,6 +27,13 @@ namespace LibCarcassonne
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
                 this.UnplayedTiles = new List<Tile>();
+
+                var tileComponentsArray = tileComponents.ToArray();
+                var shuffler = new Utils<TileComponent>();
+                var randomWithSeed = new Random(42);
+                shuffler.Shuffle(randomWithSeed, tileComponentsArray);
+                tileComponents = tileComponentsArray.ToList();
+
                 //tileComponents = tileComponents.OrderBy(i => Guid.NewGuid()).ToList(); // random is not the same for each session
                 foreach (var tileComponent in tileComponents)
                 {
