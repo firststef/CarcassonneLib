@@ -23,6 +23,7 @@ namespace LibCarcassonne
                 // ce cancer ca nu poti sa apelezi aicea base
                 this.ShieldCount = 0;
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
+                this.PointsGainedPerExtension = 3;
             }
 
 
@@ -76,6 +77,7 @@ namespace LibCarcassonne
             public Road(GameBoard gameBoard) : base(StructureType.road, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
+                this.PointsGainedPerExtension = 2;
             }
 
 
@@ -96,6 +98,7 @@ namespace LibCarcassonne
             public Field(GameBoard gameBoard) : base(StructureType.field, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
+                this.PointsGainedPerExtension = 1;
             }
 
 
@@ -123,6 +126,7 @@ namespace LibCarcassonne
             public Monastery(GameBoard gameBoard) : base(StructureType.monastery, gameBoard)
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
+                this.PointsGainedPerExtension = 9;
             }
 
 

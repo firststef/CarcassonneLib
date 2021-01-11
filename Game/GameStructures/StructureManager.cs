@@ -43,6 +43,7 @@ namespace LibCarcassonne
             public List<Meeple> MeepleList { get; set; }
             public GameBoard GameBoard { get; set; }
             public bool IsClosed { get; set; }
+            public int PointsGainedPerExtension { get; set; }
 
 
             public GameStructure(StructureType structureType, GameBoard gameBoard)

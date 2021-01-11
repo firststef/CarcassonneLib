@@ -287,6 +287,22 @@ namespace LibCarcassonne
             }
 
 
+            /**
+             * returns True if at least one component tile types is monastery, False otherwise
+             */
+            public bool HasMonastery()
+            {
+                foreach(var type in this.TileComponent.Types)
+                {
+                    if (type.Type == "monastery")
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+
         }
 
 

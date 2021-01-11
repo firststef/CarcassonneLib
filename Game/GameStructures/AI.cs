@@ -45,7 +45,7 @@ namespace LibCarcassonne
                 this.Difficulty = difficulty;
                 if (this.Difficulty == 1)
                 {
-                    //TODO: implement depth 1 heuristic
+                    this.Predict = StrategyOne;
                 }
                 else if (this.Difficulty == 2)
                 {
@@ -108,6 +108,117 @@ namespace LibCarcassonne
                 var index = this.Rand.Next(0, list.Count - 1);
                 var index2 = this.Rand.Next(0, list[index].Item2.Count - 1);
                 return new Tuple<(int, int), int>(list[index].Item1, list[index].Item2[index2]);
+            }
+
+
+            /**
+             * @currentTile => current tile to be placed on board
+             * @returns => estimated position and rotation best suited for current tile
+             * 
+             * computes a reward for each possible placing of current tile
+             * returns position with maximum reward
+             * 
+             */
+            private Tuple<(int, int), int> StrategyOne(Tile currentTile)
+            {
+                var initialList = this.GameRunner.GetFreePositionsForTile(currentTile);
+                var evaluatedList = new List<Tuple<(int, int), int>>();
+
+                if (initialList.Count == 0)
+                {
+                    throw new Exception("no possible positions for current tile");
+                }
+
+                foreach (var tuple in initialList)
+                {
+                    foreach (var rotation in tuple.Item2)
+                    {
+                        evaluatedList.Add(new Tuple<(int, int), int>(tuple.Item1, rotation));
+                    }
+                }
+
+                var estimatedRewards = new List<int>();
+                foreach(var instance in evaluatedList)
+                {
+                    estimatedRewards.Add(EstimatePosition(instance, currentTile));
+                }
+
+
+                return evaluatedList[estimatedRewards.IndexOf(estimatedRewards.Max())];
+
+            }
+
+
+            /**
+             * @position => coordinates for current tile to be placed + respective rotation
+             * @currentTile => current tile to be placed on board
+             * 
+             * all neighbors in position are estimated
+             * for each neighbor, we take its border in our direction
+             * for each border, we add gameStructure indexes to our structureIds list
+             * 
+             * after estimating all structures, we compute aiReward and othersReward based on how many poits can be got for each structure, depending on meeples on it and its points gained per extension
+             * 
+             * @returns heuristic of the 2 variables
+             */
+            private int EstimatePosition(Tuple<(int, int), int> position, Tile currentTile)
+            {
+                var aiReward = 0;
+                var othersReward = 0;
+                var neighbors = this.GameRunner.GameBoard.GetTileNeighborsAndPosition(position.Item1);
+                if (neighbors == null)
+                {
+                    return 0;
+                }
+                var structureIds = new List<int>();
+                foreach (var neighbor in neighbors)
+                {
+                    var tileMargin = neighbor.Item1.GetBorderInReversedPosition<int>(neighbor.Item2);
+                    // tileMargin int array of structure ids which we are sure to match and be extended by our current tile.
+                    for (var i = 1; i < tileMargin.Length - 1; ++i)
+                    {
+                        if (! structureIds.Contains(tileMargin[i]))
+                        {
+                            structureIds.Add(tileMargin[i]);
+                        }
+                    }
+                }
+
+                foreach (var structureId in structureIds)
+                {
+                    var gameStructure = this.GameRunner.GameBoard.GetGameStructureWithId(structureId);
+
+                    if (gameStructure.MeepleList.Count == 0)
+                    {
+                        if (this.HasMeeples())
+                        {
+                            aiReward += gameStructure.GetStructurePoints() + gameStructure.PointsGainedPerExtension;
+                        }
+                        else
+                        {
+                            othersReward += gameStructure.GetStructurePoints() + gameStructure.PointsGainedPerExtension;
+                        }
+                    }
+
+                    foreach (var meeple in gameStructure.MeepleList)
+                    {
+                        if (meeple.MeepleColor == this.MeepleColor)
+                        {
+                            aiReward += gameStructure.PointsGainedPerExtension;
+                        }
+                        else
+                        {
+                            othersReward += gameStructure.PointsGainedPerExtension;
+                        }
+                    }
+                }
+
+                if (currentTile.HasMonastery())
+                {
+                    aiReward += 9;
+                }
+
+                return this.heuristic(aiReward, othersReward);
             }
 
 

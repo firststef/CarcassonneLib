@@ -113,7 +113,7 @@ namespace LibCarcassonne
 
 
             /**
-             * returns list of non null neighboring tiles and directionfor position 
+             * returns list of non null neighboring tiles and direction for position 
              */
             public List<Tuple<Tile, int>> GetTileNeighborsAndPosition((int, int) position)
             {

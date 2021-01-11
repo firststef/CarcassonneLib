@@ -21,7 +21,7 @@ namespace LibCarcassonne
             public AI AI { get; set; }
 
 
-            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers, int difficutly = 0)
+            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers, int difficutly = 1)
             {
                 var structureManager = new StructureManager(); // initializing structure manager to set min id's for structures to 10
                 this.PlayerManager = new PlayerManager(numberOfPlayers);
