@@ -125,7 +125,7 @@ namespace LibCarcassonne
              * @returns => estimated position and rotation best suited for current tile
              * 
              * computes a reward for each possible placing of current tile
-             * returns position with maximum reward
+             * returns position using wheel of fortune
              * 
              */
             private Tuple<(int, int), int> StrategyOne(Tile currentTile)
@@ -147,14 +147,67 @@ namespace LibCarcassonne
                 }
 
                 var estimatedRewards = new List<int>();
-                foreach(var instance in evaluatedList)
+                foreach (var instance in evaluatedList)
                 {
                     estimatedRewards.Add(EstimatePosition(instance, currentTile));
                 }
 
+                int rewardSum = 0;
+                for (var i = 0; i < estimatedRewards.Count; ++i)
+                {
+                    estimatedRewards[i] -= estimatedRewards.Min();
+                    rewardSum += estimatedRewards[i];
+                }
+
+
+                var random = this.Rand.Next(0, rewardSum);
+                for (var i = 0; i < evaluatedList.Count; ++i)
+                {
+                    random -= estimatedRewards[i];
+                    if (random <= 0)
+                    {
+                        return evaluatedList[i];
+                    }
+                }
 
                 return evaluatedList[estimatedRewards.IndexOf(estimatedRewards.Max())];
 
+            }
+
+
+            /**
+             * @currentTile => current tile to be placed on board
+             * @returns => estimated position and rotation best suited for current tile
+             * 
+             * computes a reward for each possible placing of current tile
+             * returns position with maximum reward
+             */
+            private Tuple<(int, int), int> StrategyTwo(Tile currentTile)
+            {
+                var initialList = this.GameRunner.GetFreePositionsForTile(currentTile);
+                var evaluatedList = new List<Tuple<(int, int), int>>();
+
+                if (initialList.Count == 0)
+                {
+                    throw new Exception("no possible positions for current tile");
+                }
+                
+
+                foreach (var tuple in initialList)
+                {
+                    foreach (var rotation in tuple.Item2)
+                    {
+                        evaluatedList.Add(new Tuple<(int, int), int>(tuple.Item1, rotation));
+                    }
+                }
+
+                var estimatedRewards = new List<int>();
+                foreach (var instance in evaluatedList)
+                {
+                    estimatedRewards.Add(EstimatePosition(instance, currentTile));
+                }
+
+                return evaluatedList[estimatedRewards.IndexOf(estimatedRewards.Max())];
             }
 
 
