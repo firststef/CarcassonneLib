@@ -49,11 +49,11 @@ namespace LibCarcassonne
                 }
                 else if (this.Difficulty == 2)
                 {
-                    //TODO: implement heuristic + ??
+                    this.Predict = StrategyTwo;
                 }
                 else if (this.Difficulty == 3)
                 {
-                    //TODO: implement heuristic + ???
+                    this.Predict = StrategyThree;
                 }
                 else
                 {
@@ -211,6 +211,70 @@ namespace LibCarcassonne
             }
 
 
+            private Tuple<(int, int), int> StrategyThree(Tile currentTile)
+            {
+                var gameRunnerThatWilllBeChangedDuringDepthSearch = this.GameRunner.Clone();
+                var initialGameRunner = this.GameRunner;
+                this.GameRunner = gameRunnerThatWilllBeChangedDuringDepthSearch;
+                System.Console.WriteLine(string.Join(" ", GameRunner.GameBoard.FreePositions));
+                var initialList = this.GameRunner.GetFreePositionsForTile(currentTile);
+                var possibleStatesList = new List<Tuple<(int, int), int>>();
+                foreach (var tuple in initialList)
+                {
+                    foreach (var rotation in tuple.Item2)
+                    {
+                        possibleStatesList.Add(new Tuple<(int, int), int>(tuple.Item1, rotation));
+                    }
+                }
+
+                var estimatedRewards = new List<int>();
+                foreach (var possibleStateToJumpInto in possibleStatesList)
+                {
+                    estimatedRewards.Add(SearchInDepth(possibleStateToJumpInto, depth: 0, maxDepth: 2));
+                }
+
+                this.GameRunner = initialGameRunner;
+                System.Console.WriteLine(possibleStatesList[estimatedRewards.IndexOf(estimatedRewards.Max())]);
+                System.Console.WriteLine(string.Join(" ", GameRunner.GameBoard.FreePositions));
+                return possibleStatesList[estimatedRewards.IndexOf(estimatedRewards.Max())];
+            }
+
+
+            private int SearchInDepth(Tuple<(int, int), int> possibleStateToJumpInto, int depth, int maxDepth = 2)
+            {
+                // System.Console.WriteLine(depth);
+                this.GameRunner.SimulatePlay(possibleStateToJumpInto);
+                var freePositions = this.GameRunner.GameBoard.FreePositions;
+                var possibleStatesList = new List<Tuple<(int, int), int>>();
+                foreach (var freePosition in freePositions)
+                {
+                    possibleStatesList.Add(new Tuple<(int, int), int>(freePosition, 0));
+                }
+
+                var estimatedRewards = new List<int>();
+
+                if (depth >= maxDepth)
+                {
+                    
+                    foreach (var instance in possibleStatesList)
+                    {
+                        estimatedRewards.Add(EstimatePosition(instance, null));
+                    }
+                } 
+                else
+                {
+                    var thisGameRunner = this.GameRunner.Clone();
+                    foreach (var instance in possibleStatesList)
+                    {
+                        this.GameRunner = thisGameRunner;
+                        estimatedRewards.Add(SearchInDepth(instance, depth: depth + 1, maxDepth: maxDepth));
+                    }
+                }
+                // System.Console.WriteLine(possibleStatesList.Count);
+                return (depth % 2 == 0) ? estimatedRewards.Max() : estimatedRewards.Min();
+            }
+
+
             /**
              * @position => coordinates for current tile to be placed + respective rotation
              * @currentTile => current tile to be placed on board
@@ -223,7 +287,7 @@ namespace LibCarcassonne
              * 
              * @returns heuristic of the 2 variables
              */
-            private int EstimatePosition(Tuple<(int, int), int> position, Tile currentTile)
+            private int EstimatePosition(Tuple<(int, int), int> position, Tile currentTile = null)
             {
                 var aiReward = 0;
                 var othersReward = 0;
@@ -239,7 +303,7 @@ namespace LibCarcassonne
                     // tileMargin int array of structure ids which we are sure to match and be extended by our current tile.
                     for (var i = 1; i < tileMargin.Length - 1; ++i)
                     {
-                        if (! structureIds.Contains(tileMargin[i]))
+                        if (tileMargin[i] > 10 && !structureIds.Contains(tileMargin[i]))
                         {
                             structureIds.Add(tileMargin[i]);
                         }
@@ -275,13 +339,17 @@ namespace LibCarcassonne
                     }
                 }
 
-                if (currentTile.HasMonastery())
+                
+                if (currentTile != null && currentTile.HasMonastery())
                 {
                     aiReward += 9;
                 }
 
                 return this.heuristic(aiReward, othersReward);
             }
+
+
+
 
 
 

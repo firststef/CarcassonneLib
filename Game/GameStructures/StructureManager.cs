@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using LibCarcassonne.GameStructures;
@@ -54,6 +55,22 @@ namespace LibCarcassonne
                 this.ComponentTiles = new List<Tile>();
                 this.MeepleList = new List<Meeple>();
                 this.GameBoard = gameBoard;
+            }
+
+            
+            public GameStructure(GameStructure another)
+            {
+                this.StructureId = another.StructureId;
+                this.StructureType = another.StructureType;
+                this.ComponentTiles = another.ComponentTiles.Select(tile => tile.Clone()).ToList();
+                this.MeepleList = another.MeepleList;
+                this.GameBoard = another.GameBoard;
+            }
+
+
+            public virtual GameStructure Clone()
+            {
+                return new GameStructure(this);
             }
 
 

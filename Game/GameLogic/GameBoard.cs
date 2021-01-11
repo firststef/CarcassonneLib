@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using LibCarcassonne.GameComponents;
@@ -31,6 +32,36 @@ namespace LibCarcassonne
                 this.FreePositions.Add((72, 72));
                 this.GameStructures = new List<GameStructure>();
                 this.UnfinishedGameStructures = new List<GameStructure>();
+            }
+
+
+            public GameBoard(GameBoard another)
+            {
+                this.TileMatrix = new Tile[144, 144];
+                for (var i = 0; i < this.TileMatrix.GetLength(0); ++i)
+                {
+                    for (var j = 0; j < this.TileMatrix.GetLength(1); ++j)
+                    {
+                        if (another.TileMatrix[i, j] != null)
+                        {
+                            this.TileMatrix[i, j] = another.TileMatrix[i, j].Clone();
+                        }
+                    }
+                }
+                this.PlacedTiles = another.PlacedTiles.Select(placedTile => placedTile.Clone()).ToList();
+                this.FreePositions = new List<(int, int)>();
+                foreach (var pos in another.FreePositions)
+                {
+                    this.FreePositions.Add(pos);
+                }
+                this.GameStructures = another.GameStructures.Select(gameStructure => gameStructure.Clone()).ToList();
+                this.UnfinishedGameStructures = another.UnfinishedGameStructures.Select(gameStructure => gameStructure.Clone()).ToList();
+            }
+
+
+            public GameBoard Clone()
+            {
+                return new GameBoard(this);
             }
 
 

@@ -27,6 +27,18 @@ namespace LibCarcassonne
             }
 
 
+            public City(City another) : base(another)
+            {
+                this.ShieldCount = another.ShieldCount;
+            }
+
+
+            public override City Clone()
+            {
+                return new City(this);
+            }
+
+
             /**
             * joins structure and adds shield too
             */
@@ -81,6 +93,17 @@ namespace LibCarcassonne
             }
 
 
+            public Road(Road another) : base (another)
+            {
+
+            }
+
+
+            public override Road Clone()
+            {
+                return new Road(this);
+            }
+
             /**
             * returns points equal to road length count
             */
@@ -99,6 +122,19 @@ namespace LibCarcassonne
             {
                 System.Console.WriteLine($"{this.StructureId} {this.StructureType.ToString()}");
                 this.PointsGainedPerExtension = 1;
+            }
+
+
+
+            public Field(Field another) : base(another)
+            {
+
+            }
+
+
+            public override Field Clone()
+            {
+                return new Field(this);
             }
 
 
@@ -129,6 +165,18 @@ namespace LibCarcassonne
                 this.PointsGainedPerExtension = 9;
             }
 
+
+            public Monastery(Monastery another) : base(another)
+            {
+
+            }
+
+
+            public override Monastery Clone()
+            {
+                return new Monastery(this);
+            }
+ 
 
             public override void JoinStructures(GameStructure another)
             {

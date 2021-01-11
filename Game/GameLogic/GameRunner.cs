@@ -21,7 +21,15 @@ namespace LibCarcassonne
             public AI AI { get; set; }
 
 
-            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers, int difficutly = 1)
+            public GameRunner(GameRunner another)
+            {
+                this.GameBoard = another.GameBoard.Clone();
+                this.AI = another.AI;
+                this.PlayerManager = another.PlayerManager;
+                this. UnplayedTiles = another.UnplayedTiles.Select(item => (Tile)item.Clone()).ToList();
+            }
+
+            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers, int difficutly = 3)
             {
                 var structureManager = new StructureManager(); // initializing structure manager to set min id's for structures to 10
                 this.PlayerManager = new PlayerManager(numberOfPlayers);
@@ -136,6 +144,20 @@ namespace LibCarcassonne
             public Tile GetLastPlacedTile()
             {
                 return this.GameBoard.PlacedTiles[this.GameBoard.PlacedTiles.Count - 1];
+            }
+
+
+            public GameRunner Clone()
+            {
+                return new GameRunner(this);
+            }
+
+
+            public void SimulatePlay(Tuple<(int, int), int> possibleStateToJumpInto)
+            {
+                this.GameBoard.FreePositions.Remove(possibleStateToJumpInto.Item1);
+                this.GameBoard.TileMatrix[possibleStateToJumpInto.Item1.Item1, possibleStateToJumpInto.Item1.Item2] = new Tile(this.UnplayedTiles[0]);
+                this.GameBoard.UpdateFreePositions(possibleStateToJumpInto.Item1);
             }
 
 
