@@ -86,9 +86,18 @@ namespace LibCarcassonne
             {
                 System.Console.WriteLine("OHAAA");
                 System.Console.WriteLine(string.Join("  ", possiblePositionsForMeeple));
-                return this.Rand.Next(0, possiblePositionsForMeeple.Count - 1);
-                return 0;
-                return -1;
+                var rewards = new List<int>();
+                foreach (var possiblePosition in possiblePositionsForMeeple)
+                {
+                    var gameStructure = this.GameRunner.GameBoard.GetGameStructureWithId(this.GameRunner.GetLastPlacedTile().TileComponent.Types[possiblePosition].Id);
+                    rewards.Add(gameStructure.GetStructurePoints());
+                }
+                var maxIndex = rewards.IndexOf(rewards.Max());
+                if (maxIndex < (7 - this.GetPlayerUsableMeeples()) * 2 && this.Rand.Next(0, 4) > 2)
+                {
+                    return -1;
+                }
+                return maxIndex;
             }
 
 
