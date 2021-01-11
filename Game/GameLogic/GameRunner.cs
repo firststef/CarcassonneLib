@@ -18,12 +18,17 @@ namespace LibCarcassonne
             public GameBoard GameBoard { get; set; }
             public List<Tile> UnplayedTiles { get; set; }
             public PlayerManager PlayerManager { get; set;  }
+            public AI AI { get; set; }
 
 
-            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers)
+            public GameRunner(List<TileComponent> tileComponents, int numberOfPlayers, int difficutly = 0)
             {
                 var structureManager = new StructureManager(); // initializing structure manager to set min id's for structures to 10
                 this.PlayerManager = new PlayerManager(numberOfPlayers);
+
+                this.AI = new AI(difficulty: difficutly, gameRunner: this, meepleColor: EnumParse<MeepleColor>.IntToEnum(numberOfPlayers)); 
+                // initializes AI player, as the last player with the last color, and speciffied difficulty
+
                 System.Console.WriteLine("GameRunner start");
                 this.GameBoard = new GameBoard();
                 this.UnplayedTiles = new List<Tile>();

@@ -137,6 +137,7 @@ public class Program
             }
             System.Console.WriteLine("Alege un index de pozitie libera: ");
 
+
             //var userInput = Convert.ToInt32(System.Console.ReadLine());
             var userInput = 0;
 
@@ -149,7 +150,12 @@ public class Program
             System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
             System.Console.WriteLine("\n");
 
-            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            
+            var aiPrediction = gameRunner.AI.Predict(currentTile: tile);
+            System.Console.WriteLine($"Predictia AI: {aiPrediction.Item1},  {aiPrediction.Item2}");
+            
+            //var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, aiPrediction.Item1, aiPrediction.Item2);
 
             if (possiblePositionsForMeeple == null)
             {
@@ -162,7 +168,17 @@ public class Program
 
             System.Console.WriteLine("Alege un index de unde sa pui meeple-ul: ");
             //var meepleInput = Convert.ToInt32(System.Console.ReadLine());
-            var meepleInput = possiblePositionsForMeeple[0];
+
+            var aiMeepleChoice = gameRunner.AI.ChooseMeeplePlacement(possiblePositionsForMeeple);
+            if (aiMeepleChoice == -1)
+            {
+                System.Console.WriteLine("AI has chosen not to place");
+                continue;
+            }
+
+            //var meepleInput = possiblePositionsForMeeple[0];
+            var meepleInput = possiblePositionsForMeeple[aiMeepleChoice];
+
             var meeplePositionToPlace = meepleInput;
 
             if (playerManager.GetPlayer(turn % 5).HasMeeples())
