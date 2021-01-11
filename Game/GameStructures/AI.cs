@@ -20,42 +20,58 @@ namespace LibCarcassonne
             public delegate Tuple<(int, int), int> Prediction(Tile currentTile);
             public Prediction Predict { get; set; }
 
+            public delegate int Heuristic(int aiReward, int othersReward);
+            public Heuristic heuristic { get; set; }
+
 
             /**
              * AI extends player, and has custom Prediction depending on difficulty
              */
             public AI(GameRunner gameRunner, MeepleColor meepleColor, int difficulty) : base(meepleColor: meepleColor)
             {
-                this.Difficulty = difficulty;
                 this.GameRunner = gameRunner;
                 this.Rand = new System.Random();
-                if (this.Difficulty == 0)
+                this.Predict = RandomPrediction;
+                this.ChangeDifficulty(difficulty);
+                this.heuristic = BasicHeuristFunction;
+            }
+
+
+            /**
+             * changes AI difficulty in game
+             */
+            public void ChangeDifficulty(int difficulty)
+            {
+                this.Difficulty = difficulty;
+                if (this.Difficulty == 1)
                 {
-                    this.Predict = RandomPrediction;
+                    //TODO: implement depth 1 heuristic
+                }
+                else if (this.Difficulty == 2)
+                {
+                    //TODO: implement heuristic + ??
+                }
+                else if (this.Difficulty == 3)
+                {
+                    //TODO: implement heuristic + ???
                 }
                 else
                 {
-                    //TODO: de implementat 1, 2 si 3
+                    this.Predict = RandomPrediction;
                 }
             }
 
 
             /**
-             * returns random prediction
-             * a tuple of coordinates for tile to be placed, and a rotation to be made for this set of coordinates
+             * basic heuristic method used for chosing tile placement
+             * returns predicted values for current input
+             * 
+             * @aiReward => reward predicted to be gained by AI when current position is chosen
+             * @othersReward => reward predicted for other players when current position is chosen
              */
-            private Tuple<(int, int), int> RandomPrediction(Tile currentTile)
+            public int BasicHeuristFunction(int aiReward, int othersReward)
             {
-                var list = this.GameRunner.GetFreePositionsForTile(currentTile);
-
-                if (list.Count == 0)
-                {
-                    throw new Exception("no possible positions for current tile");
-                }
-
-                var index = this.Rand.Next(0, list.Count - 1);
-                var index2 = this.Rand.Next(0, list[index].Item2.Count - 1);
-                return new Tuple<(int, int), int>(list[index].Item1, list[index].Item2[index2]);
+                return  aiReward * aiReward - othersReward;
             }
 
 
@@ -73,6 +89,25 @@ namespace LibCarcassonne
                 return this.Rand.Next(0, possiblePositionsForMeeple.Count - 1);
                 return 0;
                 return -1;
+            }
+
+
+            /**
+            * returns random prediction
+            * a tuple of coordinates for tile to be placed, and a rotation to be made for this set of coordinates
+            */
+            private Tuple<(int, int), int> RandomPrediction(Tile currentTile)
+            {
+                var list = this.GameRunner.GetFreePositionsForTile(currentTile);
+
+                if (list.Count == 0)
+                {
+                    throw new Exception("no possible positions for current tile");
+                }
+
+                var index = this.Rand.Next(0, list.Count - 1);
+                var index2 = this.Rand.Next(0, list[index].Item2.Count - 1);
+                return new Tuple<(int, int), int>(list[index].Item1, list[index].Item2[index2]);
             }
 
 
