@@ -33,7 +33,7 @@ namespace LibCarcassonne
             }
 
 
-            public override City Clone()
+            public override GameStructure Clone()
             {
                 return new City(this);
             }
@@ -99,7 +99,7 @@ namespace LibCarcassonne
             }
 
 
-            public override Road Clone()
+            public override GameStructure Clone()
             {
                 return new Road(this);
             }
@@ -132,7 +132,7 @@ namespace LibCarcassonne
             }
 
 
-            public override Field Clone()
+            public override GameStructure Clone()
             {
                 return new Field(this);
             }
@@ -172,7 +172,7 @@ namespace LibCarcassonne
             }
 
 
-            public override Monastery Clone()
+            public override GameStructure Clone()
             {
                 return new Monastery(this);
             }
