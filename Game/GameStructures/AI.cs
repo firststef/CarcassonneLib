@@ -231,7 +231,7 @@ namespace LibCarcassonne
                 var estimatedRewards = new List<int>();
                 foreach (var possibleStateToJumpInto in possibleStatesList)
                 {
-                    estimatedRewards.Add(SearchInDepth(possibleStateToJumpInto, depth: 0, maxDepth: 2));
+                    estimatedRewards.Add(SearchInDepth(possibleStateToJumpInto, depth: 0, maxDepth: 2, alpha: -1000, beta: 1000));
                 }
 
                 this.GameRunner = initialGameRunner;
@@ -241,10 +241,14 @@ namespace LibCarcassonne
             }
 
 
-            private int SearchInDepth(Tuple<(int, int), int> possibleStateToJumpInto, int depth, int maxDepth = 2)
+            private int SearchInDepth(Tuple<(int, int), int> possibleStateToJumpInto, int alpha, int beta, int depth, int maxDepth = 2)
             {
                 // System.Console.WriteLine(depth);
-                this.GameRunner.SimulatePlay(possibleStateToJumpInto);
+                var ok = this.GameRunner.SimulatePlay(possibleStateToJumpInto);
+                if (! ok)
+                {
+                    return Rand.Next(0, 10);
+                }
                 var freePositions = this.GameRunner.GameBoard.FreePositions;
                 var possibleStatesList = new List<Tuple<(int, int), int>>();
                 foreach (var freePosition in freePositions)
@@ -268,7 +272,20 @@ namespace LibCarcassonne
                     foreach (var instance in possibleStatesList)
                     {
                         this.GameRunner = thisGameRunner;
-                        estimatedRewards.Add(SearchInDepth(instance, depth: depth + 1, maxDepth: maxDepth));
+                        var eval = SearchInDepth(instance, depth: depth + 1, maxDepth: maxDepth, alpha: alpha, beta: beta);
+                        estimatedRewards.Add(eval);
+                        if (depth % 2 == 0) 
+                        {
+                            alpha = Math.Max(eval, alpha);
+                        }
+                        else 
+                        {
+                            beta = Math.Min(beta, eval);
+                        }
+                        if (beta <= alpha)
+                        {
+                            break;
+                        }
                     }
                 }
                 // System.Console.WriteLine(possibleStatesList.Count);
