@@ -221,10 +221,11 @@ namespace LibCarcassonne
                 var possibleStatesList = new List<Tuple<(int, int), int>>();
                 foreach (var tuple in initialList)
                 {
-                    foreach (var rotation in tuple.Item2)
-                    {
-                        possibleStatesList.Add(new Tuple<(int, int), int>(tuple.Item1, rotation));
-                    }
+                    possibleStatesList.Add(new Tuple<(int, int), int>(tuple.Item1, tuple.Item2[0]));
+                    //foreach (var rotation in tuple.Item2)
+                    //{
+                    //    possibleStatesList.Add(new Tuple<(int, int), int>(tuple.Item1, rotation));
+                    //}
                 }
 
                 var estimatedRewards = new List<int>();

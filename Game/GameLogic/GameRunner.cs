@@ -155,9 +155,13 @@ namespace LibCarcassonne
 
             public void SimulatePlay(Tuple<(int, int), int> possibleStateToJumpInto)
             {
-                this.GameBoard.FreePositions.Remove(possibleStateToJumpInto.Item1);
+                if (this.GameBoard.FreePositions.Contains(possibleStateToJumpInto.Item1))
+                {
+                    this.GameBoard.FreePositions.Remove(possibleStateToJumpInto.Item1); 
+                    this.GameBoard.UpdateFreePositions(possibleStateToJumpInto.Item1);
+                }
                 this.GameBoard.TileMatrix[possibleStateToJumpInto.Item1.Item1, possibleStateToJumpInto.Item1.Item2] = new Tile(this.UnplayedTiles[0]);
-                this.GameBoard.UpdateFreePositions(possibleStateToJumpInto.Item1);
+                
             }
 
 
