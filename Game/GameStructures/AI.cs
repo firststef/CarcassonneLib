@@ -93,7 +93,7 @@ namespace LibCarcassonne
                     rewards.Add(gameStructure.GetStructurePoints());
                 }
                 var maxIndex = rewards.IndexOf(rewards.Max());
-                if (maxIndex < (7 - this.GetPlayerUsableMeeples()) * 2 && this.Rand.Next(0, 4) > 2)
+                if (rewards.Max() < (8 - this.GetPlayerUsableMeeples()) * 2 && this.Rand.Next(0, 5) > 2)
                 {
                     return -1;
                 }
