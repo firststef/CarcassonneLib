@@ -71,6 +71,10 @@ namespace LibCarcassonne
             */
             public Tile GetCurrentRoundTile()
             {
+                if (this.UnplayedTiles.Count == 65)
+                {
+                    return null;
+                }
                 foreach (var tile in this.UnplayedTiles)
                 {
                     if (this.GetFreePositionsForTile(tile) != null)
