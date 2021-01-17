@@ -19,6 +19,7 @@ namespace LibCarcassonne
             public List<Tile> UnplayedTiles { get; set; }
             public PlayerManager PlayerManager { get; set;  }
             public AI AI { get; set; }
+            public Random Random { get; set; }
 
 
             public GameRunner(GameRunner another)
@@ -44,6 +45,8 @@ namespace LibCarcassonne
                 var tileComponentsArray = tileComponents.ToArray();
                 var shuffler = new Utils<TileComponent>();
                 var randomWithSeed = new Random();
+                this.Random = randomWithSeed;
+
                 shuffler.Shuffle(randomWithSeed, tileComponentsArray);
                 tileComponents = tileComponentsArray.ToList();
 
@@ -166,7 +169,12 @@ namespace LibCarcassonne
 
                 if (this.UnplayedTiles.Count > 0)
                 {
-                    this.GameBoard.TileMatrix[possibleStateToJumpInto.Item1.Item1, possibleStateToJumpInto.Item1.Item2] = new Tile(this.UnplayedTiles[0]);
+                    var maxVal = new Random().Next(this.UnplayedTiles.Count - 1);
+                    this.GameBoard.TileMatrix[possibleStateToJumpInto.Item1.Item1, possibleStateToJumpInto.Item1.Item2] = new Tile(this.UnplayedTiles[
+                            maxVal
+                        //0
+                        //this.UnplayedTiles.Count - 1
+                        ]);
                     return true;
                 }
 

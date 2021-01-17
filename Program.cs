@@ -86,7 +86,7 @@ public class Program
 
         var gameRunner = new GameRunner(tileComps, 5);
         // // testing game runner
-        Program.PlayRounds(gameRunner);
+        Program.PlayRounds(gameRunner, tileComps);
 
 
         // // // retesting tile rotation
@@ -104,124 +104,151 @@ public class Program
     }
 
 
-    public static void PlayRounds(GameRunner gameRunner)
+    public static void PlayRounds(GameRunner gameRunner, List<TileComponent> tileComponents)
     {
-        var playerManager = new PlayerManager(5);
-        var turn = 0;
-        var i = 0;
-        int j = 0;
-        while (true)
+        var win_1 = 0;
+        var win_2 = 0;
+        var win_3 = 0;
+        var numberOfPlayers = 3;
+        for (var games = 0; games < 1; ++games)
         {
-            var gameStructures = gameRunner.GameBoard.GameStructures;
-            System.Console.Write("Structures: ");
-            foreach (var gs in gameStructures)
+            var componentManager = new ComponentManager();
+            string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
+            var tileComps = componentManager.ParseJson(tilesJson);
+            gameRunner = new GameRunner(tileComps, 3);
+            var playerManager = gameRunner.PlayerManager;
+            var turn = 0;
+            var i = 0;
+            int j = 0;
+            while (true)
             {
-                System.Console.Write($"{gs.StructureId} ");
-            }
-            System.Console.WriteLine($"\n\t\tTura {++i}\n");
-            var tile = gameRunner.GetCurrentRoundTile();
-            if (tile == null)
-            {
-                gameRunner.TriggerEndGame();
-                break;
-            }
-
-			System.Console.WriteLine($"Tile {tile.TileComponent.Name}");
-            System.Console.WriteLine(tile.PrintMatrix());
-            var freePositions = gameRunner.GetFreePositionsForTile(tile);
-            System.Console.WriteLine("Pozitiile libere: ");
-            j = 0;
-            foreach (var pos in freePositions)
-            {
-                System.Console.WriteLine($"Pozitia {j++}: {pos.Item1} with rotations {string.Join(" ", pos.Item2)}");
-            }
-            System.Console.WriteLine("Alege un index de pozitie libera: ");
-
-
-            //var userInput = Convert.ToInt32(System.Console.ReadLine());
-            var userInput = 0;
-
-            System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
-            System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
-
-            //var rotation = Convert.ToInt32(System.Console.ReadLine());
-            var rotation = freePositions[0].Item2[0];
-
-            System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
-            System.Console.WriteLine("\n");
-
-            
-            var aiPrediction = gameRunner.AI.Predict(currentTile: tile);
-            System.Console.WriteLine($"Predictia AI: {aiPrediction.Item1},  {aiPrediction.Item2}");
-            
-            //var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
-            var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, aiPrediction.Item1, aiPrediction.Item2);
-
-            if (possiblePositionsForMeeple == null)
-            {
-                System.Console.WriteLine("Nu se poate pune meeple");
-                continue;
-            }
-
-            System.Console.WriteLine($"Possible positions for meeple: {string.Join(" ", possiblePositionsForMeeple)}");
-
-
-            System.Console.WriteLine("Alege un index de unde sa pui meeple-ul: ");
-            //var meepleInput = Convert.ToInt32(System.Console.ReadLine());
-
-            var aiMeepleChoice = gameRunner.AI.ChooseMeeplePlacement(possiblePositionsForMeeple);
-            if (aiMeepleChoice == -1)
-            {
-                System.Console.WriteLine("AI has chosen not to place");
-                continue;
-            }
-
-            //var meepleInput = possiblePositionsForMeeple[0];
-            var meepleInput = possiblePositionsForMeeple[aiMeepleChoice];
-
-            var meeplePositionToPlace = meepleInput;
-
-            if (playerManager.GetPlayer(turn % 5).HasMeeples())
-            {
-                var meeple = playerManager.GetPlayer(turn % 5).GetFreeMeeple();
-
-                
-                gameRunner.PlaceMeeple(meeple, meeplePositionToPlace);
-                System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
-            }
-            else
-            {
-                System.Console.WriteLine($"Current player has no meeples");
-            }
-
-            var meepleToRaise = gameRunner.CommitChanges();
-            if (meepleToRaise == null)
-            {
-                System.Console.WriteLine("Nici o structura nu a fost terminata, nici un ,eeple nu trebuie ridicat");
-            }
-            else
-            {
-                foreach (var ii in meepleToRaise)
+                gameRunner.AI.ChangeDifficulty(gameRunner.AI.Difficulty % 3 + 1);
+                System.Console.WriteLine($"{turn % numberOfPlayers} diff {gameRunner.AI.Difficulty}");
+                var gameStructures = gameRunner.GameBoard.GameStructures;
+                System.Console.Write("Structures: ");
+                foreach (var gs in gameStructures)
                 {
-                    System.Console.WriteLine($"meeple: {ii}");
-                    ii.RaiseMeeple();
-                    System.Console.WriteLine($"Player now has {playerManager.GetPlayer(turn % 5).PlayerPoints} points");
+                    System.Console.Write($"{gs.StructureId} ");
                 }
-                System.Console.WriteLine(gameRunner.GameBoard.ToString());
+                System.Console.WriteLine($"\n\t\tTura {++i}\n");
+                var tile = gameRunner.GetCurrentRoundTile();
+                if (tile == null)
+                {
+                    gameRunner.TriggerEndGame();
+                    break;
+                }
+
+			    System.Console.WriteLine($"Tile {tile.TileComponent.Name}");
+                System.Console.WriteLine(tile.PrintMatrix());
+                var freePositions = gameRunner.GetFreePositionsForTile(tile);
+                System.Console.WriteLine("Pozitiile libere: ");
+                j = 0;
+                foreach (var pos in freePositions)
+                {
+                    System.Console.WriteLine($"Pozitia {j++}: {pos.Item1} with rotations {string.Join(" ", pos.Item2)}");
+                }
+                System.Console.WriteLine("Alege un index de pozitie libera: ");
+
+
+                //var userInput = Convert.ToInt32(System.Console.ReadLine());
+                var userInput = 0;
+
+                System.Console.WriteLine($"S-a introdus: {freePositions[userInput].Item1}");
+                System.Console.WriteLine("Alege o rotatie disponibila pentru pozitia aleasa: ");
+
+                //var rotation = Convert.ToInt32(System.Console.ReadLine());
+                var rotation = freePositions[0].Item2[0];
+
+                System.Console.WriteLine($"S-a introdus rotatia: {rotation}");
+                System.Console.WriteLine("\n");
+
+            
+                var aiPrediction = gameRunner.AI.Predict(currentTile: tile);
+                System.Console.WriteLine($"Predictia AI: {aiPrediction.Item1},  {aiPrediction.Item2}");
+            
+                //var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, freePositions[userInput].Item1, rotation);
+                var possiblePositionsForMeeple = gameRunner.AddTileInPositionAndRotation(tile, aiPrediction.Item1, aiPrediction.Item2);
+
+                if (possiblePositionsForMeeple == null)
+                {
+                    System.Console.WriteLine("Nu se poate pune meeple");
+                    continue;
+                }
+
+                System.Console.WriteLine($"Possible positions for meeple: {string.Join(" ", possiblePositionsForMeeple)}");
+
+
+                System.Console.WriteLine("Alege un index de unde sa pui meeple-ul: ");
+                //var meepleInput = Convert.ToInt32(System.Console.ReadLine());
+
+                var aiMeepleChoice = gameRunner.AI.ChooseMeeplePlacement(possiblePositionsForMeeple);
+                if (aiMeepleChoice == -1)
+                {
+                    System.Console.WriteLine("AI has chosen not to place");
+                    continue;
+                }
+
+                //var meepleInput = possiblePositionsForMeeple[0];
+                var meepleInput = possiblePositionsForMeeple[aiMeepleChoice];
+
+                var meeplePositionToPlace = meepleInput;
+
+                if (playerManager.GetPlayer(turn % numberOfPlayers).HasMeeples())
+                {
+                    var meeple = playerManager.GetPlayer(turn % numberOfPlayers).GetFreeMeeple();
+
                 
-                //throw new Exception("DA");
+                    gameRunner.PlaceMeeple(meeple, meeplePositionToPlace);
+                    System.Console.WriteLine($"Placed meeple: {meeple.MeepleId}");
+                }
+                else
+                {
+                    System.Console.WriteLine($"Current player has no meeples");
+                }
+
+                var meepleToRaise = gameRunner.CommitChanges();
+                if (meepleToRaise == null)
+                {
+                    System.Console.WriteLine("Nici o structura nu a fost terminata, nici un ,eeple nu trebuie ridicat");
+                }
+                else
+                {
+                    foreach (var ii in meepleToRaise)
+                    {
+                        System.Console.WriteLine($"meeple: {ii}");
+                        ii.RaiseMeeple();
+                        System.Console.WriteLine($"Player now has {playerManager.GetPlayer(turn % numberOfPlayers).PlayerPoints} points");
+                    }
+                    System.Console.WriteLine(gameRunner.GameBoard.ToString());
+                
+                    //throw new Exception("DA");
+                }
+            
+            
+
+                System.Console.WriteLine(gameRunner.GameBoard.ToString());
+                turn++;
             }
-
-            
-            
-
-            System.Console.WriteLine(gameRunner.GameBoard.ToString());
-            turn++;
+            foreach (var player in playerManager.PlayerList)
+            {
+                System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points + {player.GetPlayerUsableMeeples()}");
+            }
+            if (playerManager.PlayerList[0].PlayerPoints > playerManager.PlayerList[1].PlayerPoints && playerManager.PlayerList[0].PlayerPoints > playerManager.PlayerList[2].PlayerPoints)
+            {
+                win_1++;
+            }
+            else if (playerManager.PlayerList[1].PlayerPoints > playerManager.PlayerList[2].PlayerPoints)
+            {
+                win_2++;
+            }
+            else
+            {
+                win_3++;
+            }
         }
-        foreach (var player in playerManager.PlayerList)
-        {
-            System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points + {player.GetPlayerUsableMeeples()}");
-        }
+        System.Console.WriteLine($"AI - 1: {win_1}");
+        System.Console.WriteLine($"AI - 2: {win_2}");
+        System.Console.WriteLine($"AI - 3: {win_3}");
     }
 
 

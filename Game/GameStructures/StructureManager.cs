@@ -178,7 +178,8 @@ namespace LibCarcassonne
                 }
                 if (this.MeepleList.Count != 0)
                 {
-                    throw new Exception("Meeple is not alone in structure");
+                    //throw new Exception("Meeple is not alone in structure");
+                    return;
                 }
 
                 this.MeepleList.Add(meeple);
