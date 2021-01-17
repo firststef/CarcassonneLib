@@ -43,7 +43,7 @@ namespace LibCarcassonne
 
                 var tileComponentsArray = tileComponents.ToArray();
                 var shuffler = new Utils<TileComponent>();
-                var randomWithSeed = new Random(42);
+                var randomWithSeed = new Random();
                 shuffler.Shuffle(randomWithSeed, tileComponentsArray);
                 tileComponents = tileComponentsArray.ToList();
 
@@ -71,6 +71,7 @@ namespace LibCarcassonne
             */
             public Tile GetCurrentRoundTile()
             {
+		        //if (this.UnplayedTiles.Count == 65){return null;}
                 foreach (var tile in this.UnplayedTiles)
                 {
                     if (this.GetFreePositionsForTile(tile) != null)

@@ -17,7 +17,7 @@ namespace LibCarcassonne
             public int Difficulty { get; set; }
             public Random Rand { get; set; }
 
-            public delegate Tuple<(int, int), int> Prediction(Tile currentTile);
+            public delegate Tuple<(int, int), int> Prediction(Tile currentTile, bool reverse=false);
             public Prediction Predict { get; set; }
 
             public delegate int Heuristic(int aiReward, int othersReward);
@@ -105,7 +105,7 @@ namespace LibCarcassonne
             * returns random prediction
             * a tuple of coordinates for tile to be placed, and a rotation to be made for this set of coordinates
             */
-            private Tuple<(int, int), int> RandomPrediction(Tile currentTile)
+            private Tuple<(int, int), int> RandomPrediction(Tile currentTile, bool reverse=false)
             {
                 var list = this.GameRunner.GetFreePositionsForTile(currentTile);
 
@@ -128,7 +128,7 @@ namespace LibCarcassonne
              * returns position using wheel of fortune
              * 
              */
-            private Tuple<(int, int), int> StrategyOne(Tile currentTile)
+            private Tuple<(int, int), int> StrategyOne(Tile currentTile, bool reverse = false)
             {
                 var initialList = this.GameRunner.GetFreePositionsForTile(currentTile);
                 var evaluatedList = new List<Tuple<(int, int), int>>();
@@ -149,7 +149,7 @@ namespace LibCarcassonne
                 var estimatedRewards = new List<int>();
                 foreach (var instance in evaluatedList)
                 {
-                    estimatedRewards.Add(EstimatePosition(instance, currentTile));
+                    estimatedRewards.Add(EstimatePosition(instance, currentTile, reverse));
                 }
 
                 int rewardSum = 0;
@@ -182,7 +182,7 @@ namespace LibCarcassonne
              * computes a reward for each possible placing of current tile
              * returns position with maximum reward
              */
-            private Tuple<(int, int), int> StrategyTwo(Tile currentTile)
+            private Tuple<(int, int), int> StrategyTwo(Tile currentTile, bool reverse = false)
             {
                 var initialList = this.GameRunner.GetFreePositionsForTile(currentTile);
                 var evaluatedList = new List<Tuple<(int, int), int>>();
@@ -204,14 +204,14 @@ namespace LibCarcassonne
                 var estimatedRewards = new List<int>();
                 foreach (var instance in evaluatedList)
                 {
-                    estimatedRewards.Add(EstimatePosition(instance, currentTile));
+                    estimatedRewards.Add(EstimatePosition(instance, currentTile, reverse));
                 }
 
                 return evaluatedList[estimatedRewards.IndexOf(estimatedRewards.Max())];
             }
 
 
-            private Tuple<(int, int), int> StrategyThree(Tile currentTile)
+            private Tuple<(int, int), int> StrategyThree(Tile currentTile, bool reverse = false)
             {
                 var gameRunnerThatWilllBeChangedDuringDepthSearch = this.GameRunner.Clone();
                 var initialGameRunner = this.GameRunner;
@@ -231,7 +231,7 @@ namespace LibCarcassonne
                 var estimatedRewards = new List<int>();
                 foreach (var possibleStateToJumpInto in possibleStatesList)
                 {
-                    estimatedRewards.Add(SearchInDepth(possibleStateToJumpInto, depth: 0, maxDepth: 2, alpha: -1000, beta: 1000));
+                    estimatedRewards.Add(SearchInDepth(possibleStateToJumpInto, depth: 0, maxDepth: 2, alpha: -1000, beta: 1000, reverse: reverse));
                 }
 
                 this.GameRunner = initialGameRunner;
@@ -241,7 +241,7 @@ namespace LibCarcassonne
             }
 
 
-            private int SearchInDepth(Tuple<(int, int), int> possibleStateToJumpInto, int alpha, int beta, int depth, int maxDepth = 2)
+            private int SearchInDepth(Tuple<(int, int), int> possibleStateToJumpInto, int alpha, int beta, int depth, int maxDepth = 2, bool reverse=false)
             {
                 // System.Console.WriteLine(depth);
                 var ok = this.GameRunner.SimulatePlay(possibleStateToJumpInto);
@@ -263,7 +263,7 @@ namespace LibCarcassonne
                     
                     foreach (var instance in possibleStatesList)
                     {
-                        estimatedRewards.Add(EstimatePosition(instance, null));
+                        estimatedRewards.Add(EstimatePosition(instance, null, reverse));
                     }
                 } 
                 else
@@ -272,7 +272,7 @@ namespace LibCarcassonne
                     foreach (var instance in possibleStatesList)
                     {
                         this.GameRunner = thisGameRunner;
-                        var eval = SearchInDepth(instance, depth: depth + 1, maxDepth: maxDepth, alpha: alpha, beta: beta);
+                        var eval = SearchInDepth(instance, depth: depth + 1, maxDepth: maxDepth, alpha: alpha, beta: beta, reverse: reverse);
                         estimatedRewards.Add(eval);
                         if (depth % 2 == 0) 
                         {
@@ -305,7 +305,7 @@ namespace LibCarcassonne
              * 
              * @returns heuristic of the 2 variables
              */
-            private int EstimatePosition(Tuple<(int, int), int> position, Tile currentTile = null)
+            private int EstimatePosition(Tuple<(int, int), int> position, Tile currentTile = null, bool reverse=false)
             {
                 var aiReward = 0;
                 var othersReward = 0;
@@ -363,7 +363,7 @@ namespace LibCarcassonne
                     aiReward += 9;
                 }
 
-                return this.heuristic(aiReward, othersReward);
+                return (!reverse ? 1 : -1) * this.heuristic(aiReward, othersReward);
             }
 
 
