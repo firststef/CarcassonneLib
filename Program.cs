@@ -107,10 +107,13 @@ public class Program
     public static void PlayRounds(GameRunner gameRunner, List<TileComponent> tileComponents)
     {
         var win_1 = 0;
+        var score_1 = 0;
+        var score_2 = 0;
+        var score_3 = 0;
         var win_2 = 0;
         var win_3 = 0;
         var numberOfPlayers = 3;
-        for (var games = 0; games < 1; ++games)
+        for (var games = 0; games < 100; ++games)
         {
             var componentManager = new ComponentManager();
             string tilesJson = System.IO.File.ReadAllText("tiles_map.json");
@@ -229,6 +232,9 @@ public class Program
                 System.Console.WriteLine(gameRunner.GameBoard.ToString());
                 turn++;
             }
+            score_1 += playerManager.PlayerList[0].PlayerPoints;
+            score_2 += playerManager.PlayerList[1].PlayerPoints;
+            score_3 += playerManager.PlayerList[2].PlayerPoints;
             foreach (var player in playerManager.PlayerList)
             {
                 System.Console.WriteLine($"Player {player.MeepleColor.ToString()} has {player.PlayerPoints} points + {player.GetPlayerUsableMeeples()}");
@@ -245,6 +251,9 @@ public class Program
             {
                 win_3++;
             }
+            System.Console.WriteLine($"AI - 1: {win_1} {score_1}");
+            System.Console.WriteLine($"AI - 2: {win_2} {score_2}");
+            System.Console.WriteLine($"AI - 3: {win_3} {score_3}");
         }
         System.Console.WriteLine($"AI - 1: {win_1}");
         System.Console.WriteLine($"AI - 2: {win_2}");

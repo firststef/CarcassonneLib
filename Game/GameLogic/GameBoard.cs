@@ -333,7 +333,7 @@ namespace LibCarcassonne
                     {
                         var gameStructure1 = this.GetGameStructureWithId(currentBorderList[i]);
                         var gameStructure2 = this.GetGameStructureWithId(neighborBorderList[i]);
-                        if (gameStructure1.CanJoin(gameStructure2))
+                        if (gameStructure1 != null && gameStructure2 != null && gameStructure1.CanJoin(gameStructure2))
                         {
                             System.Console.WriteLine("URMEAZA GAME STRUCTURE JOIN");
                             this.GetGameStructureWithId(currentBorderList[i]).JoinStructures(this.GetGameStructureWithId(neighborBorderList[i]));

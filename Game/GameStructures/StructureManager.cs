@@ -111,6 +111,10 @@ namespace LibCarcassonne
              */
             public virtual bool CanJoin(GameStructure another)
             {
+                if (another == null)
+                {
+                    return false;
+                }
                 return (this.StructureType == another.StructureType) && (this.StructureId != another.StructureId); 
             }
 
